@@ -1,42 +1,53 @@
 <template>
-  <div class="timeline-container">
+  <div class="timeline-outer">
     <div
       v-for="(event, idx) in timelineEvents"
       :key="idx"
-      class="timeline-item"
+      class="timeline-row"
       :class="event.side"
     >
-      <!-- Date (shown on opposite side of card) -->
-      <div v-if="event.side === 'right'" class="timeline-date">{{ event.dateRange }}</div>
-      <div v-else class="timeline-empty"></div>
-
-      <!-- Timeline center with dot -->
-      <div class="timeline-center">
-        <div class="timeline-dot" :style="{ background: event.color }">
-          <div class="timeline-dot-glow" :style="{ background: `radial-gradient(circle, ${event.color}55 0%, transparent 70%)` }"></div>
-        </div>
+      <!-- Left side: date/place for right cards, card for left cards -->
+      <div class="timeline-col left">
+        <template v-if="event.side === 'right'">
+          <div class="timeline-meta">
+            <span>{{ event.location }}</span>
+            <span>{{ event.dateRange }}</span>
+          </div>
+        </template>
+        <template v-else>
+          <div class="timeline-card">
+            <h3 class="timeline-title">{{ event.title }}</h3>
+            <div class="timeline-subtitle">{{ event.subtitle }}</div>
+            <ul class="timeline-bullets">
+              <li v-for="(bullet, i) in event.bullets" :key="i">{{ bullet }}</li>
+            </ul>
+          </div>
+        </template>
       </div>
 
-      <!-- Card or empty space -->
-      <div v-if="event.side === 'right'" class="timeline-empty"></div>
-      <div v-else class="timeline-card">
-        <h3 class="timeline-heading">{{ event.title }}</h3>
-        <div class="timeline-subtitle">{{ event.subtitle }}</div>
-        <div class="timeline-location">{{ event.location }}</div>
-        <ul class="timeline-bullets">
-          <li v-for="(bullet, i) in event.bullets" :key="i">{{ bullet }}</li>
-        </ul>
+      <!-- Center: dot and line -->
+      <div class="timeline-col center">
+        <span class="timeline-dot-simple" :style="{ backgroundColor: event.dotColor }"></span>
+        <div v-if="idx !== timelineEvents.length - 1" class="timeline-connector"></div>
       </div>
 
-      <!-- Date or Card (opposite to the date) -->
-      <div v-if="event.side === 'left'" class="timeline-date">{{ event.dateRange }}</div>
-      <div v-else class="timeline-card">
-        <h3 class="timeline-heading">{{ event.title }}</h3>
-        <div class="timeline-subtitle">{{ event.subtitle }}</div>
-        <div class="timeline-location">{{ event.location }}</div>
-        <ul class="timeline-bullets">
-          <li v-for="(bullet, i) in event.bullets" :key="i">{{ bullet }}</li>
-        </ul>
+      <!-- Right side: card for right cards, date/place for left cards -->
+      <div class="timeline-col right">
+        <template v-if="event.side === 'right'">
+          <div class="timeline-card">
+            <h3 class="timeline-title">{{ event.title }}</h3>
+            <div class="timeline-subtitle">{{ event.subtitle }}</div>
+            <ul class="timeline-bullets">
+              <li v-for="(bullet, i) in event.bullets" :key="i">{{ bullet }}</li>
+            </ul>
+          </div>
+        </template>
+        <template v-else>
+          <div class="timeline-meta">
+            <span>{{ event.location }}</span>
+            <span>{{ event.dateRange }}</span>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -49,7 +60,7 @@ const timelineEvents = [
     subtitle: 'InterWay, a. s',
     location: 'Bratislava, Slovakia',
     dateRange: 'Apr. 2024 – present',
-    color: '#c0392b',
+    dotColor: '#c0392b',
     side: 'right',
     bullets: [
       'Implemented automated tests using Java and Selenide framework',
@@ -63,7 +74,7 @@ const timelineEvents = [
     subtitle: 'Sternula A/S',
     location: 'Aalborg, Denmark',
     dateRange: 'Jul. 2022 – Jan. 2024',
-    color: '#27ae60',
+    dotColor: '#27ae60',
     side: 'left',
     bullets: [
       'Designed Operation Control Center screens for satellite telemetry analytics',
@@ -78,7 +89,7 @@ const timelineEvents = [
     subtitle: 'Nowire s.r.o',
     location: 'Bratislava, Slovakia',
     dateRange: 'Aug. 2023 – Oct. 2023',
-    color: '#2980b9',
+    dotColor: '#2980b9',
     side: 'right',
     bullets: [
       'Contributed to the development of an internal ticket management system, enhancing operational efficiency within the organization'
@@ -89,7 +100,7 @@ const timelineEvents = [
     subtitle: 'DECK1 A/S',
     location: 'Aalborg, Denmark',
     dateRange: 'Feb. 2023 – Jun. 2023',
-    color: '#8e44ad',
+    dotColor: '#8e44ad',
     side: 'left',
     bullets: [
       'Developed Weather & Vessel Operation Prediction software using Vue.js, Nuxt.js, Python, .NET, TypeScript, and MongoDB for decision support in offshore wind turbine operations',
@@ -102,7 +113,7 @@ const timelineEvents = [
     subtitle: 'Nowire s.r.o',
     location: 'Bratislava, Slovakia',
     dateRange: 'Feb. 2021 – Aug. 2021',
-    color: '#3498db',
+    dotColor: '#3498db',
     side: 'right',
     bullets: [
       'Conducted analytical activities including software requirements analysis, documentation, and user acceptance testing',
@@ -110,7 +121,5 @@ const timelineEvents = [
       'Redesigned company website using WordPress'
     ]
   }
-];
-
-// GSAP animation can be added here with onMounted hook if needed
+]
 </script>

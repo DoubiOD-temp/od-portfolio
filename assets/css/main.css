@@ -191,6 +191,32 @@ a:hover {
   color: #0070f3;
 }
 
+.site-nav {
+  position: fixed;
+  top: 32px;
+  left: 32px;
+  z-index: 1000;
+  font-family: 'Inter', 'Arial', sans-serif;
+}
+.site-nav ul {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-nav a {
+  text-decoration: none;
+  color: #222;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.site-nav a:hover {
+  color: #0070f3;
+}
+
 .card-stack-section {
   width: 100vw;
   height: 100vh;
@@ -306,4 +332,79 @@ body::-webkit-scrollbar-thumb {
 body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+/* Burger Menu Styles */
+.burger-menu {
+  display: none; /* Hidden by default on larger screens */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001; /* Ensure it's above the nav list */
+}
+
+.burger-menu .line {
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* Animation for the 'X' */
+.site-nav.menu-open .burger-menu .line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.site-nav.menu-open .burger-menu .line:nth-child(2) {
+  opacity: 0;
+}
+
+.site-nav.menu-open .burger-menu .line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .site-nav {
+    top: 16px;
+    left: 16px;
+  }
+
+  .burger-menu {
+    display: block; /* Show on mobile */
+  }
+
+  .site-nav .nav-list-container {
+    display: none; /* Hide nav list by default on mobile */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    padding-top: 60px; /* Space for the burger menu */
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%); /* Start off-screen */
+  }
+
+  .site-nav.menu-open .nav-list-container {
+    display: flex; /* Show when menu is open */
+    justify-content: center;
+    align-items: center;
+    transform: translateX(0); /* Slide in */
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .site-nav a {
+    font-size: 1.5rem;
+  }
 }
