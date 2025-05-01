@@ -1,4 +1,4 @@
-/* General Timeline Styles */
+/* General Timeline Styles (Keep existing timeline styles) */
 .timeline-outer {
   max-width: 1200px;
   margin: 3rem auto;
@@ -82,8 +82,8 @@
 }
 .timeline-dot-simple::before,
 .timeline-dot-simple::after {
-   box-shadow: none !important;
-   border: none !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 
 /* Metadata (Date/Location) Styles */
@@ -181,7 +181,7 @@
     padding: 0;
     /* Use padding top to push the dot down to align with text */
     /* Approx align with meta text's vertical center */
-     padding-top: calc(1rem * 1.2 / 2 + 2px); /* (font-size * line-height / 2) + small offset */
+      padding-top: calc(1rem * 1.2 / 2 + 2px); /* (font-size * line-height / 2) + small offset */
     justify-content: flex-start; /* Align container top */
     align-items: center; /* Center dot horizontally */
     height: fit-content; /* Only take height needed for dot + padding */
@@ -203,7 +203,7 @@
     align-items: stretch; /* Stretch content to fill */
     max-width: 100%;
     /* Use display: contents so children (meta/card) act like direct children of the grid row for ordering */
-     display: contents;
+      display: contents;
   }
 
   /* --- Content Ordering & Display for Mobile --- */
@@ -218,7 +218,7 @@
       margin-bottom: 0.6rem; /* Space below meta */
       font-size: 1rem;
       width: 100%; /* Take full width of column */
-       padding-top: 2px; /* Small top padding to align text baseline */
+        padding-top: 2px; /* Small top padding to align text baseline */
   }
 
   /* Style the card block */
@@ -277,42 +277,221 @@
 
 /* Section Separator Styles */
 .section-separator {
-  border: none;             /* Remove default border */
-  height: 1px;              /* Thin line */
+  border: none;           /* Remove default border */
+  height: 1px;            /* Thin line */
   background-color: #e2e8f0; /* Light gray color */
-  margin: 5rem auto 0;      /* Center horizontally, space above */
-  width: 60%;               /* Width of the separator */
-  max-width: 350px;         /* Max width */
+  margin: 5rem auto 0;    /* Center horizontally, space above */
+  width: 60%;             /* Width of the separator */
+  max-width: 350px;       /* Max width */
 }
 
-
-/* --- Existing Timeline Styles Below --- */
-/* General Timeline Styles */
-.timeline-outer {
-  max-width: 1200px;
-  margin: 3rem auto;
-  padding: 0 1rem;
-  position: relative;
-  background: none;
-}
-
-/* ... (rest of your existing timeline.css styles) ... */
 
 /* --- Ensure Responsive Styles Apply to Both Timelines --- */
 @media (max-width: 900px) {
-   /* Adjust heading size for mobile */
+    /* Adjust heading size for mobile */
   .section-heading {
       font-size: 2rem;
       margin-top: 3rem;
       margin-bottom: 2rem;
   }
-   .section-heading.academic {
+    .section-heading.academic {
       margin-top: 4rem;
-   }
-   .section-separator {
-       margin-top: 3rem;
-       width: 80%;
-   }
+    }
+    .section-separator {
+      margin-top: 3rem;
+      width: 80%;
+    }
 
   /* ... (rest of your existing mobile styles for the timeline) ... */
+}
+
+/* Skills & Certifications Section Styles */
+.skills-certs-section .content-area {
+  max-width: 900px; /* Adjust max-width as needed */
+  margin: 0 auto;   /* Center the content area */
+  padding: 0 1rem;  /* Add some padding */
+  text-align: left; /* Left-align text within the container */
+}
+
+/* Container for each skill category block */
+.skill-category {
+    margin-bottom: 2.5rem; /* Space between categories */
+}
+
+/* Style for the category subheadings (Programming Langs, Frameworks, etc.) */
+.skills-certs-section .category-title {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 2rem; /* Adjusted spacing */
+  margin-bottom: 1.2rem; /* Space below subheading before list */
+  border-bottom: 1px solid #e2e8f0; /* Subtle separator line */
+  padding-bottom: 0.5rem;
+}
+
+/* Style for the structured list of skills */
+.skill-list-structured {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style for each skill item row */
+.skill-item-structured {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Pushes name left, progress/years right */
+    padding: 0.5rem 0; /* Vertical spacing */
+    margin-bottom: 0.3rem;
+    border-bottom: 1px solid #f8fafc; /* Very subtle separator */
+}
+.skill-item-structured:last-child {
+    border-bottom: none;
+}
+
+/* Style for the skill name text */
+.skill-name {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.05rem;
+  color: #4a5568;
+  line-height: 1.5;
+  padding-right: 1rem; /* Space between name and progress/years */
+  flex-shrink: 0; /* Prevent name from shrinking too much */
+  white-space: nowrap; /* Prevent skill name from wrapping */
+}
+
+/* Container for progress bar and years */
+.skill-progress-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem; /* Space between bar and years text */
+    flex-grow: 1; /* Allow this container to take available space */
+    justify-content: flex-end; /* Align progress info to the right */
+}
+
+/* Style for the progress bar container */
+.skill-progress-bar-container {
+    width: 120px; /* Fixed width for consistency */
+    height: 8px;
+    background-color: #e2e8f0; /* Light gray background */
+    border-radius: 4px;
+    overflow: hidden; /* Hide overflow of inner bar */
+    flex-shrink: 0; /* Prevent bar container from shrinking */
+}
+
+/* Style for the inner progress bar */
+.skill-progress-bar-inner {
+    height: 100%;
+    background-color: #3498db; /* Example blue color - choose one you like */
+    border-radius: 4px;
+    transition: width 0.6s ease-out; /* Smooth transition effect */
+}
+
+/* Style for the years text */
+.skill-years {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-size: 0.95rem;
+    color: #64748b;
+    flex-shrink: 0; /* Prevent years text from shrinking */
+    white-space: nowrap; /* Prevent years text from wrapping */
+    min-width: 60px; /* Give it a minimum width to prevent layout shifts */
+}
+
+
+/* Styles for Soft Skills and Certifications lists */
+.soft-skills-list,
+.certifications-list {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.05rem;
+  color: #4a5568;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  padding-left: 0; /* Reset padding if needed */
+}
+
+
+/* Adjust margin for the Skills & Certs section heading */
+.section-heading.skills-certs {
+  margin-top: 6rem;
+}
+
+/* --- Responsive adjustments for Skills & Certs --- */
+@media (max-width: 900px) {
+  .skills-certs-section .content-area {
+      padding: 0 0.5rem;
+  }
+
+  .skills-certs-section .category-title {
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .skill-item-structured {
+    flex-direction: column; /* Stack name above progress/years */
+    align-items: flex-start; /* Align stacked items to the left */
+  }
+
+  .skill-name {
+      font-size: 1rem;
+      padding-right: 0; /* Remove right padding */
+      margin-bottom: 0.3rem; /* Space below name */
+  }
+
+  .skill-progress-info {
+    width: 100%; /* Take full width in stacked layout */
+    justify-content: space-between; /* Push bar left, years right */
+    gap: 0.5rem; /* Reduce gap */
+  }
+
+  .skill-progress-bar-container {
+      width: calc(100% - 70px); /* Make bar take remaining width, leaving space for years */
+      max-width: 120px; /* Keep a reasonable max width even on mobile */
+  }
+
+  .skill-years {
+      font-size: 0.9rem;
+      min-width: 55px; /* Adjust min-width for smaller font */
+  }
+
+  .soft-skills-list,
+  .certifications-list {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .section-heading.skills-certs {
+      margin-top: 4rem;
+  }
+}
+
+.tech-skill-list {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.05rem;
+  color: #4a5568;
+  line-height: 1.7;
+  margin: 0 0 1.5rem 0;
+  padding: 0;
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 0.7em 1.1em;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(30,41,59,0.04);
+  letter-spacing: 0.01em;
+}
+
+.skill-category {
+  margin-bottom: 2.5rem;
+}
+
+.skills-certs-section .category-title {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 2rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.5rem;
 }

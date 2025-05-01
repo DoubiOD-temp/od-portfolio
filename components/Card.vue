@@ -17,3 +17,12 @@
 <script setup>
 defineProps(['title', 'tag', 'description', 'image', 'link'])
 </script>
+
+<style scoped>
+.card-title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #312e81;
+  letter-spacing: 0.01em;
+}
+</style>
