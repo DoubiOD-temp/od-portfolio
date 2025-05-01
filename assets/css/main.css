@@ -347,11 +347,13 @@ body {
 .burger-menu .line {
   width: 25px;
   height: 3px;
-  background-color: #333;
+  background-color: #333; /* Ensure sufficient contrast */
   margin: 5px 0;
   transition: all 0.3s ease;
+  transform-origin: center; /* Ensure rotation is around the center */
 }
 
+/* Animation for the 'X' */
 /* Animation for the 'X' */
 .site-nav.menu-open .burger-menu .line:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
@@ -363,6 +365,12 @@ body {
 
 .site-nav.menu-open .burger-menu .line:nth-child(3) {
   transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Ensure burger menu is visible on top */
+.burger-menu {
+  position: relative; /* Changed from static to relative */
+  z-index: 1002; /* Higher z-index than nav list container */
 }
 
 /* Responsive adjustments for mobile */

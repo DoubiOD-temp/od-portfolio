@@ -6,7 +6,7 @@
       class="timeline-row"
       :class="event.side"
     >
-      <!-- Left side: date/place for right cards, card for left cards -->
+      <!-- Left: date/place for right cards, card for left cards -->
       <div class="timeline-col left">
         <template v-if="event.side === 'right'">
           <div class="timeline-meta">
@@ -25,13 +25,13 @@
         </template>
       </div>
 
-      <!-- Center: dot and line -->
-      <div class="timeline-col center">
+      <!-- Center: dot and timeline line only -->
+      <div class="timeline-col center"
+           :class="{'first': idx === 0, 'last': idx === timelineEvents.length - 1}">
         <span class="timeline-dot-simple" :style="{ backgroundColor: event.dotColor }"></span>
-        <div v-if="idx !== timelineEvents.length - 1" class="timeline-connector"></div>
       </div>
 
-      <!-- Right side: card for right cards, date/place for left cards -->
+      <!-- Right: card for right cards, date/place for left cards -->
       <div class="timeline-col right">
         <template v-if="event.side === 'right'">
           <div class="timeline-card">

@@ -8,7 +8,7 @@
       <div class="nav-list-container">
         <ul>
           <li v-for="item in navItems" :key="item.text">
-            <NuxtLink :to="item.to">{{ item.text }}</NuxtLink>
+            <NuxtLink :to="item.to" @click="closeMenu">{{ item.text }}</NuxtLink>
           </li>
         </ul>
       </div>
@@ -22,6 +22,10 @@
 
   const toggleMenu = () => {
     isMenuOpen.value = !isMenuOpen.value;
+  };
+
+  const closeMenu = () => {
+    isMenuOpen.value = false;
   };
 
   const navItems = [
