@@ -1,7 +1,7 @@
 <template>
     <div>
       <SiteNav />
-      <slot />
+      <!-- <slot /> -->
     </div>
 </template>
   

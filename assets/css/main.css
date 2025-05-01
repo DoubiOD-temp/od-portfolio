@@ -1,0 +1,309 @@
+/* assets/css/main.css */
+body {
+    background: #ffffff; /* Adjusted background color based on image */
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+a {
+  color: #7c3aed;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #5b21b6;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  max-width: 900px;
+  width: 100%;
+  margin: 40px auto 0 auto;
+  padding: 0 16px 40px 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Center items vertically */
+  background: rgba(255,255,255,0.98);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(124, 58, 237, 0.09);
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  border: 1px solid #f3f0ff;
+  transition: box-shadow 0.6s cubic-bezier(.23,1,.32,1), transform 0.6s cubic-bezier(.23,1,.32,1);
+  will-change: box-shadow, transform;
+  padding: 16px; /* Added padding to the card */
+  background-color: #f3f0ff; /* Moved background color to the card */
+}
+
+.card:hover {
+  box-shadow: 0 16px 48px 0 rgba(124, 58, 237, 0.18);
+  transform: translateY(-6px) scale(1.02);
+}
+
+.card-image-container {
+  width: 220px;
+  height: 140px;
+  flex-shrink: 0;
+  overflow: hidden;
+  /* Removed background and padding */
+  border-radius: 12px; /* Apply border-radius to the container */
+  display: flex; /* Added flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px; /* Added border-radius to the image */
+}
+
+.card-content {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.card-title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #312e81;
+  letter-spacing: 0.01em;
+}
+
+.card-tag {
+  background: #ede9fe;
+  color: #7c3aed;
+  font-size: 0.82rem;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.card-description {
+  color: #52525b;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  flex: 1;
+  line-height: 1.5;
+}
+
+.card-link {
+  color: #7c3aed;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.18s;
+  align-self: flex-start;
+  font-size: 1rem;
+  margin-top: auto;
+}
+
+.card-link:hover {
+  color: #5b21b6;
+  text-decoration: underline;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-image-container {
+    width: 100%;
+    height: 180px; /* Adjust height for mobile */
+    border-right: none;
+    border-bottom: 1px solid #ede9fe;
+  }
+
+  .card-body {
+    padding: 16px 20px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .card-tag {
+    font-size: 0.75rem;
+  }
+
+  .card-description {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+
+  .card-link {
+    font-size: 0.95rem;
+  }
+}
+
+
+.site-nav {
+  position: fixed;
+  top: 32px;
+  left: 32px;
+  z-index: 1000;
+  font-family: 'Inter', 'Arial', sans-serif;
+}
+.site-nav ul {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.site-nav a {
+  text-decoration: none;
+  color: #222;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.site-nav a:hover {
+  color: #0070f3;
+}
+
+.card-stack-section {
+  width: 100vw;
+  height: 100vh;
+  background: #f0f2f5;
+}
+
+.card-container {
+  position: relative;
+  width: 90%;
+  height: calc(100vh * 5);
+  margin: 0 auto;
+}
+
+/* Original .card styles from StackingCards.vue - keeping for now but might need adjustment */
+/*
+.card {
+  position: absolute;
+  width: 100%;
+  height: 70vh;
+  max-height: 70vh;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.15);
+  transition: filter 0.3s ease;
+}
+
+.card-content {
+  width: 85%;
+  height: 80%;
+  margin: 5% auto;
+  padding: 2.5%;
+}
+
+.images-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.2rem;
+  height: 60%;
+}
+
+@media (max-width: 768px) {
+  .card {
+    height: 60vh;
+    max-height: 60vh;
+  }
+
+  .card-content {
+    width: 90%;
+    padding: 5%;
+  }
+}
+*/
+
+.page-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Ensure content is above particles */
+  color: white;
+  text-align: center;
+  padding-top: 20%;
+  font-family: Arial, sans-serif;
+}
+
+section {
+ width: 100%;
+ max-width: 1000px; /* Or the desired max width */
+ margin: 0 auto; /* Center the container */
+ overflow: hidden; /* Prevent overflow */
+}
+
+/* Adjust size for smaller screens */
+@media (max-width: 768px) {
+ section {
+   max-width: 100%;
+ }
+}
+/* Hide scroll bars for all pages */
+body {
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+/* Custom scrollbar styling */
+/* For Webkit browsers (Chrome, Safari, Opera) */
+body::-webkit-scrollbar {
+  width: 12px; /* Adjust width as needed */
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent; /* Make track transparent */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #F6DCFF; /* Set thumb color */
+  border-radius: 6px; /* Optional: round the corners of the thumb */
+  border: 3px solid transparent; /* Optional: add some padding around the thumb */
+  background-clip: content-box; /* Optional: ensure border doesn't affect thumb color */
+}
+
+/* Keep existing rules for other browsers if they are needed to hide default scrollbars */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
