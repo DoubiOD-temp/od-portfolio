@@ -6,7 +6,6 @@
       class="timeline-row"
       :class="event.side"
     >
-      <!-- Left: date/place for right cards, card for left cards -->
       <div class="timeline-col left">
         <template v-if="event.side === 'right'">
           <div class="timeline-meta">
@@ -25,13 +24,10 @@
         </template>
       </div>
 
-      <!-- Center: dot and timeline line only -->
-      <div class="timeline-col center"
-           :class="{'first': idx === 0, 'last': idx === timelineEvents.length - 1}">
+      <div class="timeline-col center">
         <span class="timeline-dot-simple" :style="{ backgroundColor: event.dotColor }"></span>
       </div>
 
-      <!-- Right: card for right cards, date/place for left cards -->
       <div class="timeline-col right">
         <template v-if="event.side === 'right'">
           <div class="timeline-card">
@@ -54,13 +50,17 @@
 </template>
 
 <script setup>
-const timelineEvents = [
+import { ref } from 'vue';
+import '~/assets/css/timeline.css'
+
+// Updated timelineEvents data
+const timelineEvents = ref([
   {
     title: 'IT Tester (ext.)',
     subtitle: 'InterWay, a. s',
     location: 'Bratislava, Slovakia',
     dateRange: 'Apr. 2024 – present',
-    dotColor: '#c0392b',
+    dotColor: '#0063FB', // Updated color
     side: 'right',
     bullets: [
       'Implemented automated tests using Java and Selenide framework',
@@ -71,10 +71,10 @@ const timelineEvents = [
   },
   {
     title: 'R&D Assistant',
-    subtitle: 'Sternula A/S',
+    subtitle: 'Sternula A/S ',
     location: 'Aalborg, Denmark',
     dateRange: 'Jul. 2022 – Jan. 2024',
-    dotColor: '#27ae60',
+    dotColor: '#F24405', // Updated color
     side: 'left',
     bullets: [
       'Designed Operation Control Center screens for satellite telemetry analytics',
@@ -89,7 +89,7 @@ const timelineEvents = [
     subtitle: 'Nowire s.r.o',
     location: 'Bratislava, Slovakia',
     dateRange: 'Aug. 2023 – Oct. 2023',
-    dotColor: '#2980b9',
+    dotColor: '#5ab1e8', // Updated color
     side: 'right',
     bullets: [
       'Contributed to the development of an internal ticket management system, enhancing operational efficiency within the organization'
@@ -100,7 +100,7 @@ const timelineEvents = [
     subtitle: 'DECK1 A/S',
     location: 'Aalborg, Denmark',
     dateRange: 'Feb. 2023 – Jun. 2023',
-    dotColor: '#8e44ad',
+    dotColor: '#2d2d2d', // Updated color
     side: 'left',
     bullets: [
       'Developed Weather & Vessel Operation Prediction software using Vue.js, Nuxt.js, Python, .NET, TypeScript, and MongoDB for decision support in offshore wind turbine operations',
@@ -113,7 +113,7 @@ const timelineEvents = [
     subtitle: 'Nowire s.r.o',
     location: 'Bratislava, Slovakia',
     dateRange: 'Feb. 2021 – Aug. 2021',
-    dotColor: '#3498db',
+    dotColor: '#5ab1e8', // Updated color
     side: 'right',
     bullets: [
       'Conducted analytical activities including software requirements analysis, documentation, and user acceptance testing',
@@ -121,5 +121,5 @@ const timelineEvents = [
       'Redesigned company website using WordPress'
     ]
   }
-]
+]);
 </script>

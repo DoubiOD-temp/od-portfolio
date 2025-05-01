@@ -1,170 +1,257 @@
+/* General Timeline Styles */
 .timeline-outer {
-    max-width: 1200px;
-    margin: 3rem auto;
-    padding: 0 1rem;
-    position: relative;
-    background: none;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  position: relative;
+  background: none;
+}
+
+/* The vertical timeline line (Desktop) */
+.timeline-outer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: linear-gradient(to bottom, #e2e8f0 0%, #cbd5e1 100%);
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Timeline Row - Desktop Grid Layout */
+.timeline-row {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr; /* Left content, Center dot/line, Right content */
+  align-items: start; /* Align items to the start vertically */
+  min-height: 120px;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Timeline Column Base Styles */
+.timeline-col {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Left Column Alignment (Desktop) */
+.timeline-col.left {
+  align-items: flex-end;
+  grid-column: 1;
+  padding-top: 1rem;
+}
+
+/* Center Column Alignment (Desktop & Mobile Handling) */
+.timeline-col.center {
+  grid-column: 2;
+  align-items: center; /* Center dot horizontally */
+  justify-content: flex-start; /* Align dot towards the top */
+  position: relative;
+  z-index: 1;
+  padding: 0;
+}
+
+/* Right Column Alignment (Desktop) */
+.timeline-col.right {
+  align-items: flex-start;
+  grid-column: 3;
+  padding-top: 1rem;
+}
+
+/* Styling for the Timeline Dot */
+.timeline-dot-simple {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  border: 2px solid #e2e8f0;
+  position: relative;
+  z-index: 1;
+  box-shadow: none !important;
+  background-image: none !important;
+  flex-shrink: 0;
+  /* Align dot near the vertical middle of the first line of meta text */
+  /* (Approx meta font-size * line-height / 2) + column top padding */
+  margin-top: calc(1.02rem * 1.2 / 2 + 1rem); /* Adjust line-height (1.2) if needed */
+}
+.timeline-dot-simple::before,
+.timeline-dot-simple::after {
+   box-shadow: none !important;
+   border: none !important;
+}
+
+/* Metadata (Date/Location) Styles */
+.timeline-meta {
+  display: flex; /* Use flex to ensure it takes space */
+  flex-direction: column;
+  text-align: right;
+  font-size: 1.02rem;
+  color: #64748b;
+  /* Add line-height for better vertical alignment calculation */
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+  gap: 0.1em;
+  width: 100%;
+}
+.timeline-row.left .timeline-col.right .timeline-meta {
+  text-align: left;
+}
+.timeline-row.right .timeline-col.left .timeline-meta {
+  text-align: right;
+}
+
+
+/* Card Styles */
+.timeline-card {
+  display: flex; /* Use flex to ensure it takes space */
+  flex-direction: column; /* Stack card content */
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(30, 41, 59, 0.10);
+  padding: 1.8rem 2.2rem;
+  max-width: 520px;
+  width: 100%;
+  gap: 0.5rem;
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.timeline-card:hover {
+  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.13);
+}
+.timeline-title {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.1rem;
+  letter-spacing: -0.01em;
+}
+.timeline-subtitle {
+  font-size: 1.05rem;
+  color: #2563eb;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.timeline-bullets {
+  margin: 0.2rem 0 0 1.2rem;
+  padding: 0;
+  color: #334155;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.timeline-bullets li {
+  margin-bottom: 0.3rem;
+}
+
+
+/* --- Responsive Styles for Mobile (<= 900px) --- */
+@media (max-width: 900px) {
+  .timeline-outer {
+    padding: 0 0.5rem;
   }
-  
-  /* The vertical timeline line */
+
+  /* Adjust the main vertical line for mobile */
   .timeline-outer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 3px;
-    background: linear-gradient(to bottom, #e2e8f0 0%, #cbd5e1 100%);
-    transform: translateX(-50%);
-    z-index: 0;
-    pointer-events: none;
+    left: 20px; /* Position line to the left (center of 22px dot + 30px col - padding) */
+    transform: none;
+    width: 2px;
   }
-  
+
+  /* Change row layout to single content column with space for line/dot */
   .timeline-row {
     display: grid;
-    grid-template-columns: 1fr 48px 1fr;
-    align-items: center;
-    min-height: 180px;
-    position: relative;
+    grid-template-columns: 30px 1fr; /* Column for dot, Column for content */
+    gap: 0 1rem;
+    margin-bottom: 2rem;
+    min-height: 0;
+    align-items: start; /* Align items to the top */
   }
-  
-  .timeline-col {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 0;
-    padding: 0 1rem;
-  }
-  .timeline-col.left {
-    align-items: flex-end;
-  }
-  .timeline-col.right {
-    align-items: flex-start;
-  }
+
+  /* Position the center (dot) column */
   .timeline-col.center {
-    align-items: center;
-    justify-content: flex-start;
-    position: relative;
-    z-index: 1;
+    grid-column: 1; /* Place in the first column */
+    grid-row: 1;    /* Align to the first row (content row) */
     padding: 0;
+    /* Use padding top to push the dot down to align with text */
+    /* Approx align with meta text's vertical center */
+     padding-top: calc(1rem * 1.2 / 2 + 2px); /* (font-size * line-height / 2) + small offset */
+    justify-content: flex-start; /* Align container top */
+    align-items: center; /* Center dot horizontally */
+    height: fit-content; /* Only take height needed for dot + padding */
   }
-  
-  /* Remove any unwanted horizontal lines next to the dot */
-  .timeline-dot-simple,
-  .timeline-dot-simple::before,
-  .timeline-dot-simple::after {
-    box-shadow: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-top: none !important;
-    border-bottom: none !important;
-    background-image: none !important;
-  }
-  
+
+  /* Adjust dot position */
   .timeline-dot-simple {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: block;
-    margin: 0 auto;
-    border: 2px solid #e2e8f0;
-    position: relative;
-    z-index: 1;
+    margin: 0; /* Reset margin */
+    /* Dot is now positioned by its container's padding-top and align-items: center */
   }
-  
-  /* Remove timeline-connector if you had it */
-  .timeline-connector {
-    display: none !important;
+
+  /* Place both left and right columns into the second grid column */
+  /* Treat them as containers for the meta/card elements */
+  .timeline-col.left,
+  .timeline-col.right {
+    grid-column: 2; /* Place in the second column */
+    grid-row: 1;    /* Align to the same row as the dot column */
+    padding: 0; /* Remove desktop padding */
+    align-items: stretch; /* Stretch content to fill */
+    max-width: 100%;
+    /* Use display: contents so children (meta/card) act like direct children of the grid row for ordering */
+     display: contents;
   }
-  
+
+  /* --- Content Ordering & Display for Mobile --- */
+
+  /* Style the meta block */
   .timeline-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 1.02rem;
-    color: #64748b;
-    margin-bottom: 1.2rem;
-    gap: 0.1em;
-  }
-  .timeline-row.left .timeline-col.right .timeline-meta {
-    align-items: flex-start;
-  }
-  .timeline-row.right .timeline-col.left .timeline-meta {
-    align-items: flex-end;
-  }
-  
-  .timeline-card {
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(30, 41, 59, 0.10);
-    padding: 2.2rem 2.6rem;
-    min-width: 350px;
-    max-width: 520px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    border: 1px solid #e2e8f0;
-    transition: box-shadow 0.2s;
-  }
-  .timeline-card:hover {
-    box-shadow: 0 8px 32px rgba(30, 41, 59, 0.13);
-  }
-  .timeline-title {
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #1a202c;
-    margin-bottom: 0.2rem;
-    letter-spacing: -0.01em;
-  }
-  .timeline-subtitle {
-    font-size: 1.1rem;
-    color: #2563eb;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-  }
-  .timeline-bullets {
-    margin: 0.2rem 0 0 1.2rem;
-    padding: 0;
-    color: #334155;
-    font-size: 1.04rem;
-    line-height: 1.7;
-  }
-  .timeline-bullets li { margin-bottom: 0.35rem; }
-  
-  @media (max-width: 900px) {
-    .timeline-row {
-      grid-template-columns: 1fr;
-      min-height: 0;
-      margin-bottom: 2.2rem;
-    }
-    .timeline-col,
-    .timeline-col.left,
-    .timeline-col.right,
-    .timeline-col.center {
-      align-items: center !important;
-      justify-content: flex-start !important;
-      padding: 0 !important;
-    }
-    .timeline-meta {
-      align-items: center !important;
-      margin-bottom: 0.7rem;
+      grid-column: 2; /* Explicitly place in content column */
+      order: 1; /* Comes first */
+      display: flex !important; /* ENSURE it's displayed */
+      flex-direction: column;
+      text-align: left;
+      margin-bottom: 0.6rem; /* Space below meta */
       font-size: 1rem;
-    }
-    .timeline-card {
+      width: 100%; /* Take full width of column */
+       padding-top: 2px; /* Small top padding to align text baseline */
+  }
+
+  /* Style the card block */
+  .timeline-card {
+      grid-column: 2; /* Explicitly place in content column */
+      order: 2; /* Comes second */
+      display: flex !important; /* ENSURE it's displayed */
+      flex-direction: column;
       width: 100%;
       min-width: 0;
       max-width: 100%;
-      padding: 1.1rem 0.7rem;
-    }
-    .timeline-dot-simple {
-      margin: 0.5rem auto;
-    }
-    .timeline-outer::before {
-      left: 24px;
-      width: 2px;
-      transform: none;
-    }
+      padding: 1rem 1.2rem;
+      margin-bottom: 0;
   }
-  
+
+  /* --- Hiding Logic for Mobile --- */
+  /* Hide the specific div (meta or card) that SHOULD NOT be shown */
+  /* based on the row's 'side' class. Use direct child selector > */
+
+  /* In a 'right' row, the LEFT col only has META. Hide its Card placeholder */
+  .timeline-row.right > .timeline-col.left > .timeline-card {
+      display: none !important;
+  }
+  /* In a 'right' row, the RIGHT col only has CARD. Hide its Meta placeholder */
+  .timeline-row.right > .timeline-col.right > .timeline-meta {
+      display: none !important;
+  }
+  /* In a 'left' row, the LEFT col only has CARD. Hide its Meta placeholder */
+  .timeline-row.left > .timeline-col.left > .timeline-meta {
+      display: none !important;
+  }
+  /* In a 'left' row, the RIGHT col only has META. Hide its Card placeholder */
+  .timeline-row.left > .timeline-col.right > .timeline-card {
+      display: none !important;
+  }
+}
