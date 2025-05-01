@@ -255,3 +255,64 @@
       display: none !important;
   }
 }
+
+/* --- Add these styles to your existing timeline.css file --- */
+
+/* Section Heading Styles */
+.section-heading {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif; /* Same font as image */
+  font-size: 2.8rem;    /* Adjust size as needed */
+  font-weight: 700;     /* Bold weight */
+  color: #2d3748;       /* A dark gray color */
+  text-align: center;
+  margin-top: 5rem;     /* Space above heading */
+  margin-bottom: 3rem;  /* Space below heading before timeline */
+  letter-spacing: -0.02em; /* Slightly tighter spacing */
+}
+
+/* Add more space specifically above the second heading */
+.section-heading.academic {
+  margin-top: 6rem;
+}
+
+/* Section Separator Styles */
+.section-separator {
+  border: none;             /* Remove default border */
+  height: 1px;              /* Thin line */
+  background-color: #e2e8f0; /* Light gray color */
+  margin: 5rem auto 0;      /* Center horizontally, space above */
+  width: 60%;               /* Width of the separator */
+  max-width: 350px;         /* Max width */
+}
+
+
+/* --- Existing Timeline Styles Below --- */
+/* General Timeline Styles */
+.timeline-outer {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  position: relative;
+  background: none;
+}
+
+/* ... (rest of your existing timeline.css styles) ... */
+
+/* --- Ensure Responsive Styles Apply to Both Timelines --- */
+@media (max-width: 900px) {
+   /* Adjust heading size for mobile */
+  .section-heading {
+      font-size: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+  }
+   .section-heading.academic {
+      margin-top: 4rem;
+   }
+   .section-separator {
+       margin-top: 3rem;
+       width: 80%;
+   }
+
+  /* ... (rest of your existing mobile styles for the timeline) ... */
+}
