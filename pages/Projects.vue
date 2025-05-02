@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import type { Container, IOptions, RecursivePartial } from '@tsparticles/engine'
+
+const hasWon = ref(false);
 
 const particleOptions: RecursivePartial<IOptions> = {
   fullScreen: {
@@ -129,22 +132,56 @@ const projects = [
     link: "#" // Replace with actual link
   }
 ]
+const handleWin = () => {
+  console.log('TicTacToe game won!');
+  hasWon.value = true;
+};
 </script>
 
 <template>
-  <TicTacToeGame></TicTacToeGame>
-  <div class="projects-list">
-    <Card
-      v-for="(project, i) in projects"
-      :key="i"
-      v-bind="project"
-    />
-  </div>
-  <div class="page-container">
-      <NuxtParticles
-        id="tsparticles"
-        :options="particleOptions"
-        @load="onLoad"
-      ></NuxtParticles>
+  <div class="projects-container">
+    <div v-if="!hasWon" class="tic-tac-toe-container">
+      <h2>Win a game of tic-tac-toe to view this section</h2>
+      <TicTacToeGame @win="handleWin"></TicTacToeGame>
     </div>
+    <div v-else class="projects-list">
+      <Card
+        v-for="(project, i) in projects"
+        :key="i"
+        v-bind="project"
+      />
+    </div>
+    <div v-if="hasWon" class="page-container">
+        <NuxtParticles
+          id="tsparticles"
+          :options="particleOptions"
+          @load="onLoad"
+        ></NuxtParticles>
+      </div>
+  </div>
 </template>
+
+<style scoped>
+.projects-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Center vertically in the viewport */
+}
+
+.tic-tac-toe-container {
+  text-align: center;
+  transition: opacity 1s ease-out; /* Add transition for slow disappearance */
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the items (Cards) within the list */
+  justify-content: center; /* Center items horizontally in a column layout */
+  width: 100%; /* Ensure the list takes full width to center content */
+  margin: 0 auto; /* Center the block element itself */
+  /* Temporary background to visualize centering */
+  /* background-color: rgba(255, 0, 0, 0.1); */
+}
+</style>

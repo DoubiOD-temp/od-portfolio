@@ -12,8 +12,7 @@
           :autoplay="true"
           :delay="1800"
         />
-        
-    </div>
+      </div>
     </section>
   </template>
 

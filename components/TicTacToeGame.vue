@@ -40,9 +40,11 @@
     </section>
   </template>
   
-  <script setup>
-  import { ref, computed, watch, onMounted } from 'vue';
-  import { gsap } from 'gsap'; // Import GSAP
+  <script setup lang="ts">
+    import { ref, computed, watch, onMounted } from 'vue';
+    import { gsap } from 'gsap'; // Import GSAP
+  
+    const emit = defineEmits(['win']);
   
   // --- Game State ---
   const board = ref(Array(9).fill(null)); // 3x3 board represented as a 1D array
@@ -188,13 +190,14 @@
   
   // Watch for winner changes to trigger win/draw animations and auto-restart
   watch(winner, (newValue, oldValue) => {
+      console.log('Winner changed:', newValue); // Log winner change
       if (newValue) { // Game has ended (Win or Draw)
           if (newValue !== 'Draw') {
               // Win Animation (Monochromatic)
               const winningCells = winningLine.value.map(index =>
                   boardElement.value.querySelector(`.cell-minimal[data-index='${index}']`)
               );
-  
+
               gsap.to(winningCells, {
                   // Animate background color (subtle light grey flash)
                   backgroundColor: '#e0e0e0', // Light grey highlight
@@ -204,7 +207,7 @@
                   ease: "power1.inOut",
                   overwrite: true // Prevent overlapping animations
               });
-  
+
                gsap.to(winningCells, {
                    scale: 1.03, // Subtle scale pop
                    repeat: 3,
@@ -213,7 +216,7 @@
                    ease: "power1.inOut",
                    overwrite: true
                });
-  
+
           } else {
               // Draw Animation (Monochromatic) - Maybe a subtle border flash on all cells
               const allCells = gsap.utils.toArray(boardElement.value.querySelectorAll('.cell-minimal'));
@@ -226,10 +229,7 @@
                    overwrite: true
                });
           }
-  
-          // Auto-restart after a delay
-          setTimeout(resetGame, 2500); // 2.5 seconds delay before restart
-  
+
           // Add a slight animation to the status text itself
            const statusEl = document.querySelector('.game-status-minimal span'); // Assuming only one status span is visible
            if(statusEl) {
@@ -238,8 +238,14 @@
                   { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
               );
            }
-      }
-  });
+
+           // Emit win event if human player wins
+           if (newValue === 'X') {
+             console.log('Emitting win event'); // Log when win event is emitted
+             emit('win');
+           }
+       }
+   });
   
   
   // Initial load animation (adjusting targets and colors for minimal design)
