@@ -62,6 +62,13 @@ import { loadFull } from 'tsparticles';
 import { gsap } from 'gsap';
 
 // Assume components are registered/imported
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
 // import TicTacToeGame from './TicTacToeGame.vue';
 // import Card from './Card.vue';
 // import ProjectDetail from './ProjectDetail.vue';
@@ -71,6 +78,7 @@ const hasWon = ref(false);
 const selectedProject = ref<Project | null>(null);
 const selectedIndex = ref<number | null>(null); // Index of the selected card
 const isAnimating = ref(false); // Prevent double clicks during transition
+const isSwitchingProjects = ref(false); // Flag to indicate if we are switching between projects
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 0); // Track window width
 
 // --- DOM Refs for GSAP ---
@@ -129,11 +137,25 @@ const projects: Project[] = [ /* ... keep your projects array ... */
 const handleWin = () => { hasWon.value = true; };
 
 const showProjectDetails = async (project: Project, index: number) => {
-  if (isAnimating.value || selectedProject.value) return; // Prevent if already animating or showing
+  if (isAnimating.value) return; // Prevent if already animating
+
+  if (selectedProject.value && selectedProject.value !== project) {
+    // If a different project is already selected, close it first
+    isSwitchingProjects.value = true; // Set flag
+    await hideProjectDetails();
+    // Wait for the close animation to complete before opening the new one
+    await new Promise(resolve => setTimeout(resolve, 400)); // Adjust timeout based on your leave animation duration
+  } else if (selectedProject.value === project) {
+      // If the same project is clicked, do nothing
+      return;
+  }
 
   isAnimating.value = true;
   selectedProject.value = project;
   selectedIndex.value = index; // Store selected index for highlighting
+
+  // Scroll to top when viewing details
+  scrollToTop();
 
   await nextTick(); // Wait for ProjectDetail to render (even if teleported)
 
@@ -158,16 +180,22 @@ const showProjectDetails = async (project: Project, index: number) => {
     // Desktop: Animate list translation + fade selected card
     const listShiftAmount = (projectDetailRef.value?.$el.offsetWidth ?? (windowWidth.value * 0.5)) * 0.5 + 32; // Approx half detail width + gap
 
-    gsap.timeline({ onComplete: () => { isAnimating.value = false; } })
-      .to(listEl, {
-        x: -listShiftAmount, // Move list left by half the detail width + gap
-        //width: '50%', // Keep width 100%, just translate
-        opacity: 0.9, // Slightly fade list
-        duration: 0.6,
-        ease: 'power3.inOut'
-      });
-       // No need to animate selected card out, just use .selected style
+    if (!isSwitchingProjects.value) {
+        // Only animate list if not switching projects
+        gsap.timeline({ onComplete: () => { isAnimating.value = false; } })
+          .to(listEl, {
+            x: -listShiftAmount, // Move list left by half the detail width + gap
+            //width: '50%', // Keep width 100%, just translate
+            opacity: 0.9, // Slightly fade list
+            duration: 0.6,
+            ease: 'power3.inOut'
+          });
+           // No need to animate selected card out, just use .selected style
+    } else {
+        isAnimating.value = false; // Reset flag immediately if switching
+    }
   }
+  isSwitchingProjects.value = false; // Reset flag after animation logic
 };
 
 const hideProjectDetails = async () => {
@@ -189,7 +217,7 @@ const onGameEnter = (el: Element, done: () => void) => { gsap.from(el, { opacity
 const onParticlesEnter = (el: Element, done: () => void) => { gsap.from(el, { opacity: 0, duration: 1.5, ease: 'none', onComplete: done }); };
 
 // --- Project Detail Transition Hooks ---
-const onDetailEnter = (el: HTMLElement, done: () => void) => {
+const onDetailEnter = (el: Element, done: () => void) => {
     // 'el' is the projectDetailRef.$el here
     if (isMobile.value) {
         // Mobile: Slide up from bottom and fade in
@@ -206,7 +234,7 @@ const onDetailEnter = (el: HTMLElement, done: () => void) => {
     }
 };
 
-const onDetailLeave = (el: HTMLElement, done: () => void) => {
+const onDetailLeave = (el: Element, done: () => void) => {
     const listEl = projectsListContainer.value;
 
     const onLeaveComplete = () => {
@@ -214,8 +242,12 @@ const onDetailLeave = (el: HTMLElement, done: () => void) => {
         selectedIndex.value = null; // Ensure index is cleared
         isAnimating.value = false; // Allow new animations
 
-        // Animate list back AFTER detail is gone
-        if (listEl) {
+        // This runs AFTER detail is visually gone
+        selectedIndex.value = null; // Ensure index is cleared
+        isAnimating.value = false; // Allow new animations
+
+        // Animate list back ONLY if not switching projects
+        if (listEl && !isSwitchingProjects.value) {
              if (isMobile.value) {
                  // Mobile: Fade list back in
                  gsap.to(listEl, { opacity: 1, duration: 0.4, ease: 'power2.in' });
