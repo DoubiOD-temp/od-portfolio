@@ -32,6 +32,7 @@
                 @view-details="showProjectDetails(project, i)"
                 class="project-card"
                 :class="{ 'selected': i === selectedIndex }"
+                :is-selected="i === selectedIndex"
                 :ref="el => projectCardRefs[i] = el" />
             </div>
           </div>
@@ -85,6 +86,7 @@ const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 0); 
 const projectsListContainer = ref<HTMLElement | null>(null);
 const projectDetailRef = ref<{ $el: HTMLElement } | null>(null);
 const projectCardRefs = ref<any[]>([]); // Array to hold refs to each Card component instance
+const scrollPosition = ref(0); // Store scroll position
 
 
 interface Project {
@@ -154,8 +156,13 @@ const showProjectDetails = async (project: Project, index: number) => {
   selectedProject.value = project;
   selectedIndex.value = index; // Store selected index for highlighting
 
+  // Store current scroll position before opening detail
+  scrollPosition.value = window.scrollY;
+
   // Scroll to top when viewing details
-  scrollToTop();
+  if (!isMobile.value) {
+    scrollToTop();
+  }
 
   await nextTick(); // Wait for ProjectDetail to render (even if teleported)
 
@@ -242,10 +249,6 @@ const onDetailLeave = (el: Element, done: () => void) => {
         selectedIndex.value = null; // Ensure index is cleared
         isAnimating.value = false; // Allow new animations
 
-        // This runs AFTER detail is visually gone
-        selectedIndex.value = null; // Ensure index is cleared
-        isAnimating.value = false; // Allow new animations
-
         // Animate list back ONLY if not switching projects
         if (listEl && !isSwitchingProjects.value) {
              if (isMobile.value) {
@@ -261,6 +264,16 @@ const onDetailLeave = (el: Element, done: () => void) => {
                  });
              }
         }
+
+        // Scroll back to the previous position if not on mobile
+        if (!isMobile.value && scrollPosition.value !== 0) {
+            window.scrollTo({
+                top: scrollPosition.value,
+                behavior: 'smooth'
+            });
+            scrollPosition.value = 0; // Reset stored position
+        }
+
         done(); // Signal Vue transition is complete
     };
 
@@ -389,7 +402,7 @@ watch(isMobileDetailActive, (isActive) => {
     position: absolute;
     right: 0;
     top: 0;
-    width: 50%; /* Detail width */
+    width: 55%; /* Detail width */
     height: 100%; /* Match list container height potentially? Or use max-height */
     max-height: 80vh; /* Limit height and allow scrolling */
     overflow-y: auto; /* Enable scrolling within detail */

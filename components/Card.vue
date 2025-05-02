@@ -9,7 +9,12 @@
         <span v-if="tag" class="card-tag">{{ tag }}</span>
       </div>
       <p class="card-description">{{ description }}</p>
-      <button @click="$emit('view-details', { title, tag, description, image, link })" class="card-button">
+      <button
+        @click="$emit('view-details', { title, tag, description, image, link })"
+        class="card-button"
+        :disabled="isSelected"
+        :class="{ 'disabled': isSelected }"
+      >
           View More →
       </button>
     </div>
@@ -24,7 +29,14 @@ interface Project {
   image?: string;
   link?: string;
 }
-defineProps<Project>();
+defineProps<{
+  title: string;
+  tag?: string;
+  description: string;
+  image?: string;
+  link?: string;
+  isSelected?: boolean; // Add isSelected prop
+}>();
 defineEmits(['view-details']);
 </script>
 
@@ -166,5 +178,18 @@ defineEmits(['view-details']);
    .card-description {
      font-size: 0.95rem;
    }
+}
+
+/* --- Disabled Button Styles --- */
+.card-button:disabled,
+.card-button.disabled {
+  background-color: #cccccc; /* Grey out the button */
+  cursor: not-allowed; /* Indicate it's not clickable */
+  opacity: 0.7; /* Slightly fade it */
+}
+
+.card-button:disabled:hover,
+.card-button.disabled:hover {
+  background-color: #cccccc; /* Keep grey on hover */
 }
 </style>

@@ -71,12 +71,13 @@ const downloadCV = () => {
 
 .contact-page-container {
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
+  flex-direction: column;
   align-items: center;
   padding: 20px;
-  min-height: calc(100vh - 60px); /* Adjust based on SiteNav height */
+  padding-top: 72px; /* Added 50px of top padding (20px original + 50px extra) */
+  min-height: calc(100vh - 60px);
   justify-content: center;
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif; /* Consistent font */
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
 
 .profile-img-container {
@@ -148,13 +149,14 @@ const downloadCV = () => {
   display: flex;
   flex-direction: column; /* Stack social links and CV button vertically */
   align-items: center;
-  gap: 30px; /* Increased space to match the 30px margin-bottom of business-card-wrapper */
-  margin-bottom: 30px; /* Added bottom margin to match other spacing */
+  gap: 20px; /* Reduced from 30px to create more consistent spacing */
+  margin-bottom: 20px; /* Reduced from 30px for consistency */
 }
 
 .social-links {
   display: flex;
   gap: 15px; /* Space between social icons */
+  margin-bottom: 0; /* Ensure no extra margin */
 }
 
 .social-links img {
@@ -173,6 +175,7 @@ const downloadCV = () => {
   align-items: center;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
+  margin-top: -80px; /* Added negative margin to bring it closer to social links */
 }
 
 .cv-button:hover {
