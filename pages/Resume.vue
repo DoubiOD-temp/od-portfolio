@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="section-heading">Work history</h2>
+    <h2 class="section-heading">Work experience</h2>
     <div class="timeline-outer">
       <div
         v-for="(event, idx) in workEvents"
@@ -52,7 +52,7 @@
 
     <hr class="section-separator" />
 
-    <h2 class="section-heading academic">Academic history</h2>
+    <h2 class="section-heading academic">Education</h2>
     <div class="timeline-outer">
       <div
         v-for="(event, idx) in academicEvents"
@@ -145,7 +145,14 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import ButtonAnimation from '~/public/animations/Button.json';
+
+const lottieAnimation = ref(null);
+
+const downloadCV = () => {
+  window.open('/CV/Ondrej_Dobis-CV-3_2025.pdf', '_blank');
+};
 
 const workEvents = [
   {
@@ -282,10 +289,11 @@ const academicEvents = [
 const programmingLanguages = [
   { name: 'Python', experience: 7 },
   { name: 'Java', experience: 4.5 },
-  { name: 'C# / .NET', experience: 3 },
-  { name: 'SQL', experience: 2 },
-  { name: 'PHP', experience: 1 },
-  { name: 'TypeScript', experience: 1 }
+  { name: 'C# / .NET', experience: 3.5 },
+  { name: 'JavaScript', experience: 3.5 },
+  { name: 'SQL', experience: 3.5 },
+  { name: 'TypeScript', experience: 3 },
+  { name: 'PHP', experience: 1 }
 ];
 
 const technicalCategories = [
@@ -295,7 +303,7 @@ const technicalCategories = [
   },
   {
     title: 'Databases',
-    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB']
+    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB', 'MySQL', ]
   },
   {
     title: 'Tools & Platforms',
@@ -319,6 +327,29 @@ const calculateExperienceWidth = (experience) => {
 </script>
 
 <style scoped>
+.cv-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.cv-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.cv-button:hover {
+  transform: translateY(-3px);
+}
+
+/* Fix for SVG height issue */
+.cv-button svg {
+  height: 0% !important;
+}
+
 .timeline-meta span {
   display: block; /* Ensure each span is on its own line */
 }
