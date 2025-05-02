@@ -157,10 +157,15 @@ const showProjectDetails = async (project: Project, index: number) => {
   selectedIndex.value = index; // Store selected index for highlighting
 
   // Store current scroll position before opening detail
-  scrollPosition.value = window.scrollY;
+  if (window.scrollY > 0) {
+    scrollPosition.value = window.scrollY;
+  } else {
+    scrollPosition.value = 0; // Ensure it's 0 if already at the top
+  }
+
 
   // Scroll to top when viewing details
-  if (!isMobile.value) {
+  if (!isMobile.value && scrollPosition.value > 0) {
     scrollToTop();
   }
 
@@ -265,8 +270,8 @@ const onDetailLeave = (el: Element, done: () => void) => {
              }
         }
 
-        // Scroll back to the previous position if not on mobile
-        if (!isMobile.value && scrollPosition.value !== 0) {
+        // Scroll back to the previous position if not on mobile and a position was stored
+        if (!isMobile.value && scrollPosition.value > 0) {
             window.scrollTo({
                 top: scrollPosition.value,
                 behavior: 'smooth'
