@@ -132,6 +132,7 @@ const projects = [
 </script>
 
 <template>
+  <TicTacToeGame></TicTacToeGame>
   <div class="projects-list">
     <Card
       v-for="(project, i) in projects"

@@ -58,6 +58,7 @@ const downloadCV = () => {
 </script>
 
 <style scoped>
+
 .contact-page-container {
   display: flex;
   flex-direction: column; /* Stack card and buttons vertically */
