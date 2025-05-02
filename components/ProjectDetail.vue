@@ -32,6 +32,9 @@
   <style scoped>
   /* Keep existing styles */
   .project-detail {
+    position: sticky;
+    margin-top: 5rem;
+    top: 0; /* Stick to the top of the viewport */
     /* Base styles applied globally */
     /* background-color: #f9fafb; */ /* Background applied in parent CSS */
   }
@@ -58,7 +61,16 @@
   }
   
   
-  .detail-content { text-align: left; }
+  .detail-content {
+    text-align: left;
+  }
+  
+  /* Apply top padding for desktop views */
+  @media (min-width: 768px) {
+    .detail-content {
+      padding-top: 2rem; /* Add top padding */
+    }
+  }
   .detail-image { width: 100%; max-height: 300px; object-fit: cover; border-radius: 6px; margin-bottom: 1.5rem; background-color: #eee; }
   .detail-content h2 { font-size: 1.8rem; color: #312e81; margin-bottom: 0.5rem; }
   .detail-tag { display: inline-block; background-color: #e0e7ff; color: #4338ca; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }

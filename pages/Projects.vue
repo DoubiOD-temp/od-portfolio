@@ -116,7 +116,13 @@ const onLoad = (container: Container) => { console.log('Particles container load
 
 // --- Project Data ---
 const projects: Project[] = [ /* ... keep your projects array ... */
- { title: "BRAGI", tag: "AI", description: "A cutting-edge AI-powered video generator.", image: "/images/img.png", link: "#" }, { title: "Subtruck AI", tag: "App Dev", description: "AI-driven app to manage subscriptions.", image: "/images/img.png", link: "#" }, { title: "Redefine Progress", tag: "Web Dev", description: "A skill integration platform for students.", image: "/images/img.png", link: "#" }, { title: "Enrollment UI/UX", tag: "UI/UX", description: "Figma prototype for easier student enrollment.", image: "/images/img.png", link: "#" }
+ { title: "BRAGI", tag: "AI", description: "A cutting-edge AI-powered video generator.", image: "/images/img.png", link: "#" }, 
+ { title: "Subtruck AI", tag: "App Dev", description: "AI-driven app to manage subscriptions.", image: "/images/img.png", link: "#" }, 
+ { title: "Redefine Progress", tag: "Web Dev", description: "A skill integration platform for students.", image: "/images/img.png", link: "#" }, 
+ { title: "Enrollment UI/UX", tag: "UI/UX", description: "Figma prototype for easier student enrollment.", image: "/images/img.png", link: "#" }, 
+ { title: "Subtruck AI", tag: "App Dev", description: "AI-driven app to manage subscriptions.", image: "/images/img.png", link: "#" }, 
+ { title: "Redefine Progress", tag: "Web Dev", description: "A skill integration platform for students.", image: "/images/img.png", link: "#" }, 
+ { title: "Enrollment UI/UX", tag: "UI/UX", description: "Figma prototype for easier student enrollment.", image: "/images/img.png", link: "#" }
 ];
 
 // --- Event Handlers ---
@@ -386,10 +392,6 @@ watch(isMobileDetailActive, (isActive) => {
         min-height: initial; /* Reset min-height */
          align-items: center; /* Center list when detail is not shown */
     }
-
-     .projects-list-container {
-        /* Transition handled by GSAP opacity */
-     }
 
      /* Style to hide list container completely when mobile detail is active */
      /* Use opacity for fade, could use display: none triggered by isAnimating flag */
