@@ -31,15 +31,17 @@
         </a>
       </div>
       <div class="cv-button">
-        <Vue3Lottie
-          ref="lottieAnimation"
-          :animationData="ButtonAnimation"
-          :height="250"
-          :width="250"
-          :loop="false"
-          :delay="400"
-          @click="downloadCV"
-        />
+        <span style="pointer-events: auto;">
+          <Vue3Lottie
+            ref="lottieAnimation"
+            :animationData="ButtonAnimation"
+            :height="75"
+            :width="220"
+            :loop="false"
+            :delay="400"
+            @click="downloadCV"
+          />
+        </span>
       </div>
     </div>
   </div>
@@ -170,11 +172,9 @@ const onLoad = (container: Container) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 70px 20px 20px; /* Top padding to prevent profile pic cutoff */
-  padding-top: 72px; /* Added 50px of top padding (20px original + 50px extra) */
-  padding-bottom: 0px;
+  padding: 20px 20px 10px; /* Top padding to prevent profile pic cutoff */
   margin-bottom: 0px;
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - 75px);
   justify-content: center;
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
@@ -282,18 +282,13 @@ const onLoad = (container: Container) => {
   height: auto;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  margin-top: -80px; /* Added negative margin to bring it closer to social links */
+  margin-top: -10px; /* Added negative margin to bring it closer to social links */
+  pointer-events: none; /* Disable pointer events on the container */
 }
 
 .cv-button:hover {
   transform: translateY(-3px);
-}
-
-/* Fix for SVG height issue */
-.cv-button svg {
-  height: 0% !important;
 }
 
 .cv-button-text {
@@ -301,7 +296,6 @@ const onLoad = (container: Container) => {
   color: #333;
   margin-top: -15px; /* Adjust spacing */
 }
-
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
