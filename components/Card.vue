@@ -1,16 +1,18 @@
 <template>
   <div class="card">
     <div class="card-image-container">
-      <img v-if="image" :src="image" :alt="`${title} project image`" class="card-image" loading="lazy" />
+      <img v-if="images && images.length > 0" :src="images[0]" :alt="`${title} project image`" class="card-image" loading="lazy" />
     </div>
     <div class="card-content">
       <div class="card-header">
         <h3 class="card-title">{{ title }}</h3>
-        <span v-if="tag" class="card-tag">{{ tag }}</span>
+        <div v-if="tags && tags.length" class="card-tags">
+          <span v-for="tag in tags" :key="tag" class="card-tag">{{ tag }}</span>
+        </div>
       </div>
-      <p class="card-description">{{ description }}</p>
+      <p class="card-description">{{ shortDescription }}</p>
       <button
-        @click="$emit('view-details', { title, tag, description, image, link })"
+        @click="$emit('view-details', { title, tags, description, images, link })"
         class="card-button"
         :disabled="isSelected"
         :class="{ 'disabled': isSelected }"
@@ -24,17 +26,18 @@
 <script setup lang="ts">
 interface Project {
   title: string;
-  tag?: string;
+  tags?: string[]; // Change tag to tags array
   description: string;
-  image?: string;
   link?: string;
+  images?: string[]; // Added images array to interface
 }
 defineProps<{
   title: string;
-  tag?: string;
+  tags?: string[]; // Change tag to tags array
   description: string;
-  image?: string;
+  shortDescription: string; // Added short description prop
   link?: string;
+  images?: string[]; // Added images array prop
   isSelected?: boolean; // Add isSelected prop
 }>();
 defineEmits(['view-details']);
@@ -101,6 +104,13 @@ defineEmits(['view-details']);
   flex-grow: 1;
   /* Prevent tag from pushing title too much */
   min-width: 60%;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem; /* Space between tags */
+  margin-top: 0.2rem; /* Space above tags */
 }
 
 .card-tag {

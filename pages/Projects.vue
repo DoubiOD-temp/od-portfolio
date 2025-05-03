@@ -89,13 +89,6 @@ const projectCardRefs = ref<any[]>([]); // Array to hold refs to each Card compo
 const scrollPosition = ref(0); // Store scroll position
 
 
-interface Project {
-  title: string;
-  tag?: string;
-  description: string;
-  image?: string;
-  link?: string;
-}
 
 // --- Computed Properties ---
 const isMobile = computed(() => windowWidth.value <= 900); // Mobile breakpoint
@@ -125,15 +118,7 @@ const particleOptions: RecursivePartial<IOptions> = { /* ... keep your options .
 const onLoad = (container: Container) => { console.log('Particles container loaded:', container.id); };
 
 // --- Project Data ---
-const projects: Project[] = [ /* ... keep your projects array ... */
- { title: "BRAGI", tag: "AI", description: "A cutting-edge AI-powered video generator.", image: "/images/img.png", link: "#" }, 
- { title: "Subtruck AI", tag: "App Dev", description: "AI-driven app to manage subscriptions.", image: "/images/img.png", link: "#" }, 
- { title: "Redefine Progress", tag: "Web Dev", description: "A skill integration platform for students.", image: "/images/img.png", link: "#" }, 
- { title: "Enrollment UI/UX", tag: "UI/UX", description: "Figma prototype for easier student enrollment.", image: "/images/img.png", link: "#" }, 
- { title: "Subtruck AI", tag: "App Dev", description: "AI-driven app to manage subscriptions.", image: "/images/img.png", link: "#" }, 
- { title: "Redefine Progress", tag: "Web Dev", description: "A skill integration platform for students.", image: "/images/img.png", link: "#" }, 
- { title: "Enrollment UI/UX", tag: "UI/UX", description: "Figma prototype for easier student enrollment.", image: "/images/img.png", link: "#" }
-];
+import { projects, type Project } from '~/data/projects';
 
 // --- Event Handlers ---
 const handleWin = () => { hasWon.value = true; };
