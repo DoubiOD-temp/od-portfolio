@@ -71,7 +71,7 @@
           <template v-else>
             <div class="timeline-card">
               <h3 class="timeline-title">{{ event.title }}</h3>
-              <div class="timeline-subtitle">{{ event.subtitle }}</div>
+              <div class="timeline-subtitle" :style="{ color: event.dotColor, fontStyle: 'italic', fontWeight: 'bold' }">{{ event.subtitle }}</div>
               <ul v-if="event.bullets && event.bullets.length" class="timeline-bullets">
                 <li v-for="(bullet, i) in event.bullets" :key="i">{{ bullet }}</li>
               </ul>
@@ -85,7 +85,7 @@
           <template v-if="event.side === 'right'">
             <div class="timeline-card">
               <h3 class="timeline-title">{{ event.title }}</h3>
-              <div class="timeline-subtitle">{{ event.subtitle }}</div>
+              <div class="timeline-subtitle" :style="{ color: event.dotColor, fontStyle: 'italic', fontWeight: 'bold' }">{{ event.subtitle }}</div>
               <ul v-if="event.bullets && event.bullets.length" class="timeline-bullets">
                 <li v-for="(bullet, i) in event.bullets" :key="i">{{ bullet }}</li>
               </ul>
@@ -126,18 +126,6 @@
         <div v-for="cat in technicalCategories" :key="cat.title" class="skill-category">
           <h3 class="category-title">{{ cat.title }}</h3>
           <p class="tech-skill-list">{{ cat.skills.join(', ') }}</p>
-        </div>
-        <div class="skill-category">
-          <h3 class="category-title">Soft Skills</h3>
-          <p class="soft-skills-list">
-            Hard working, detail oriented, creative, analytical, well organized, trustworthy, self-motivated, self-managed, committed.
-          </p>
-        </div>
-        <div class="skill-category">
-          <h3 class="category-title">Certifications</h3>
-          <p class="certifications-list">
-            Studio Cambridge Certificate, Riviera English School Certificate, Cambridge English Flyers Certificate, UCN Employability Certificate, Oxford placement test - C1.
-          </p>
         </div>
       </div>
     </section>
@@ -316,6 +304,14 @@ const technicalCategories = [
   {
     title: 'Methodologies & Concepts',
     skills: ['UI/UX Design', 'Agile', 'Business Process Management', 'ITIL', 'Artificial Intelligence', 'Machine Learning']
+  },
+  {
+    title: 'Soft Skills',
+    skills: ['Hard working', 'Detail oriented', 'Creative', 'Analytical', 'Well organized', 'Trustworthy', 'Self-motivated', 'Self-managed', 'Committed']
+  },
+  {
+    title: 'Certifications',
+    skills: ['Studio Cambridge Certificate', 'Riviera English School Certificate', 'Cambridge English Flyers Certificate', 'UCN Employability Certificate', 'Oxford placement test - C1']
   }
 ];
 
@@ -367,5 +363,20 @@ const calculateExperienceWidth = (experience) => {
 .timeline-subtitle-styled {
   font-style: italic;
   font-weight: bold;
+}
+@media (max-width: 768px) {
+  .skills-certs-section .content-area {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .section-separator {
+    margin-bottom: 15px; /* Reduce gap between academic history and skills */
+  }
+
+  .skills-certs-section {
+    margin-top: 0px !important; /* Increase gap between programming languages and heading */
+  }
+
 }
 </style>
