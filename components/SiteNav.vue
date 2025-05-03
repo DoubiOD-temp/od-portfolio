@@ -26,7 +26,7 @@
 
   const navItems = [
     { text: 'Home', to: '/' },
-    { text: 'Projects', to: '/Projects' },
+    // { text: 'Projects', to: '/Projects' },
     { text: 'Resume', to: '/Resume' },
     { text: 'Contact', to: '/Contact' }
   ];
