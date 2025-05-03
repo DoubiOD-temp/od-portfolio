@@ -18,7 +18,7 @@
         mode="out-in"
       >
         <div v-if="!hasWon" key="tictactoe" class="tic-tac-toe-wrapper">
-          <h2>Win a game of tic-tac-toe to view projects</h2>
+          <h2>Victory unlocks my project archive.</h2>
           <TicTacToeGame @win="handleWin" />
         </div>
 
@@ -413,7 +413,7 @@ watch(isMobileDetailActive, (isActive) => {
     background-color: #fff; /* Solid background */
     overflow-y: auto; /* Scrollable content */
     padding: 1.5rem;
-    padding-top: 4rem; /* Space for a potential fixed header/back button */
+    padding-bottom: 5rem;
     z-index: 1000; /* High z-index */
     /* Back button needs specific styling within ProjectDetail.vue for fixed pos */
 }

@@ -13,11 +13,12 @@
     </button>
 
     <div class="project-detail-content">
-      <div v-if="project.images && project.images.length > 0" class="image-carousel-container">
+      <div class="image-display-container">
         <swiper
+          v-if="project.images && project.images.length > 0"
           :modules="modules"
           :slides-per-view="1"
-          :space-between="20"
+          :space-between="0"
           navigation
           :pagination="{ clickable: true }"
           :loop="project.images.length > 1"
@@ -29,22 +30,21 @@
               :src="image"
               :alt="`${project.title} image ${index + 1}`"
               loading="lazy"
-              class="carousel-image"
+              class="display-image"
             />
           </swiper-slide>
         </swiper>
+        <img
+          v-else-if="project.image"
+          :src="project.image"
+          :alt="project.title"
+          loading="lazy"
+          class="display-image"
+        />
       </div>
-      <div v-else-if="project.image" class="single-image-container">
-         <img :src="project.image" :alt="`${project.title}`" loading="lazy" class="detail-image"/>
-       </div>
-
 
       <div class="details-section">
         <h1>{{ project.title }}</h1>
-
-        <p v-if="project.shortDescription" class="short-description">
-          {{ project.shortDescription }}
-        </p>
 
         <div class="meta-info">
            <div v-if="project.year" class="meta-item">
@@ -58,16 +58,6 @@
           </div>
         </div>
 
-
-        <div v-if="project.tags && project.tags.length > 0" class="tags-container">
-          <span class="meta-label">Tags:</span>
-          <div class="tags-list">
-            <span v-for="(tag, index) in project.tags" :key="index" class="project-tag">
-              {{ tag }}
-            </span>
-          </div>
-        </div>
-
         <div v-if="project.githubLink" class="github-link-container">
           <a :href="project.githubLink" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View on GitHub">
             <img src="/images/github.png" alt="GitHub" class="github-icon"/>
@@ -75,12 +65,10 @@
           </a>
         </div>
 
-
         <div v-if="project.description" class="description-section">
              <span class="section-label">Description:</span>
              <p class="full-description">{{ project.description }}</p>
         </div>
-
 
         <div v-if="project.highlights && project.highlights.length > 0" class="highlights-section">
           <span class="section-label">Highlights:</span>
@@ -93,7 +81,6 @@
             </li>
           </ul>
         </div>
-
       </div>
     </div>
   </div>
@@ -115,18 +102,18 @@ import 'swiper/css/pagination';
 // Define the Project interface exactly as provided by the user
 interface Project {
   title: string;
-  tags?: string[];
-  shortDescription: string;
+  tags?: string[]; // Still in interface but not displayed
+  shortDescription: string; // Still in interface but not displayed
   description: string;
   collaborators?: number | string;
   highlights?: string[];
-  image?: string; // Keeping the original image field for now
-  images?: string[]; // Added list of image paths
+  image?: string;
+  images?: string[];
   githubLink?: string;
   year?: number | string;
 }
 
-// Accept props, including the full Project interface and isMobile
+// Accept props
 const props = defineProps<{ project: Project; isMobile?: boolean }>();
 defineEmits(['close']);
 
@@ -138,62 +125,72 @@ const modules = [Navigation, Pagination, Autoplay];
 <style scoped>
 /* --- Base Container --- */
 .project-detail-container {
-  position: relative; /* Allows absolute positioning relative to this */
+  position: relative;
   max-width: 900px; /* Max width for content on larger screens */
-  margin: 0 auto; /* Center the container */
-  padding: 1rem; /* Base padding */
-  background-color: #f9fafb; /* Subtle background */
+  margin: 0 auto;
+  padding: 0 1rem; /* Horizontal padding */
+  background-color: #fff; /* Clean white background */
   border-radius: 12px; /* Soft rounded corners */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-  overflow: hidden; /* Hide overflowing content like large images */
-  /* Add top margin to push content below sticky back button if needed */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); /* Softer shadow */
+  overflow: hidden;
+  /* Restore top margin from original version */
    margin-top: 5rem;
+}
+
+/* Add more bottom padding for mobile */
+@media (max-width: 767px) {
+    .project-detail-container {
+        padding-bottom: 2rem; /* Increased bottom padding */
+    }
+     /* Adjust padding inside content if needed due to back button */
+    .project-detail-content {
+        padding-top: 1rem; /* Ensure content starts below fixed button */
+    }
 }
 
 /* --- Back Button --- */
 .back-button {
-  display: inline-flex; /* Use flex for icon and text alignment */
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem; /* Space between icon and text */
+  gap: 0.4rem;
   background: none;
   border: none;
   color: #007AFF; /* iOS-like blue */
   font-size: 1rem;
-  font-weight: 500; /* Medium weight */
+  font-weight: 500;
   cursor: pointer;
   padding: 0.5rem 0;
   transition: color 0.2s ease-in-out;
-  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
-  margin-bottom: 1rem; /* Space below button */
+  -webkit-tap-highlight-color: transparent;
+  margin-bottom: 1rem;
 }
 
 .back-button:hover {
-  color: #005bb5; /* Darker blue on hover */
-  text-decoration: none; /* Remove underline on hover for cleaner look */
+  color: #005bb5;
+  text-decoration: none;
 }
 
 .back-icon {
-    width: 1.2em; /* Size icon relative to font-size */
+    width: 1.2em;
     height: 1.2em;
-    margin-right: 0.2rem; /* Small space between icon and text */
+    margin-right: 0.2rem;
 }
-
 
 /* --- Mobile Specific Back Button (Fixed Position) --- */
 .back-button.is-mobile-back {
   position: fixed;
-  top: 1rem;
+  /* Move slightly higher */
+  top: 0.75rem; /* Adjusted from 1rem */
   left: 1rem;
   z-index: 1001;
-  background-color: rgba(255, 255, 255, 0.8); /* More opaque background */
-  backdrop-filter: blur(8px); /* Stronger blur */
-  -webkit-backdrop-filter: blur(8px); /* Safari support */
-  padding: 0.5rem 0.8rem;
-  border-radius: 8px; /* More rounded */
+  background-color: rgba(255, 255, 255, 0.85); /* Slightly less transparent */
+  backdrop-filter: blur(10px); /* Slightly stronger blur */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  padding: 0.4rem 0.7rem; /* Slightly less padding */
+  border-radius: 8px;
   margin-bottom: 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  /* Ensure only the icon is visible on mobile, text is SR only */
-  width: auto; /* Allow button to size to content (icon only) */
+  width: auto;
   height: auto;
 }
 
@@ -210,163 +207,151 @@ const modules = [Navigation, Pagination, Autoplay];
   border-width: 0;
 }
 
-
 /* --- Main Content Area --- */
 .project-detail-content {
   text-align: left;
 }
 
-/* --- Image Display --- */
-/* Container for both carousel and single image for consistent margin */
-.image-carousel-container,
-.single-image-container {
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-    overflow: hidden; /* Ensure image corners are rounded */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Subtle shadow for images */
-    background-color: #e0e0e0; /* Placeholder background */
+/* --- Image Display (Carousel or Single) --- */
+.image-display-container {
+    margin: 0 -1rem 1.5rem -1rem; /* Negative margins to span full container width despite padding */
+    /* Remove border-radius and shadow from container to let image styles handle it */
+    /* background-color: #e0e0e0; /* Placeholder background */
 }
 
-/* Single Detail Image Styling (if not using carousel) */
-.detail-image {
-  display: block; /* Remove extra space below image */
-  width: 100%;
-  max-height: 400px; /* Limit height */
-  object-fit: cover; /* Cover the area, cropping if necessary */
-}
-
-
-/* --- Swiper Carousel Styles --- */
+/* Swiper Carousel Styles (adjusting for full image display) */
 .mySwiper {
   width: 100%;
-  height: 100%; /* Swiper will take the height of its container */
+  height: auto; /* Allow height to be determined by image aspect ratio */
 }
 
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff; /* Slide background */
-  display: flex; /* Center slide content */
+  background: #f8f8f8; /* Subtle slide background */
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.carousel-image {
+.display-image {
   display: block;
-  width: 100%;
-  height: 400px; /* Fixed height for all carousel images */
-  object-fit: cover; /* Cover the slide area */
-  background-color: #e0e0e0; /* Placeholder */
+  width: 100%; /* Take full width */
+  height: auto; /* Maintain aspect ratio */
+  /* object-fit: contain; /* Use contain if you need to ensure the whole image is visible without cropping */
+  /* Or simply remove object-fit to let width/height auto handle it */
+  /* If image is smaller than container, it will be centered by flexbox on parent */
+  /* object-fit: cover; is removed */
+  border-radius: 0; /* Remove border radius here, apply elsewhere if needed */
+  /* box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Subtle shadow on the image itself */
+  background-color: #eee; /* Placeholder background while loading */
 }
+
 
 /* Adjust Swiper Navigation (Arrows) */
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-  color: #fff; /* White arrows */
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); /* Add shadow for visibility */
-  opacity: 0.7;
-  transition: opacity 0.2s ease-in-out;
+  color: #007AFF; /* Blue arrows */
+   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); /* Subtle shadow */
+  opacity: 0.9; /* Slightly more opaque */
+  transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+  top: 50%; /* Keep centered vertically */
+  transform: translateY(-50%); /* Correct vertical centering */
+  /* Add larger tap area */
+  padding: 15px;
+   margin: -15px; /* Negative margin to include padding in click area */
+   z-index: 10; /* Ensure they are above images and pagination */
 }
 
 :deep(.swiper-button-next:hover),
 :deep(.swiper-button-prev:hover) {
+  color: #005bb5;
   opacity: 1;
 }
 
+/* Hide navigation on small screens if preferred */
+@media (max-width: 500px) {
+    :deep(.swiper-button-next),
+    :deep(.swiper-button-prev) {
+        display: none;
+    }
+}
+
+
 /* Adjust Swiper Pagination (Dots) */
 :deep(.swiper-pagination-bullet) {
-  background-color: #fff; /* White dots */
-  opacity: 0.6;
+  background-color: #007AFF; /* Blue dots */
+  opacity: 0.4;
   transition: opacity 0.2s ease-in-out;
 }
 
 :deep(.swiper-pagination-bullet-active) {
-  background-color: #fff; /* Active dot color */
-  opacity: 1;
+  background-color: #007AFF; /* Active dot color */
+  opacity: 0.8; /* More opaque when active */
 }
+
+/* Position pagination below the image */
+:deep(.swiper-pagination.swiper-pagination-bullets) {
+    position: relative; /* Change to relative */
+    bottom: auto; /* Remove fixed bottom */
+    margin-top: 1rem; /* Add space above dots */
+}
+
 
 /* --- Details Content Styling --- */
 .details-section {
-  padding: 0 1rem 1rem; /* Add horizontal padding and bottom space */
+  padding: 0 0 1rem; /* No horizontal padding inside this section, container handles it */
 }
 
 h1 {
-  font-size: 2rem; /* Larger title */
-  color: #1a1a1a; /* Dark grey */
+  font-size: 1.8rem; /* Smaller title */
+  color: #1a1a1a;
   margin-bottom: 0.5rem;
-  line-height: 1.2;
+  line-height: 1.3;
+  font-weight: 600; /* Slightly bolder title */
 }
 
-.short-description {
-  font-size: 1.1rem;
-  color: #555; /* Medium grey */
-  margin-bottom: 1.5rem;
-  font-weight: 400; /* Regular weight */
-  line-height: 1.5;
-}
 
 .meta-info {
   display: flex;
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-  gap: 1.5rem; /* Space between meta items */
+  flex-wrap: wrap;
+  gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
 .meta-item {
     display: flex;
-    flex-direction: column; /* Label above value */
+    flex-direction: column;
 }
 
 .meta-label {
-  font-size: 0.9rem;
-  color: #888; /* Light grey for labels */
-  font-weight: 500; /* Medium weight */
-  text-transform: uppercase; /* Uppercase labels */
-  margin-bottom: 0.2rem; /* Space between label and value */
+  font-size: 0.85rem; /* Slightly smaller label */
+  color: #666; /* Medium grey for labels */
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.05em; /* Subtle letter spacing */
 }
 
 .meta-value {
   font-size: 1rem;
-  color: #333; /* Darker grey for values */
+  color: #333;
   font-weight: 400;
 }
 
 
-/* --- Tags Styling --- */
-.tags-container {
-  margin-bottom: 1.5rem;
-}
-
-.tags-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem; /* Space between tags */
-  margin-top: 0.4rem; /* Space below the "Tags:" label */
-}
-
-.project-tag {
-  display: inline-block;
-  background-color: #eef2ff; /* Light blue */
-  color: #4338ca; /* Darker blue */
-  padding: 0.3rem 0.7rem;
-  border-radius: 16px; /* Pill shape */
-  font-size: 0.85rem;
-  font-weight: 600;
-  white-space: nowrap; /* Prevent tags from breaking */
-}
-
 /* --- GitHub Link Styling --- */
 .github-link-container {
   margin-bottom: 1.5rem;
-  border-top: 1px solid #eee; /* Subtle divider */
+  border-top: 1px solid #eee;
   padding-top: 1.5rem;
 }
 
 .github-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem; /* Space between icon and text */
-  color: #007AFF; /* iOS-like blue */
+  gap: 0.5rem;
+  color: #007AFF;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
@@ -378,8 +363,8 @@ h1 {
 }
 
 .github-icon {
-  width: 1.5rem; /* Size of the icon */
-  height: 1.5rem;
+  width: 1.3rem; /* Slightly smaller icon */
+  height: 1.3rem;
   object-fit: contain;
 }
 
@@ -387,17 +372,18 @@ h1 {
 .description-section,
 .highlights-section {
   margin-bottom: 1.5rem;
-  border-top: 1px solid #eee; /* Subtle divider */
+  border-top: 1px solid #eee;
   padding-top: 1.5rem;
 }
 
 .section-label {
-    font-size: 0.9rem;
-    color: #888; /* Light grey for labels */
-    font-weight: 500; /* Medium weight */
-    text-transform: uppercase; /* Uppercase labels */
-    display: block; /* Make label take full width */
-    margin-bottom: 0.6rem; /* Space below label */
+    font-size: 0.85rem; /* Slightly smaller label */
+    color: #666; /* Medium grey for labels */
+    font-weight: 500;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.6rem;
+     letter-spacing: 0.05em; /* Subtle letter spacing */
 }
 
 .full-description {
@@ -408,56 +394,42 @@ h1 {
 
 /* --- Highlights List Styling --- */
 .highlights-list {
-  list-style: none; /* Remove default bullet points */
+  list-style: none;
   padding: 0;
   margin: 0;
 }
 
 .highlight-item {
-  display: flex; /* Use flex for custom bullet and text */
-  align-items: flex-start; /* Align items to the top */
-  margin-bottom: 0.8rem; /* Space between list items */
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
   font-size: 1rem;
   color: #333;
   line-height: 1.5;
 }
 
 .highlight-bullet {
-    width: 1.2em; /* Size of the custom bullet icon */
+    width: 1.2em;
     height: 1.2em;
-    color: #007AFF; /* iOS-like blue for bullets */
-    flex-shrink: 0; /* Prevent bullet from shrinking */
-    margin-right: 0.6rem; /* Space between bullet and text */
-    margin-top: 0.2em; /* Adjust vertical alignment slightly */
+    color: #007AFF;
+    flex-shrink: 0;
+    margin-right: 0.6rem;
+    margin-top: 0.2em;
 }
-
 
 /* --- Responsive Adjustments --- */
 @media (min-width: 768px) {
   .project-detail-container {
     padding: 1.5rem; /* More padding on desktop */
-    margin-top: 0; /* Remove sticky margin on desktop */
+    margin-top: 5rem; /* Keep the top margin on desktop too */
   }
 
-  .project-detail-content {
-     padding-top: 0rem; /* No extra top padding needed inside */
+  .image-display-container {
+      margin: 0 -1.5rem 1.5rem -1.5rem; /* Negative margin matches desktop padding */
   }
 
   h1 {
-    font-size: 2.5rem; /* Larger title on desktop */
-  }
-
-  .short-description {
-    font-size: 1.2rem;
-  }
-
-  .carousel-image,
-  .detail-image {
-    max-height: 500px; /* Increase max height for images */
-  }
-
-  .details-section {
-    padding: 0 1.5rem 1.5rem; /* More horizontal padding on desktop */
+    font-size: 2rem; /* Slightly larger title on desktop */
   }
 
    .github-link-container,
