@@ -125,16 +125,10 @@ const modules = [Navigation, Pagination, Autoplay];
 <style scoped>
 /* --- Base Container --- */
 .project-detail-container {
-  position: relative;
   max-width: 900px; /* Max width for content on larger screens */
   margin: 0 auto;
-  padding: 0 1rem; /* Horizontal padding */
   background-color: #fff; /* Clean white background */
-  border-radius: 12px; /* Soft rounded corners */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); /* Softer shadow */
   overflow: hidden;
-  /* Restore top margin from original version */
-   margin-top: 5rem;
 }
 
 /* Add more bottom padding for mobile */

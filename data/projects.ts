@@ -16,14 +16,12 @@ export const projects: Project[] = [
     title: "Weather & Vessel Operation Prediction",
     tags: ["Nuxt.js", "MongoDB", "TypeScript", "Python", "Vue.js", "Pinia", "Chart.js", "Tailwind CSS"],
     shortDescription: "Provides insights and decision support for vessel operations using historical data visualization.",
-    description: "Collaboration with DECK1 on a project to provide insights and decision support to stakeholders such as charterers, procurement managers, operators, brokers and more. The main emphasis was on the significance of accurate visualisation of evaluated asset(helicopters, various vessels) performance based on historical data and its crucial role in optimising operational efficiency.",
+    description: "Collaboration with DECK1 on a project to provide insights and decision support to stakeholders such as charterers, procurement managers, operators, brokers and more. The main emphasis was on the significance of accurate visualisation of evaluated asset (helicopters, various types of vessels) performance based on historical data and its crucial role in optimising operational efficiency.",
     collaborators: 5,
     highlights: [
       "Support in complex decision-making processes",
       "Possibly reduced likelihood of incorrect decisions occuring in operations and procurement",
       "Minimization of potential health hazards",
-      "Enhanced workflow efficiency",
-      "Improved economic analysis and overview",
       "Opportunity to decrease operational expenses",
       "Accuracy and speed of calculations"
     ],
@@ -38,18 +36,17 @@ export const projects: Project[] = [
     description: "Skill Integration is a web-based platform designed to streamline the management of training session assignments for both students and teachers. The platform allows students to form teams, select clients, prepare and upload lesson materials, and organize all work in a centralized, structured interface. For teachers, Skill Integration offers real-time progress tracking, live notifications, and a dedicated dashboard for monitoring and grading team submissions, making assignment management more efficient.",
     collaborators: 6,
     highlights: [
-      "Delivered a modern, intuitive interface with a clean and professional design.",
-      "Implemented seamless dark mode for comfortable use in any environment.",
-      "Added language selection to support a diverse, international user base.",
-      "Developed real-time progress tracking and live notifications for efficient assignment management.",
-      "Ensured secure, role-based access and smooth deployment on a live platform."
+      "A modern, intuitive interface with a clean and professional design.",
+      "Dark mode and language selection",
+      "Real-time progress tracking and live notifications",
+      "Secure, role-based access"
     ],
     year: 2025,
     githubLink: undefined,
     images: ["/images/projects/skill22.png"]
   },
   {
-    title: "SelfLens",
+    title: "SelfLens: Wellbeing tracker",
     shortDescription: "SelfLens is an online application aimed at assisting individuals in monitoring various personal metrics and assessing their influence on overall wellbeing.",
     description: "The platform features a user-friendly interface that facilitates the visualization of personal data through interactive graphs and charts, allowing users to derive significant insights and make educated choices regarding their daily habits. SelfLens functions as a resource for comprehending daily behaviors and fostering the pursuit of a healthier, more balanced lifestyle. It tackles the challenge faced by individuals who lack awareness of how their routines impact their overall wellbeing by offering a thorough tracking and analytical framework.",
     tags: ["PHP", "Laravel", "Alpine.js", "Tailwing CSS", "Lifewire"],
@@ -71,31 +68,15 @@ export const projects: Project[] = [
     description: "Collaboration on the development of an internal ticket management system, a critical tool for streamlining operations within an organization. This software helps with keeping track of requests and makes sure they get dealt with properly. A benefit of this system is that it helps everyone on the team collaborate more efficiently. It keeps all the tickets in a centralized location, so everyone within the organization can see what work currently needs to be done. For example, in a scenario where multiple departments are involved in resolving a complex issue, each team can view and contribute to the ticket's progress. The purpose of this project was also to make those things faster and make sure all employees can take responsibility.",
     collaborators: 2,
     highlights: [
-      "Implemented a robust testing strategy to ensure application stability and reliability.",
-      "Developed a dashboard with analytics and statistics on ticket trends for insights."
+      "Developed a dashboard with analytics and statistics on ticket trends for insights.",
+      "Implemented a robust testing strategy to ensure application stability and reliability."
     ],
     year: 2023,
     githubLink: undefined,
     images: ["/images/projects/ticketsystem.png"]
   },
   {
-    title: "Other professional projects",
-    tags: ["Java", "Python", "Flask", "InfluxDB", "Grafana", "Tomcat", "Shell"],
-    shortDescription: "Implementation of alerting system, data management tool, and backend for maritime service.",
-    description: "",
-    collaborators: "1-3",
-    highlights: [
-      "An alerting system using Python, Grafana, and InfluxDB", 
-      "Integrated data management tool using Python",
-      "Scheduled telemetry download script utilizing Python", 
-      "Back-end for Maritime Messaging Service Edge Router in Java", 
-      "Work on interactive visualization of satellite telemetry data"],
-    year: "2022-2024",
-    githubLink: undefined,
-    images: ["/images/projects/sternula.png"]
-  },
-  {
-    title: "BidHub",
+    title: "BidHub: Art market social platform",
     tags: ["Amazon S3", "C#", ".NET", "Docker", "SQL server", "Entity framework", "React.js", "TypeScript"],
     shortDescription: "Platform connecting artists and collectors globally, empowering them to buy, sell, and celebrate art.",
     description: "BidHub is an online platform that allows artists to easily showcase and sell their work, regardless of technical skill. The interface is designed to be intuitive and efficient, making it simple for both artists and collectors to connect. By following current trends in online art markets, the platform aims to provide a practical, accessible solution for presenting and discovering artwork in a digital environment.",
@@ -111,30 +92,28 @@ export const projects: Project[] = [
     images: ["/images/projects/bidhub.png", "/images/projects/bidhub2.png", "/images/projects/bidhub3.png"]
   },
   {
-    title: "getNoise",
+    title: "getNoise: Music downloader",
     tags: ["Python", "Selenium", "Batch"],
     shortDescription: "Python script converts Spotify track links to high-quality M4A audio files.",
     description: "This Python script allows users to convert any Spotify track link into a high-quality M4A audio file. By integrating the Spotify API, Selenium, and yt-dlp with FFmpeg, the script retrieves track details, searches YouTube for the corresponding audio, and downloads it in the desired format. Designed for efficiency and ease of use, this tool streamlines the process of obtaining DRM-free audio files from Spotify links for offline listening or personal use.",
     collaborators: 1,
     highlights: [
-      "Converts Spotify tracks to high-quality, DRM-free M4A audio files efficiently.",
+      "Converts Spotify tracks to high-quality M4A audio files",
       "Integrates Spotify API, Selenium, yt-dlp, and FFmpeg for seamless automation.",
-      "Streamlines retrieval, search, and download of music with minimal user input.",
-      "Designed for simplicity, enabling easy offline listening from any Spotify link"
+      "Streamlines retrieval, search, and download with minimal user input.",
+      "Designed for simplicity"
     ],
     year: 2023,
     githubLink: "https://github.com/DoubiOD/Spotify-link-to-.mp4-file",
     images: ["/images/projects/getnoise.png"]
   },
   {
-    title: "WeDoLaundry",
+    title: "WeDoLaundry: End-to-End laundry service",
     tags: ["C#", ".NET", "ADO.NET", "ASP.NET MVC", "SLQ", "HTML", "CSS", "Javascript"],
     shortDescription: "Comprehensive laundry service solution with customer website, staff app, and courier system.",
-    description: "WeDoLaundry is a comprehensive laundry service solution designed to eliminate one of life's most time-consuming chores. This multi-platform project included a customer-facing website, staff management desktop application, and courier logistics system to create a seamless end-to-end service experience.",
+    description: "WeDoLaundry is a comprehensive laundry service solution designed to eliminate one of life's most time-consuming chores. This platform project includes a customer-facing website and a staff management desktop application to create a seamless end-to-end service experience.",
     collaborators: 4,
     highlights: [
-      "Flexible service options including one-time bookings and subscription plans",
-      "Secure user authentication and profile management",
       "Intuitive scheduling system with real-time availability",
       "Automated notification system for order status updates",
       "Comprehensive admin dashboard for business analytics and operations management"
@@ -144,10 +123,26 @@ export const projects: Project[] = [
     images: ["/images/projects/wedolaundry.png"]
   },
   {
+    title: "Other professional projects",
+    tags: ["Java", "Tomcat", "Python", "Flask", "InfluxDB", "Grafana", "Shell"],
+    shortDescription: "Implementation of alerting system, data management tool, and backend for maritime service.",
+    description: "",
+    collaborators: "1-3",
+    highlights: [
+      "An alerting system using Python, Grafana, and InfluxDB", 
+      "Integrated data management tool using Python",
+      "Scheduled telemetry download script utilizing Python", 
+      "Back-end for Maritime Messaging Service Edge Router in Java", 
+      "Work on interactive visualization of satellite telemetry data"],
+    year: "2022-2024",
+    githubLink: undefined,
+    images: ["/images/projects/sternula.png"]
+  },
+  {
     title: "University Enrollment Platform",
     tags: ["Figma"],
     shortDescription: "Figma prototype to streamline enrollment for international and Erasmus students.",
-    description: "Figma prototype created during the Skill Integration Lab 2 to streamline the enrollment process for international and Erasmus students at Thomas More. The existing system relied on scattered website information and inefficient email communication, often resulting in confusion. Our client requested a centralized platform to consolidate all enrollment-related tasks. The prototype enables users to submit applications, request or register as a buddy or landlord, apply for a bike, and communicate directly through an integrated chat. This project provided valuable experience in client collaboration and resulted in a user-friendly, organized solution tailored to the needs of international students.",
+    description: "Figma prototypes developed to centralize and streamline enrollment for international and Erasmus students at Thomas More University. The solution replaces fragmented website information and inefficient email communication with a unified platform, allowing users to manage applications, buddy and landlord requests, bike rentals, and direct chat.",
     collaborators: 5,
     highlights: [
       "Demonstrated prototyping skills to quickly visualize and refine user flows",
@@ -159,15 +154,12 @@ export const projects: Project[] = [
     images: ["/images/projects/skill21.png"]
   },
   {
-    title: "Dormify",
+    title: "Dormify: Housing management system",
     tags: ["Java", "Swing", "SQL Server"],
     shortDescription: "System to streamline inventory, tenant data, and paperwork for student housing.",
-    description: "Our team partnered with UC House Aps, a student housing provider in Aalborg, Denmark, to identify and address operational challenges through client interviews and needs analysis. Based on our findings, we defined the project scope and developed a tailored system to streamline the organization of inventory, tenant data and paperwork. The new system enables faster and more efficient completion of administrative tasks, improving overall management for UC House",
+    description: "Our team worked with UC House Aps in Aalborg, Denmark to identify and solve operational challenges. We developed a custom system that streamlines inventory, tenant data, and paperwork, making administrative tasks faster and more efficient for UC House.",
     collaborators: 3,
     highlights: [
-      "Collaborated directly with a real-world client to deliver a practical solution.",
-      "Conducted thorough needs analysis and client interviews to define project scope.",
-      "Developed a user-friendly system for efficient inventory and tenant management.",
       "Enabled faster, more organized completion of administrative tasks for UC House.",
       "Gained valuable experience in client communication, project scoping, and solution delivery."
     ],
@@ -176,9 +168,9 @@ export const projects: Project[] = [
     images: ["/images/projects/dormify.png"]
   },
   {
-    title: ".SORT()",
+    title: ".SORT(): Logic Puzzle Game",
     shortDescription: "A logic-based puzzle game where players sort colored balls into columns, ensuring each column contains balls of only one color.",
-    description: "Players can move only the top ball from one column to another, and only onto balls of the same color or into empty columns.",
+    description: "A logic-based puzzle game where players may move only the top ball from one column to another, placing it either onto a ball of the same color or into an empty column. The goal is to group all balls by color in separate columns, encouraging strategic and logical moves.",
     tags: ["Python"],
     collaborators: 1,
     highlights: ["Developed exclusively in Python using the Tkinter library for graphical user interface and rendering."],
@@ -187,7 +179,7 @@ export const projects: Project[] = [
     year: 2019
   },
   {
-    title: "Game 15",
+    title: "Game 15: Tile Sliding Puzzle",
     shortDescription: "Game 15 is a classic single-player logic game consisting of a 4x4 grid containing 15 numbered square tiles and one empty space.",
     description: "The tiles are randomly scrambled at the start. The objective is to rearrange the tiles by sliding them one at a time into the empty space until the numbers are ordered sequentially from 1 to 15, left to right and top to bottom, with the empty space in the bottom-right corner",
     tags: ["Python"],

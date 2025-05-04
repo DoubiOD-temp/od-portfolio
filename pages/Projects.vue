@@ -17,14 +17,32 @@
         @enter="onGameEnter"
         mode="out-in"
       >
-        <div v-if="!hasWon" key="tictactoe" class="tic-tac-toe-wrapper">
-          <!-- <h2>Victory unlocks my project archive.</h2> -->
-          <p>This portfolio was made from scratch with <br><b>Nuxt.js</b>, <b>GSAP</b> and other magic.</p>
+      <div v-if="!hasWon" key="tictactoe" class="tic-tac-toe-wrapper">
+          <div class="portfolio-intro-text">
+             This <a href="https://github.com/DoubiOD-temp/od-portfolio" target="_blank" rel="noopener noreferrer" aria-label="View Portfolio Source Code on GitHub">
+                    <span class="highlight">portfolio</span>
+                    <img src="/images/github.png" alt="GitHub Icon" class="github-icon-inline"/>
+                   </a> was made from scratch with <b>Nuxt.js</b>, <b>GSAP</b> and other magic.
+          </div>
+
           <h2>Want to see more? Beat the game first!</h2>
           <TicTacToeGame @win="handleWin" />
         </div>
 
         <div v-else key="projects" class="projects-view" :class="{ 'detail-active-mobile': isMobileDetailActive }">
+
+          <div class="projects-header">
+            <h2 class="section-heading">Project history</h2>
+            <span class="info-icon" @click="showInfoTooltip = !showInfoTooltip" aria-label="Information about project ownership">
+              i
+            </span>
+
+             <Transition name="fade">
+              <div v-if="showInfoTooltip" class="info-tooltip">
+                Although my primary expertise is in backend development, I do not claim individual ownership over any specific part of <b>collaborative projects</b>. Each project was developed under a model of collective code ownership, with all team members contributing to and sharing responsibility for the codebase.
+              </div>
+            </Transition>
+            </div>
           <div ref="projectsListContainer" class="projects-list-container">
             <div class="projects-list">
               <Card
@@ -40,16 +58,16 @@
           </div>
 
           <Teleport to="body" :disabled="!isMobile">
-             <Transition :css="false" @enter="onDetailEnter" @leave="onDetailLeave">
-                 <ProjectDetail
+              <Transition :css="false" @enter="onDetailEnter" @leave="onDetailLeave">
+                  <ProjectDetail
                     v-if="selectedProject"
                     ref="projectDetailRef"
                     :project="selectedProject"
                     @close="hideProjectDetails"
                     class="project-detail-component"
                     :class="{ 'is-mobile': isMobile }"
-                 />
-             </Transition>
+                   />
+              </Transition>
           </Teleport>
 
         </div>
@@ -63,8 +81,12 @@ import { ref, watch, nextTick, onMounted, onBeforeUnmount, computed } from 'vue'
 import type { Container, IOptions, RecursivePartial } from '@tsparticles/engine';
 import { loadFull } from 'tsparticles';
 import { gsap } from 'gsap';
+import { useEventListener } from '@vueuse/core'; // Using @vueuse/core for click outside
 
 // Assume components are registered/imported
+// import TicTacToeGame from './TicTacToeGame.vue';
+// import Card from './Card.vue';
+// import ProjectDetail from './ProjectDetail.vue';
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -72,9 +94,6 @@ const scrollToTop = () => {
     behavior: 'smooth'
   });
 };
-// import TicTacToeGame from './TicTacToeGame.vue';
-// import Card from './Card.vue';
-// import ProjectDetail from './ProjectDetail.vue';
 
 // --- State ---
 const hasWon = ref(false);
@@ -83,13 +102,14 @@ const selectedIndex = ref<number | null>(null); // Index of the selected card
 const isAnimating = ref(false); // Prevent double clicks during transition
 const isSwitchingProjects = ref(false); // Flag to indicate if we are switching between projects
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 0); // Track window width
+const showInfoTooltip = ref(false); // State for the info tooltip visibility
 
-// --- DOM Refs for GSAP ---
+// --- DOM Refs for GSAP and Tooltip ---
 const projectsListContainer = ref<HTMLElement | null>(null);
 const projectDetailRef = ref<{ $el: HTMLElement } | null>(null);
 const projectCardRefs = ref<any[]>([]); // Array to hold refs to each Card component instance
 const scrollPosition = ref(0); // Store scroll position
-
+const infoTooltipRef = ref<HTMLElement | null>(null); // Ref for the tooltip element
 
 
 // --- Computed Properties ---
@@ -107,6 +127,22 @@ onMounted(() => {
   updateWidth(); // Initial check
   window.addEventListener('resize', updateWidth);
   projectCardRefs.value = []; // Initialize refs array
+
+   // Close tooltip when clicking anywhere else on the document
+   useEventListener(document, 'click', (event) => {
+      const iconElement = document.querySelector('.info-icon'); // Get the icon element
+      // If click is outside the icon AND the tooltip, close the tooltip
+      if (showInfoTooltip.value && iconElement && !iconElement.contains(event.target as Node) && (!infoTooltipRef.value || !infoTooltipRef.value.contains(event.target as Node))) {
+          showInfoTooltip.value = false;
+      }
+   });
+
+    // Close tooltip on scroll to prevent awkward positioning
+    useEventListener(window, 'scroll', () => {
+        if (showInfoTooltip.value) {
+            showInfoTooltip.value = false;
+        }
+    }, { passive: true }); // Use passive for scroll events
 });
 
 onBeforeUnmount(() => {
@@ -116,7 +152,7 @@ onBeforeUnmount(() => {
 // --- tsParticles ---
 const particleOptions: RecursivePartial<IOptions> = { /* ... keep your options ... */
     fullScreen: { enable: true, zIndex: -1 }, background: { color: { value: '#ffffff' } }, particles: { number: { value: 120 }, color: { value: '#BD93FF' }, opacity: { value: 0.6 }, size: { value: { min: 1, max: 3 } }, move: { enable: true, speed: 0.8, direction: 'none', random: true, straight: false, outModes: 'out' }, links: { enable: true, distance: 180, color: '#BD93FF', opacity: 0.25, width: 1 } }, interactivity: { events: { onHover: { enable: true, mode: 'grab' }, resize: { enable: true } }, modes: { grab: { distance: 150, links: { opacity: 0.5 } } } }, detectRetina: true, responsive: [ { maxWidth: 768, options: { particles: { number: { value: 50 }, links: { distance: 120, opacity: 0.3 } }, interactivity: { modes: { grab: { distance: 100 } } } } } ]
- };
+  };
 const onLoad = (container: Container) => { console.log('Particles container loaded:', container.id); };
 
 // --- Project Data ---
@@ -203,10 +239,11 @@ const hideProjectDetails = async () => {
 
   // Trigger the detail leave animation (handled by onDetailLeave)
   selectedProject.value = null; // Setting this to null triggers the v-if and Transition leave
+  showInfoTooltip.value = false; // Hide tooltip when closing details
 
   // List animation happens after detail leave animation finishes (in onDetailLeave hook)
   // Reset selected index immediately visually
-   selectedIndex.value = null;
+    selectedIndex.value = null;
 };
 
 // --- Transition Hooks ---
@@ -226,7 +263,7 @@ const onDetailEnter = (el: Element, done: () => void) => {
         );
     } else {
         // Desktop: Fade in (already positioned absolutely)
-         gsap.fromTo(el,
+          gsap.fromTo(el,
             { opacity: 0, scale: 0.98 }, // Start slightly smaller
             { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out', delay: 0.1, onComplete: done } // Delay slightly
         );
@@ -247,7 +284,7 @@ const onDetailLeave = (el: Element, done: () => void) => {
                  // Mobile: Fade list back in
                  gsap.to(listEl, { opacity: 1, duration: 0.4, ease: 'power2.in' });
              } else {
-                // Desktop: Translate list back
+                 // Desktop: Translate list back
                  gsap.to(listEl, {
                      x: 0,
                      opacity: 1,
@@ -259,11 +296,11 @@ const onDetailLeave = (el: Element, done: () => void) => {
 
         // Scroll back to the previous position if not on mobile and a position was stored
         if (!isMobile.value && scrollPosition.value > 0) {
-            window.scrollTo({
-                top: scrollPosition.value,
-                behavior: 'smooth'
-            });
-            scrollPosition.value = 0; // Reset stored position
+             window.scrollTo({
+                 top: scrollPosition.value,
+                 behavior: 'smooth'
+             });
+             scrollPosition.value = 0; // Reset stored position
         }
 
         done(); // Signal Vue transition is complete
@@ -283,14 +320,14 @@ const onDetailLeave = (el: Element, done: () => void) => {
 watch(hasWon, async (newValue) => {
   if (newValue) {
     await nextTick();
-     if (projectsListContainer.value) {
+      if (projectsListContainer.value) {
         const cards = projectsListContainer.value.querySelectorAll('.project-card');
         gsap.set(projectsListContainer.value, { opacity: 1, x: 0 }); // Ensure initial state
         gsap.from(cards, {
             opacity: 0, y: 30, duration: 0.5, stagger: 0.1,
             ease: 'power2.out', delay: 0.3
         });
-     }
+      }
   }
 });
 
@@ -303,6 +340,21 @@ watch(isMobileDetailActive, (isActive) => {
             document.body.style.overflow = ''; // Restore body scroll
         }
     }
+});
+
+// Watch for tooltip visibility to potentially add/remove body class for scroll lock on mobile
+watch(showInfoTooltip, (isVisible) => {
+     // Optional: Add scroll lock for the tooltip on mobile if it's large
+     // if (isMobile.value && typeof document !== 'undefined') {
+     //      if (isVisible) {
+     //          document.body.style.overflow = 'hidden';
+     //      } else {
+     //           // Only restore if not already locked by detail view
+     //          if (!isMobileDetailActive.value) {
+     //             document.body.style.overflow = '';
+     //           }
+     //      }
+     // }
 });
 
 
@@ -330,30 +382,171 @@ watch(isMobileDetailActive, (isActive) => {
   position: relative; z-index: 1;
 }
 
-.tic-tac-toe-wrapper {
-  text-align: center; background-color: rgba(255, 255, 255, 0.85);
-  padding: 2rem 3rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+/* Style for the introductory text block */
+.portfolio-intro-text {
+    max-width: 450px; /* Set a max width for the text */
+    margin: 0 auto 1.5rem auto; /* Center the block and add space below */
+    text-align: center; /* Center the text */
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
 }
+
+/* Style for the embedded link within the text */
+.portfolio-intro-text a {
+    color: #4D63BB; /* Set link color */
+    text-decoration: underline; /* Add underline */
+    font-weight: 500; /* Match the link style */
+    transition: color 0.2s ease;
+    display: inline-flex; /* Allow icon to sit nicely next to text */
+    align-items: baseline; /* Align text baseline */
+    gap: 0.2rem; /* Small gap between "portfolio" span and icon */
+}
+
+.portfolio-intro-text a:hover {
+    color: #3a4c9b; /* Darker shade on hover */
+    /* text-decoration: underline; /* Underline is always present now */
+}
+
+/* Style to highlight the word "portfolio" */
+.portfolio-intro-text a .highlight {
+    color: #4D63BB; /* Ensure highlight color */
+    font-weight: 600; /* Make it bold */
+}
+
+
+/* Style for the embedded GitHub icon */
+.github-icon-inline {
+    width: 1.2em; /* Slightly larger size */
+    height: 1.2em; /* Slightly larger size */
+    object-fit: contain;
+    vertical-align: -0.2em; /* Adjust vertical alignment */
+    margin-left: 0.1em; /* Small space before the icon */
+}
+
+/* Ensure the main tic-tac-toe-wrapper still has its base styles */
+.tic-tac-toe-wrapper {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+  max-width: none; /* Ensure this is still present */
+  /* You might need to add margin-top/bottom here or to its parent */
+  margin-top: auto; /* Example: push it to the bottom if in a flex container */
+  margin-bottom: auto; /* Example: center it vertically */
+}
+
 .tic-tac-toe-wrapper h2 { margin-bottom: 1.5rem; color: #333; font-weight: 600; }
 
 /* Projects View Area */
 .projects-view {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column; /* Stack header, list, and detail vertically */
+  align-items: center; /* Center children horizontally */
   width: 100%;
   max-width: 1200px;
-  position: relative; /* Crucial for absolute positioning of desktop detail */
-  /* Prevent parent height jump by ensuring it doesn't collapse based on list width */
-   min-height: 50vh; /* Or set dynamically based on initial list height */
+  position: relative; /* Crucial for absolute positioning of tooltip and desktop detail */
+  min-height: 50vh; /* Ensure it has some height */
 }
 
+/* === Project History Header Area (Heading + Icon) === */
+.projects-header {
+    display: flex;
+    justify-content: center; /* Center heading and icon block */
+    align-items: center; /* Vertically align heading text and icon */
+    gap: 0.8rem; /* Space between heading and icon */
+    width: 100%; /* Take full width to allow centering */
+    margin-top: 3rem; /* Matches section-heading margin-top */
+    /* margin-bottom: 3rem; Matches section-heading margin-bottom */
+    position: relative; /* Needed for tooltip absolute positioning if relative to this */
+}
+
+/* --- Section Heading Style (from user) --- */
+.section-heading {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #2d3748;
+    text-align: center; /* Still good practice though flex handles centering */
+    margin: 0; /* Remove margins from h2 itself as parent flex handles spacing */
+    letter-spacing: -0.02em;
+}
+
+/* --- Info Icon Style --- */
+.info-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 1rem; /* Reduced size (2/3 of 1.5rem) */
+    height: 1rem; /* Reduced size (2/3 of 1.5rem) */
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1.5px solid #4D63BB; /* Adjusted border thickness */
+    color: #4D63BB;
+    font-size: 0.6rem; /* Adjusted font size (2/3 of 0.9rem) */
+    font-weight: bold;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.info-icon:hover {
+    background-color: rgba(77, 99, 187, 0.1);
+    color: #3a4c9b;
+    border-color: #3a4c9b;
+}
+
+/* === Information Tooltip Style === */
+.info-tooltip {
+    position: absolute;
+    top: calc(100% + 10px); /* Position below the header div + gap */
+    left: 50%; /* Start at the middle horizontally */
+    transform: translateX(-50%); /* Shift left by half its width to truly center */
+    width: 90%; /* Take up most of the width on mobile */
+    max-width: 400px; /* Max width on larger screens */
+    background-color: #333; /* Dark background */
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 100; /* Ensure it's above other content */
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: left; /* Align text left inside tooltip */
+    pointer-events: none; /* Allows clicks to pass through to elements below when not interacting with the tooltip itself */
+    opacity: 1; /* Controlled by transition */
+    /* Initial state for fade transition */
+    /* opacity: 0; */
+}
+
+/* Adjust tooltip position on desktop */
+@media (min-width: 768px) {
+    .info-tooltip {
+        /* Maybe position relative to the icon instead of centered */
+        /* This is more complex and depends on exact desired behavior */
+        /* For now, keeping it centered below the header block */
+    }
+}
+
+
+/* --- Fade Transition for Tooltip --- */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+
 /* List Container */
+/* Adjusted padding top/bottom because header now has top/bottom margin */
 .projects-list-container {
   width: 100%;
   display: flex;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s ease; /* Smooth transition for transform */
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s ease;
   /* GSAP controls transform/opacity directly */
 }
 
@@ -362,79 +555,89 @@ watch(isMobileDetailActive, (isActive) => {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
-  padding: 1rem 0;
-  align-content: flex-start; /* Prevent vertical jump when wrapping */
+  padding: 0; /* Removed padding as projects-header has margins */
+  align-content: flex-start;
 }
 
 /* --- Card Highlighting --- */
 .project-card {
     transition: transform 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
-    border: 2px solid transparent; /* Placeholder for border */
+    border: 2px solid transparent;
 }
 
 .project-card.selected {
-    /* Styles for the selected card in the list */
     border-color: #4f46e5;
-    opacity: 0.6; /* Fade it slightly */
-    transform: scale(0.97); /* Slightly shrink */
-    box-shadow: none; /* Optional: remove hover shadow */
+    opacity: 0.6;
+    transform: scale(0.97);
+    box-shadow: none;
 }
 
 
 /* --- Detail Component Styling --- */
-/* Common styles first */
-:global(.project-detail-component) { /* Use :global because it might be teleported */
+:global(.project-detail-component) {
     box-sizing: border-box;
-    z-index: 10; /* Ensure it's above the list */
-    /* Base opacity/transform set by GSAP */
+    z-index: 10;
 }
 
-/* Desktop specific styles for Detail */
 :global(.project-detail-component:not(.is-mobile)) {
     position: absolute;
     right: 0;
-    top: 0;
-    width: 55%; /* Detail width */
-    height: 100%; /* Match list container height potentially? Or use max-height */
-    max-height: 80vh; /* Limit height and allow scrolling */
-    overflow-y: auto; /* Enable scrolling within detail */
-    padding: 2rem; /* Add padding */
+    top: 0; /* Align with the top of projects-view */
+    width: 55%;
+    height: 100%;
+    margin-top: 8.6rem;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 2rem;
     border-radius: 8px;
-    box-shadow: -5px 0px 25px rgba(0,0,0,0.1); /* Shadow on the left */
+    box-shadow: -5px 0px 25px rgba(0,0,0,0.1);
 }
 
-/* Mobile specific styles for Detail */
 :global(.project-detail-component.is-mobile) {
-    position: fixed; /* Fullscreen fixed position */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh; /* Full viewport height */
-    height: 100dvh; /* Dynamic viewport height */
-    background-color: #fff; /* Solid background */
-    overflow-y: auto; /* Scrollable content */
+    height: 100vh;
+    height: 100dvh;
+    background-color: #fff;
+    overflow-y: auto;
     padding: 1.5rem;
     padding-bottom: 5rem;
-    z-index: 1000; /* High z-index */
-    /* Back button needs specific styling within ProjectDetail.vue for fixed pos */
+    z-index: 1000;
 }
 
 
 /* --- Responsive --- */
 @media (max-width: 900px) {
     .projects-view {
-        /* Mobile: No specific layout changes needed here anymore, */
-        /* hiding list is handled by opacity animation + potentially display none if needed */
-        min-height: initial; /* Reset min-height */
-         align-items: center; /* Center list when detail is not shown */
+        min-height: initial;
+        align-items: center;
     }
 
-     /* Style to hide list container completely when mobile detail is active */
-     /* Use opacity for fade, could use display: none triggered by isAnimating flag */
-     /* .projects-view.detail-active-mobile .projects-list-container {
-         display: none;
-     } */
+    .projects-header {
+         margin-top: 0rem; /* Less top margin on mobile */
+         margin-bottom: 0rem; /* Less bottom margin on mobile */
+         gap: 0.5rem; /* Adjust gap if stacked */
+    }
 
-    /* Detail component styles are handled by .is-mobile class */
+     .section-heading {
+        font-size: 2rem; /* Smaller heading on mobile */
+        margin-bottom: 0; /* Remove bottom margin if stacked */
+     }
+
+     .info-icon {
+        margin-left: 0.6; /* Remove margin if stacked */
+        margin-top: 3.4rem;
+     }
+
+     .info-tooltip {
+        top: calc(100% + 5px); /* Adjust tooltip position if header is smaller */
+        /* TransformX centering should still work */
+     }
+
+     .project-list {
+      padding-top: 0rem !important;
+     }
 }
 </style>
