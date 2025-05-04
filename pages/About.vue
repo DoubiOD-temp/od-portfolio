@@ -5,10 +5,6 @@
         :options="particleOptions"
         @load="onLoad"
       ></NuxtParticles>
-      <div class="content">
-        <h1>Particle Background Demo</h1>
-        <p>Hover over the background to see particles move away!</p>
-      </div>
     </div>
   </template>
   
