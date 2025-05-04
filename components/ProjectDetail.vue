@@ -155,7 +155,7 @@ const modules = [Navigation, Pagination, Autoplay];
   gap: 0.4rem;
   background: none;
   border: none;
-  color: #007AFF; /* iOS-like blue */
+  color: #4D63BB; /* iOS-like blue */
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -251,7 +251,7 @@ const modules = [Navigation, Pagination, Autoplay];
 /* Adjust Swiper Navigation (Arrows) */
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-  color: #007AFF; /* Blue arrows */
+  color: #4D63BB; /* Blue arrows */
    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); /* Subtle shadow */
   opacity: 0.9; /* Slightly more opaque */
   transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
@@ -280,7 +280,7 @@ const modules = [Navigation, Pagination, Autoplay];
 
 /* Adjust Swiper Pagination (Dots) */
 :deep(.swiper-pagination-bullet) {
-  background-color: #007AFF; /* Blue dots */
+  background-color: #4D63BB; /* Blue dots */
   opacity: 0.4;
   transition: opacity 0.2s ease-in-out;
 }
@@ -351,7 +351,7 @@ h1 {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #007AFF;
+  color: #4D63BB;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
@@ -411,7 +411,7 @@ h1 {
 .highlight-bullet {
     width: 1.2em;
     height: 1.2em;
-    color: #007AFF;
+    color: #4D63BB;
     flex-shrink: 0;
     margin-right: 0.6rem;
     margin-top: 0.2em;

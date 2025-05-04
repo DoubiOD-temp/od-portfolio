@@ -18,7 +18,9 @@
         mode="out-in"
       >
         <div v-if="!hasWon" key="tictactoe" class="tic-tac-toe-wrapper">
-          <h2>Victory unlocks my project archive.</h2>
+          <!-- <h2>Victory unlocks my project archive.</h2> -->
+          <p>This portfolio was made from scratch with <br><b>Nuxt.js</b>, <b>GSAP</b> and other magic.</p>
+          <h2>Want to see more? Beat the game first!</h2>
           <TicTacToeGame @win="handleWin" />
         </div>
 
@@ -397,9 +399,8 @@ watch(isMobileDetailActive, (isActive) => {
     max-height: 80vh; /* Limit height and allow scrolling */
     overflow-y: auto; /* Enable scrolling within detail */
     padding: 2rem; /* Add padding */
-    background-color: #f9fafb; /* Ensure background */
     border-radius: 8px;
-    box-shadow: -5px 0px 15px rgba(0,0,0,0.1); /* Shadow on the left */
+    box-shadow: -5px 0px 25px rgba(0,0,0,0.1); /* Shadow on the left */
 }
 
 /* Mobile specific styles for Detail */

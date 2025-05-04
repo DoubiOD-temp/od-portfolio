@@ -1,26 +1,41 @@
 <template>
-    <section>
-      <div class="heading">
-        <Vue3Lottie
-          animation-link="/animations/od-portfolio.json"
-          :loop="false"
-          :autoplay="true"
-        />
-      </div>
-      <div class="lottie-container">
-        <Vue3Lottie
-          animation-link="/animations/iphone.json"
-          :loop="false"
-          :autoplay="true"
-          :delay="2200"
-          :class="lottie-container"
-        />
-      </div>
-    </section>
-  </template>
+  <section>
+    <div class="heading">
+      <Vue3Lottie
+        ref="headingLottie"
+        animation-link="/animations/od-portfolio.json"
+        :loop="false"
+        :autoplay="true"
+        :delay="700"
+      />
+    </div>
+    <div class="lottie-container">
+      <Vue3Lottie
+        ref="iphoneLottie"
+        animation-link="/animations/iphone.json"
+        :loop="false"
+        :autoplay="true"
+        :delay="2900"
+      />
+    </div>
+  </section>
+</template>
 
 <script setup>
-import TicTacToeGame from '~/components/TicTacToeGame.vue'; // Adjust path if necessary
+import { ref, onMounted } from 'vue';
+
+const headingLottie = ref(null);
+const iphoneLottie = ref(null);
+
+onMounted(() => {
+  // Play the first animation immediately after page load
+  headingLottie.value?.play();
+
+  // Delay the second animation by 2200ms
+  setTimeout(() => {
+    iphoneLottie.value?.play();
+  }, 2200);
+});
 </script>
 
 <style scoped>

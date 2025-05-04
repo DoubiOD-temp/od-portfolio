@@ -229,7 +229,7 @@ const workEvents = [
   },
   {
     title: 'Dishwasher,  Food courier,  Line cook',
-    location: 'Slovakia/ Denmark',
+    location: 'Denmark/ Slovakia',
     dateRange: '2019 – 2022',
     type: 'Part-time', // Added work type
     dotColor: '#ffffff',
@@ -275,7 +275,7 @@ const academicEvents = [
 ];
 
 const programmingLanguages = [
-  { name: 'Python', experience: 7 },
+  { name: 'Python', experience: 6 },
   { name: 'Java', experience: 4.5 },
   { name: 'C# / .NET', experience: 3.5 },
   { name: 'JavaScript', experience: 3.5 },
@@ -316,7 +316,7 @@ const technicalCategories = [
 ];
 
 const calculateExperienceWidth = (experience) => {
-  const maxExperience = 7;
+  const maxExperience = 6;
   const percentage = Math.min(100, Math.max(0, (experience / maxExperience) * 100));
   return `${percentage}%`;
 };

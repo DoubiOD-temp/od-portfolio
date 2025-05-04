@@ -26,6 +26,7 @@
 
   const navItems = [
     { text: 'Home', to: '/' },
+    { text: 'About', to: '/About' },
     { text: 'Projects', to: '/Projects' },
     { text: 'Resume', to: '/Resume' },
     { text: 'Contact', to: '/Contact' }
