@@ -152,8 +152,8 @@ const workEvents = [
     dotColor: '#4D4D4D',
     side: 'left',
     bullets: [
-      'Scheduled web data extraction using Python',
-      'Transforming legislative documents into vectorized formats for downstream analysis',
+      // 'Scheduled web data extraction using Python',
+      // 'Transforming legislative documents into vectorized formats for downstream analysis',
     ]
   },
   {
