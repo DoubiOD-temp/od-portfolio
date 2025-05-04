@@ -39,7 +39,7 @@
 
              <Transition name="fade">
               <div v-if="showInfoTooltip" class="info-tooltip">
-                Although my primary expertise is in backend development, I do not claim individual ownership over any specific part of <b>collaborative projects</b>. Each project was developed under a model of collective code ownership, with all team members contributing to and sharing responsibility for the codebase.
+                Although my primary expertise is in backend development, I do not claim individual ownership over any specific part of <b>collaborative projects</b>. Each of them was developed under a model of collective code ownership, with all team members contributing to and sharing responsibility for the codebase.
               </div>
             </Transition>
             </div>
