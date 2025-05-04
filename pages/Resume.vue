@@ -284,18 +284,24 @@ const programmingLanguages = [
   { name: 'PHP', experience: 1 }
 ];
 
+const alpineIndex = programmingLanguages.findIndex(skill => skill.name === 'Alpine.js');
+if (alpineIndex > -1) {
+  programmingLanguages.splice(alpineIndex, 1);
+}
+
+
 const technicalCategories = [
   {
     title: 'Frameworks & Libraries',
-    skills: ['Vue.js', 'Nuxt.js', 'React.js', 'Angular', 'Laravel', 'Selenide']
+    skills: ['Vue.js', 'Nuxt.js', 'React.js', 'Angular', 'Laravel', 'Selenide', 'Alpine.js', 'Pinia', 'Chart.js', 'Lifewire', 'Entity framework', 'ASP.NET MVC', 'ADO.NET', 'Swing', 'Flask', 'Selenium', 'Batch', 'Tomcat']
   },
   {
     title: 'Databases',
-    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB', 'MySQL', ]
+    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB', 'MySQL', 'SQL Server', 'SLQ']
   },
   {
     title: 'Tools & Platforms',
-    skills: ['Git', 'Docker', 'Grafana', 'WordPress', 'Adobe Photoshop']
+    skills: ['Git', 'Docker', 'Grafana', 'WordPress', 'Adobe Photoshop', 'Amazon S3', 'DigitalOcean']
   },
   {
     title: 'Testing Concepts',
