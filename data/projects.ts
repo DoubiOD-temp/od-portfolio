@@ -95,7 +95,7 @@ export const projects: Project[] = [
     title: "getNoise: Music downloader",
     tags: ["Python", "Selenium", "Batch"],
     shortDescription: "Python script converts Spotify track links to high-quality M4A audio files.",
-    description: "This Python script allows users to convert any Spotify track link into a high-quality M4A audio file. By integrating the Spotify API, Selenium, and yt-dlp with FFmpeg, the script retrieves track details, searches YouTube for the corresponding audio, and downloads it in the desired format. Designed for efficiency and ease of use, this tool streamlines the process of obtaining DRM-free audio files from Spotify links for offline listening or personal use.",
+    description: "This Python script allows users to convert any Spotify track link into a high-quality M4A audio file. By integrating the Spotify API, Selenium, and yt-dlp with FFmpeg, the script retrieves track details, searches YouTube for the corresponding audio, and downloads it in the desired format. Designed for efficiency and ease of use, this tool streamlines the process of obtaining audio files from Spotify links for offline listening or personal use.",
     collaborators: "Solo project",
     highlights: [
       "Converts Spotify tracks to high-quality M4A audio files",
