@@ -279,7 +279,6 @@ const programmingLanguages = [
   { name: 'Java', experience: 4.5 },
   { name: 'C# / .NET', experience: 3.5 },
   { name: 'JavaScript', experience: 3.5 },
-  { name: 'SQL', experience: 3.5 },
   { name: 'TypeScript', experience: 3 },
   { name: 'PHP', experience: 1 }
 ];
@@ -297,7 +296,7 @@ const technicalCategories = [
   },
   {
     title: 'Databases',
-    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB', 'MySQL', 'SQL Server', 'SLQ']
+    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB', 'MySQL', 'SQL Server']
   },
   {
     title: 'Tools & Platforms',
@@ -305,7 +304,7 @@ const technicalCategories = [
   },
   {
     title: 'Testing Concepts',
-    skills: ['Manual Testing', 'Automated Testing', 'Integration Testing', 'UAT', 'E2E']
+    skills: ['Manual Testing', 'Automated Testing', 'Unit Testing', 'Integration Testing', 'UAT', 'E2E']
   },
   {
     title: 'Methodologies & Concepts',

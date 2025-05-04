@@ -1,12 +1,12 @@
 export interface Project {
   title: string;
-  tags?: string[];
-  shortDescription: string;
+  tags?: string[]; // Still in interface but not displayed
+  shortDescription: string; // Still in interface but not displayed
   description: string;
   collaborators?: number | string;
   highlights?: string[];
-  image?: string; // Keeping the original image field for now
-  images?: string[]; // Added list of image paths
+  image?: string;
+  images?: string[];
   githubLink?: string;
   year?: number | string;
 }
@@ -14,7 +14,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: "Weather & Vessel Operation Prediction",
-    tags: ["Nuxt.js", "MongoDB", "TypeScript", "Python", "Vue.js", "Pinia", "Chart.js", "Tailwind CSS"],
+    tags: ["TypeScript", "Nuxt.js", "Vue.js", "Chart.js", "Pinia", "MongoDB", "Postgres", "Python", "Tailwind CSS"],
     shortDescription: "Provides insights and decision support for vessel operations using historical data visualization.",
     description: "Collaboration with DECK1 on a project to provide insights and decision support to stakeholders such as charterers, procurement managers, operators, brokers and more. The main emphasis was on the significance of accurate visualisation of evaluated asset (helicopters, various types of vessels) performance based on historical data and its crucial role in optimising operational efficiency.",
     collaborators: 5,
@@ -50,7 +50,7 @@ export const projects: Project[] = [
     shortDescription: "SelfLens is an online application aimed at assisting individuals in monitoring various personal metrics and assessing their influence on overall wellbeing.",
     description: "The platform features a user-friendly interface that facilitates the visualization of personal data through interactive graphs and charts, allowing users to derive significant insights and make educated choices regarding their daily habits. SelfLens functions as a resource for comprehending daily behaviors and fostering the pursuit of a healthier, more balanced lifestyle. It tackles the challenge faced by individuals who lack awareness of how their routines impact their overall wellbeing by offering a thorough tracking and analytical framework.",
     tags: ["PHP", "Laravel", "Alpine.js", "Tailwing CSS", "Lifewire"],
-    collaborators: 1,
+    collaborators: "Solo project",
     highlights: [
       "Monitoring and evaluating critical metrics such as sleep patterns, screen time, physical activity, and emotional wellbeing",
       "An interactive interface for establishing objectives and categorizing activities",
@@ -60,6 +60,22 @@ export const projects: Project[] = [
     images: ["/images/projects/selflens1.png", "/images/projects/selflens2.png", "/images/projects/selflens3.png"],
     githubLink: undefined,
     year: 2024
+  },
+  {
+    title: "BidHub: Art market social platform",
+    tags: ["Amazon S3", "C#", ".NET", "Docker", "SQL server", "Entity framework", "React.js", "TypeScript", "Tailwind CSS"],
+    shortDescription: "Platform connecting artists and collectors globally, empowering them to buy, sell, and celebrate art.",
+    description: "BidHub is an online platform that allows artists to easily showcase and sell their work, regardless of technical skill. The interface is designed to be intuitive and efficient, making it simple for both artists and collectors to connect. By following current trends in online art markets, the platform aims to provide a practical, accessible solution for presenting and discovering artwork in a digital environment.",
+    collaborators: 5,
+    highlights: [
+      "Real-time auctions",
+      "Adopted AWS and DigitalOcean, gaining hands-on experience with industry-standard cloud technologies.",
+      "Integrated Amazon S3 for secure and scalable image storage.",
+      "Conducted thorough backend testing to ensure reliability and code quality."
+    ],
+    year: 2023,
+    githubLink: "https://github.com/SickerTeam/dom-aukcyjny",
+    images: ["/images/projects/bidhub.png", "/images/projects/bidhub2.png", "/images/projects/bidhub3.png"]
   },
   {
     title: "Internal ticket management system",
@@ -76,27 +92,11 @@ export const projects: Project[] = [
     images: ["/images/projects/ticketsystem.png"]
   },
   {
-    title: "BidHub: Art market social platform",
-    tags: ["Amazon S3", "C#", ".NET", "Docker", "SQL server", "Entity framework", "React.js", "TypeScript"],
-    shortDescription: "Platform connecting artists and collectors globally, empowering them to buy, sell, and celebrate art.",
-    description: "BidHub is an online platform that allows artists to easily showcase and sell their work, regardless of technical skill. The interface is designed to be intuitive and efficient, making it simple for both artists and collectors to connect. By following current trends in online art markets, the platform aims to provide a practical, accessible solution for presenting and discovering artwork in a digital environment.",
-    collaborators: 5,
-    highlights: [
-      "Real-time auctions",
-      "Adopted AWS and DigitalOcean, gaining hands-on experience with industry-standard cloud technologies.",
-      "Integrated Amazon S3 for secure and scalable image storage.",
-      "Conducted thorough backend testing to ensure reliability and code quality."
-    ],
-    year: 2023,
-    githubLink: "https://github.com/SickerTeam/dom-aukcyjny",
-    images: ["/images/projects/bidhub.png", "/images/projects/bidhub2.png", "/images/projects/bidhub3.png"]
-  },
-  {
     title: "getNoise: Music downloader",
     tags: ["Python", "Selenium", "Batch"],
     shortDescription: "Python script converts Spotify track links to high-quality M4A audio files.",
     description: "This Python script allows users to convert any Spotify track link into a high-quality M4A audio file. By integrating the Spotify API, Selenium, and yt-dlp with FFmpeg, the script retrieves track details, searches YouTube for the corresponding audio, and downloads it in the desired format. Designed for efficiency and ease of use, this tool streamlines the process of obtaining DRM-free audio files from Spotify links for offline listening or personal use.",
-    collaborators: 1,
+    collaborators: "Solo project",
     highlights: [
       "Converts Spotify tracks to high-quality M4A audio files",
       "Integrates Spotify API, Selenium, yt-dlp, and FFmpeg for seamless automation.",
@@ -109,9 +109,9 @@ export const projects: Project[] = [
   },
   {
     title: "WeDoLaundry: End-to-End laundry service",
-    tags: ["C#", ".NET", "ADO.NET", "ASP.NET MVC", "SLQ", "HTML", "CSS", "Javascript"],
+    tags: ["C#", ".NET", "ADO.NET", "ASP.NET MVC", "SQL Server", "HTML", "CSS", "Javascript"],
     shortDescription: "Comprehensive laundry service solution with customer website, staff app, and courier system.",
-    description: "WeDoLaundry is a comprehensive laundry service solution designed to eliminate one of life's most time-consuming chores. This platform project includes a customer-facing website and a staff management desktop application to create a seamless end-to-end service experience.",
+    description: "WeDoLaundry is a comprehensive laundry service solution designed to eliminate one of life's most time-consuming chores. This platform includes a customer-facing website and a staff management desktop application to create a seamless end-to-end service experience.",
     collaborators: 4,
     highlights: [
       "Intuitive scheduling system with real-time availability",
@@ -124,7 +124,7 @@ export const projects: Project[] = [
   },
   {
     title: "Other professional projects",
-    tags: ["Java", "Tomcat", "Python", "Flask", "InfluxDB", "Grafana", "Shell"],
+    tags: ["Java", "Tomcat", "Python", "Flask", "InfluxDB", "Postgres", "Grafana", "Shell", "Docker"],
     shortDescription: "Implementation of alerting system, data management tool, and backend for maritime service.",
     description: "",
     collaborators: "1-3",
@@ -139,7 +139,7 @@ export const projects: Project[] = [
     images: ["/images/projects/sternula.png"]
   },
   {
-    title: "University Enrollment Platform",
+    title: "University Enrollment Platform prototype",
     tags: ["Figma"],
     shortDescription: "Figma prototype to streamline enrollment for international and Erasmus students.",
     description: "Figma prototypes developed to centralize and streamline enrollment for international and Erasmus students at Thomas More University. The solution replaces fragmented website information and inefficient email communication with a unified platform, allowing users to manage applications, buddy and landlord requests, bike rentals, and direct chat.",
@@ -172,7 +172,7 @@ export const projects: Project[] = [
     shortDescription: "A logic-based puzzle game where players sort colored balls into columns, ensuring each column contains balls of only one color.",
     description: "A logic-based puzzle game where players may move only the top ball from one column to another, placing it either onto a ball of the same color or into an empty column. The goal is to group all balls by color in separate columns, encouraging strategic and logical moves.",
     tags: ["Python"],
-    collaborators: 1,
+    collaborators: "Solo project",
     highlights: ["Developed exclusively in Python using the Tkinter library for graphical user interface and rendering."],
     images: ["/images/projects/sort.png"],
     githubLink: undefined,
@@ -183,7 +183,7 @@ export const projects: Project[] = [
     shortDescription: "Game 15 is a classic single-player logic game consisting of a 4x4 grid containing 15 numbered square tiles and one empty space.",
     description: "The tiles are randomly scrambled at the start. The objective is to rearrange the tiles by sliding them one at a time into the empty space until the numbers are ordered sequentially from 1 to 15, left to right and top to bottom, with the empty space in the bottom-right corner",
     tags: ["Python"],
-    collaborators: 1,
+    collaborators: "Solo project",
     highlights: ["Developed exclusively in Python using the Tkinter library for graphical user interface and rendering."],
     images: ["/images/projects/game15.png", "/images/projects/game151.png", "/images/projects/game152.png", "/images/projects/game153.png", "/images/projects/game154.png"],
     githubLink: undefined,

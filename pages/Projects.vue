@@ -282,7 +282,7 @@ const onDetailLeave = (el: Element, done: () => void) => {
         if (listEl && !isSwitchingProjects.value) {
              if (isMobile.value) {
                  // Mobile: Fade list back in
-                 gsap.to(listEl, { opacity: 1, duration: 0.4, ease: 'power2.in' });
+                 gsap.to(listEl, { opacity: 1, duration: 0, ease: 'power2.in' });
              } else {
                  // Desktop: Translate list back
                  gsap.to(listEl, {
@@ -482,8 +482,8 @@ watch(showInfoTooltip, (isVisible) => {
     height: 1rem; /* Reduced size (2/3 of 1.5rem) */
     border-radius: 50%;
     background-color: transparent;
-    border: 1.5px solid #4D63BB; /* Adjusted border thickness */
-    color: #4D63BB;
+    border: 1.8px solid #2d3748; /* Adjusted border thickness */
+    color: #2d3748;
     font-size: 0.6rem; /* Adjusted font size (2/3 of 0.9rem) */
     font-weight: bold;
     cursor: pointer;
@@ -628,7 +628,7 @@ watch(showInfoTooltip, (isVisible) => {
 
      .info-icon {
         margin-left: 0.6; /* Remove margin if stacked */
-        margin-top: 3.4rem;
+        margin-top: 4rem;
      }
 
      .info-tooltip {

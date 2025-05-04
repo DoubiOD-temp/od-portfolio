@@ -71,6 +71,7 @@ defineEmits(['view-details']);
 const tagColors: { [key: string]: { bg: string; text: string } } = {
   "PHP": { bg: '#777BB4', text: '#ffffff' },
   "Laravel": { bg: '#FF2D20', text: '#ffffff' },
+  "Postgres": { bg: '#2F6792', text: '#ffffff' },
   "MySQL": { bg: '#4479A1', text: '#ffffff' },
   "Tailwind CSS": { bg: '#38B2AC', text: '#ffffff' },
   "Alpine.js": { bg: '#8BC0EB', text: '#394F62' },
