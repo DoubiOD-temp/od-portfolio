@@ -34,8 +34,9 @@
         <span style="pointer-events: auto;">
           <client-only>
             <Vue3Lottie
-              ref="lottieAnimation"
-              :animationData="ButtonAnimation"
+              ref="lottieResume"
+              class="lottie-resume"
+              :animationData="Resume"
               :height="75"
               :width="220"
               :loop="false"
@@ -43,9 +44,21 @@
               :lottieOptions
               @click="downloadCV"
             />
+            <Vue3Lottie
+              ref="lottieLor"
+              class="lottie-lor"
+              :animationData="LetterOfReccomendation"
+              :height="75"
+              :width="260"
+              :loop="false"
+              :delay="400"
+              :lottieOptions
+              @click="downloadLOR"
+            />
           </client-only>
         </span>
       </div>
+      
     </div>
   </div>
   <div class="page-container">
@@ -60,9 +73,11 @@
 <script setup lang="ts">
 import type { Container, IOptions, RecursivePartial } from '@tsparticles/engine'
 import { ref, onMounted, onUnmounted } from 'vue';
-import ButtonAnimation from '~/public/animations/Button.json';
+import Resume from '~/public/animations/Button.json';
+import LetterOfReccomendation from '~/public/animations/lor.json';
 
-const lottieAnimation = ref(null);
+const lottieResume = ref(null);
+const lottieLor = ref(null);
 const lottieOptions = {
   rendererSettings: {
     progressiveLoad: true,
@@ -72,6 +87,10 @@ const lottieOptions = {
 
 const downloadCV = () => {
   window.open('/CV/Ondrej_Dobis-CV-3_2025.pdf', '_blank');
+};
+
+const downloadLOR = () => {
+  window.open('/CV/Ondrej RL2024.pdf', '_blank');
 };
 
 const particleOptions: RecursivePartial<IOptions> = {
@@ -290,13 +309,14 @@ const onLoad = (container: Container) => {
   height: auto;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s ease-in-out;
   margin-top: -10px; /* Added negative margin to bring it closer to social links */
   pointer-events: none; /* Disable pointer events on the container */
 }
 
-.cv-button:hover {
+.lottie-resume:hover,
+.lottie-lor:hover {
   transform: translateY(-3px);
+  transition: transform 0.2s ease-in-out;
 }
 
 .cv-button-text {
