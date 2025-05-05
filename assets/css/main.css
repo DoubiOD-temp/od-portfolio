@@ -1,25 +1,40 @@
-/* assets/css/main.css */
+/* assets/css/main.css - Optimized for performance */
 html, body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 body {
-    background: #ffffff; /* Adjusted background color based on image */
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-    overflow-x: hidden; /* Prevent horizontal scrollbar */
-    /*padding-top: 100px; /* Add padding to accommodate fixed header */
-    overflow-y: auto; /* Enable vertical scrolling */
+  background: #ffffff; /* Adjusted background color based on image */
+  background: var(--bg-color);
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+  /*padding-top: 100px; /* Add padding to accommodate fixed header */
+  overflow-y: auto; /* Enable vertical scrolling */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Optimize frequently used elements */
 a {
   color: #7c3aed;
+  color: var(--primary-color);
   text-decoration: none;
   transition: color 0.2s;
+  will-change: color;
 }
 
 a:hover {
   color: #5b21b6;
+  color: var(--primary-hover);
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .projects-list {
@@ -193,7 +208,7 @@ a:hover {
   transition: color 0.2s;
 }
 .site-nav a:hover {
-  color: #0070f3;
+  color: #4D63BB;
 }
 
 .site-nav {
@@ -213,9 +228,6 @@ a:hover {
   font-size: 1.1rem;
   letter-spacing: 0.02em;
   transition: color 0.2s;
-}
-.site-nav a:hover {
-  color: #0070f3;
 }
 
 .card-stack-section {

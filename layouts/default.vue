@@ -1,12 +1,28 @@
 <template>
-    <div>
+    <div class="site-container">
       <header class="site-header">
         <SiteNav />
       </header>
+      <main>
+        <slot />
+      </main>
     </div>
 </template>
 
 <style>
+/* Add content-visibility to improve rendering performance */
+.site-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 5000px; /* Estimate of content size */
+}
+
 .site-header {
   position: fixed;
   top: 0;
@@ -38,7 +54,4 @@
   }
 }
 
-main {
-  padding-top: 80px; /* Adjusted padding-top to remove gap */
-}
 </style>

@@ -9,6 +9,13 @@ export default defineNuxtConfig({
   build: {
     transpile: ['gsap']
   },
+  nitro: {
+    compressPublicAssets: true,
+    minify: true
+  },
+  experimental: {
+    treeshakeClientOnly: true,
+  },
   modules: [
     'nuxt-particles',
     '@nuxtjs/google-fonts',
@@ -52,5 +59,8 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' }
       ]
     }
-  }
+  }//,
+  // plugins: [
+  //   '~/plugins/performance.client.js'
+  // ]
 })

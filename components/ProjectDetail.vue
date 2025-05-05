@@ -31,6 +31,8 @@
               :alt="`${project.title} image ${index + 1}`"
               loading="lazy"
               class="display-image"
+              placeholder
+              format="webp"
             />
           </swiper-slide>
         </swiper>
@@ -40,6 +42,8 @@
           :alt="project.title"
           loading="lazy"
           class="display-image"
+          placeholder
+          format="webp"
         />
       </div>
 
@@ -87,17 +91,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, onMounted, inject } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-// Optional: If you want a fade effect
-// import 'swiper/css/effect-fade';
-
+import 'swiper/css/bundle';
 
 // Define the Project interface exactly as provided by the user
 interface Project {
@@ -117,8 +115,23 @@ interface Project {
 const props = defineProps<{ project: Project; isMobile?: boolean }>();
 defineEmits(['close']);
 
-// Swiper modules to use
-const modules = [Navigation, Pagination, Autoplay];
+// Check if device is low-end
+const isLowEndDevice = inject('isLowEndDevice', () => false);
+
+// Swiper modules to use - reduce modules for low-end devices
+const modules = computed(() => {
+  // Only include Pagination on low-end devices
+  return isLowEndDevice()
+    ? [Pagination]
+    : [Navigation, Pagination, Autoplay];
+});
+
+// Swiper options - adjust based on device capabilities
+const swiperOptions = computed(() => ({
+  delay: isLowEndDevice() ? 7000 : 5000, // Longer delay for low-end devices
+  disableOnInteraction: false,
+  pauseOnMouseEnter: true
+}));
 
 </script>
 

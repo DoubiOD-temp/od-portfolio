@@ -1,7 +1,7 @@
 <template>
   <div class="contact-page-container">
     <div class="profile-img-container">
-      <NuxtImg src="/images/profile.png" alt="Profile Picture" class="profile-img" />
+      <NuxtImg src="/images/profile.png" alt="Profile Picture" class="profile-img" loading="eager" />
     </div>
     <div class="business-card-wrapper">
       <div class="card-content">
@@ -87,7 +87,7 @@ const particleOptions: RecursivePartial<IOptions> = {
     size: {
       value: {
         min: 1, // Minimum size for randomization
-        max: 4 // Maximum size for randomization
+        max: 2 // Maximum size for randomization
       },
     },
     move: {
@@ -111,7 +111,6 @@ const particleOptions: RecursivePartial<IOptions> = {
       onHover: {
         enable: true, // Enable hover interaction
         mode: 'grab' // Particles move away from cursor
-        // Removed 'distance' and 'duration' from here as they belong to modes.repulse
       },
       resize: {
         enable: true // Adjust particles on window resize
