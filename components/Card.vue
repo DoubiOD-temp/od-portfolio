@@ -261,6 +261,7 @@ const getTagStyle = (tag: string) => {
   color: #555;
   line-height: 1.5;
   margin-bottom: 0.8rem; /* Space above button area */
+  margin-top: 0px;
   flex-grow: 1;
 }
 

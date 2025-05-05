@@ -628,7 +628,7 @@ watch(showInfoTooltip, (isVisible) => {
 
      .info-icon {
         margin-left: 0.6; /* Remove margin if stacked */
-        margin-top: 4rem;
+        margin-top: 2.2rem;
      }
 
      .info-tooltip {
@@ -639,5 +639,10 @@ watch(showInfoTooltip, (isVisible) => {
      .project-list {
       padding-top: 0rem !important;
      }
+
+     section, .projects-list, .contact-page-container, div > .timeline-outer:first-child, div > h2.section-heading:first-child {
+        padding-top: 25px !important;
+        margin-top: 15px !important;/* margin-top: 10px !important; */
+    }
 }
 </style>

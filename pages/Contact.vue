@@ -331,6 +331,12 @@ const onLoad = (container: Container) => {
     padding: 20px;
   }
 
+  section, .projects-list, .contact-page-container, div > .timeline-outer:first-child, div > h2.section-heading:first-child {
+      /* padding-top: 25px !important; */
+      margin-top: 10px !important;
+  }
+
+
   .card-name {
     font-size: 1.5rem;
   }
