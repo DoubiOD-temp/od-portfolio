@@ -1,7 +1,7 @@
 <template>
   <div class="contact-page-container">
     <div class="profile-img-container">
-      <NuxtImg src="/images/profile.png" alt="Profile Picture" class="profile-img" loading="eager" />
+      <NuxtImg src="/images/profile.png" alt="Profile Picture" class="profile-img" loading="eager" fetchpriority="high" />
     </div>
     <div class="business-card-wrapper">
       <div class="card-content">
@@ -40,6 +40,7 @@
               :width="220"
               :loop="false"
               :delay="400"
+              :lottieOptions
               @click="downloadCV"
             />
           </client-only>
@@ -62,6 +63,12 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import ButtonAnimation from '~/public/animations/Button.json';
 
 const lottieAnimation = ref(null);
+const lottieOptions = {
+  rendererSettings: {
+    progressiveLoad: true,
+    preserveAspectRatio: 'xMidYMid meet'
+  }
+};
 
 const downloadCV = () => {
   window.open('/CV/Ondrej_Dobis-CV-3_2025.pdf', '_blank');

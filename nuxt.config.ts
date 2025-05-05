@@ -11,7 +11,13 @@ export default defineNuxtConfig({
   },
   nitro: {
     compressPublicAssets: true,
-    minify: true
+    minify: true,
+    publicAssets: [
+      {
+        dir: 'public',
+        maxAge: 60 * 60 * 24 * 365 // 1 year
+      }
+    ]
   },
   experimental: {
     treeshakeClientOnly: true,
@@ -53,14 +59,16 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/png', href: '/images/Site-icon.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'preload', href: '/animations/iphone.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high'},
+        { rel: 'preload', href: '/animations/od-portfolio.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high'}
+      ],
+      script: [
+        
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' }
       ]
     }
-  }//,
-  // plugins: [
-  //   '~/plugins/performance.client.js'
-  // ]
+  }
 })

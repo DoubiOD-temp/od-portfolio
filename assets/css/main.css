@@ -9,6 +9,7 @@ body {
   background: #ffffff; /* Adjusted background color based on image */
   background: var(--bg-color);
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-display: swap;
   overflow-x: hidden; /* Prevent horizontal scrollbar */
   /*padding-top: 100px; /* Add padding to accommodate fixed header */
   overflow-y: auto; /* Enable vertical scrolling */
@@ -381,7 +382,7 @@ body {
 }
 
 /* Responsive adjustments for mobile */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .site-nav {
     top: 16px;
     left: 16px;

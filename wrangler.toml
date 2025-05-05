@@ -1,3 +1,6 @@
 name = "od"
 compatibility_date = "2023-06-28"
 assets = { directory = "./" }
+
+[build.upload]
+format = "modules"
