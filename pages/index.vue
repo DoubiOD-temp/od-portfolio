@@ -1,22 +1,26 @@
 <template>
   <section>
     <div class="heading">
-      <Vue3Lottie
-        ref="headingLottie"
-        animation-link="/animations/od-portfolio.json"
-        :loop="false"
-        :autoplay="true"
-        :delay="700"
-      />
+      <client-only>
+        <Vue3Lottie
+          ref="headingLottie"
+          animation-link="/animations/od-portfolio.json"
+          :loop="false"
+          :autoplay="true"
+          :delay="700"
+        />
+      </client-only>
     </div>
     <div class="lottie-container">
-      <Vue3Lottie
-        ref="iphoneLottie"
-        animation-link="/animations/iphone.json"
-        :loop="false"
-        :autoplay="true"
-        :delay="2900"
-      />
+      <client-only>
+        <Vue3Lottie
+          ref="iphoneLottie"
+          animation-link="/animations/iphone.json"
+          :loop="false"
+          :autoplay="true"
+          :delay="2900"
+        />
+      </client-only>
     </div>
   </section>
 </template>

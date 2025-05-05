@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-image-container">
-      <img
+      <NuxtImg
         v-if="images && images.length > 0"
         :src="images[0]"
         :alt="`${title} project image`"

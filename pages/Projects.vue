@@ -21,7 +21,7 @@
           <div class="portfolio-intro-text">
              This <a href="https://github.com/DoubiOD-temp/od-portfolio" target="_blank" rel="noopener noreferrer" aria-label="View Portfolio Source Code on GitHub">
                     <span class="highlight">portfolio</span>
-                    <img src="/images/github.png" alt="GitHub Icon" class="github-icon-inline"/>
+                    <NuxtImg src="/images/github.png" alt="GitHub Icon" class="github-icon-inline"/>
                    </a> was made from scratch with <b>Nuxt.js</b>, <b>GSAP</b> and other tools.
           </div>
 

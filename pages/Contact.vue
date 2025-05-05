@@ -1,7 +1,7 @@
 <template>
   <div class="contact-page-container">
     <div class="profile-img-container">
-      <img src="/images/profile.png" alt="Profile Picture" class="profile-img">
+      <NuxtImg src="/images/profile.png" alt="Profile Picture" class="profile-img" />
     </div>
     <div class="business-card-wrapper">
       <div class="card-content">
@@ -21,26 +21,28 @@
     <div class="buttons-container">
       <div class="social-links">
         <a href="https://www.linkedin.com/in/ondrej-dobis/" target="_blank">
-          <img src="/images/linkedin.png" alt="LinkedIn">
+          <NuxtImg src="/images/linkedin.png" alt="LinkedIn" />
         </a>
         <a href="https://github.com/DoubiOD-temp" target="_blank">
-          <img src="/images/github.png" alt="GitHub">
+          <NuxtImg src="/images/github.png" alt="GitHub" />
         </a>
         <a href="https://github.com/DoubiOD" target="_blank">
-          <img src="/images/github.png" alt="GitHub">
+          <NuxtImg src="/images/github.png" alt="GitHub" />
         </a>
       </div>
       <div class="cv-button">
         <span style="pointer-events: auto;">
-          <Vue3Lottie
-            ref="lottieAnimation"
-            :animationData="ButtonAnimation"
-            :height="75"
-            :width="220"
-            :loop="false"
-            :delay="400"
-            @click="downloadCV"
-          />
+          <client-only>
+            <Vue3Lottie
+              ref="lottieAnimation"
+              :animationData="ButtonAnimation"
+              :height="75"
+              :width="220"
+              :loop="false"
+              :delay="400"
+              @click="downloadCV"
+            />
+          </client-only>
         </span>
       </div>
     </div>

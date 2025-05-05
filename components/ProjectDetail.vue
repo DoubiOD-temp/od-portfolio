@@ -26,7 +26,7 @@
           :autoplay="{ delay: 5000, disableOnInteraction: false }"
         >
           <swiper-slide v-for="(image, index) in project.images" :key="index">
-            <img
+            <NuxtImg
               :src="image"
               :alt="`${project.title} image ${index + 1}`"
               loading="lazy"
@@ -34,7 +34,7 @@
             />
           </swiper-slide>
         </swiper>
-        <img
+        <NuxtImg
           v-else-if="project.image"
           :src="project.image"
           :alt="project.title"
@@ -60,7 +60,7 @@
 
         <div v-if="project.githubLink" class="github-link-container">
           <a :href="project.githubLink" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View on GitHub">
-            <img src="/images/github.png" alt="GitHub" class="github-icon"/>
+            <NuxtImg src="/images/github.png" alt="GitHub" class="github-icon"/>
             <span>View on GitHub</span>
           </a>
         </div>
@@ -274,13 +274,13 @@ const modules = [Navigation, Pagination, Autoplay];
 
 /* Adjust Swiper Pagination (Dots) */
 :deep(.swiper-pagination-bullet) {
-  background-color: #4D63BB; /* Blue dots */
+  background-color: #5f74c2; /* Blue dots */
   opacity: 0.4;
   transition: opacity 0.2s ease-in-out;
 }
 
 :deep(.swiper-pagination-bullet-active) {
-  background-color: #007AFF; /* Active dot color */
+  background-color: #4D63BB; /* Active dot color */
   opacity: 0.8; /* More opaque when active */
 }
 
