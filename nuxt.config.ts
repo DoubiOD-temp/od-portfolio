@@ -66,7 +66,9 @@ export default defineNuxtConfig({
         
       ],
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' }
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' },
+        { name: 'title', content: 'Ondrej Dobiš e-portfolio' },
+        { name: 'description', content: 'E-portfolio built with Nuxt 3 and GSAP' }
       ]
     }
   }
