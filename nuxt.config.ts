@@ -1,3 +1,16 @@
+import { defineNuxtConfig } from 'nuxt/config'
+
+interface NuxtConfig {
+  security: {
+    headers: {
+      strictTransportSecurity: {
+        maxAge: number
+        includeSubdomains: boolean
+        preload: boolean
+      }
+    }
+  }
+}
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -25,8 +38,18 @@ export default defineNuxtConfig({
   modules: [
     'nuxt-particles',
     '@nuxtjs/google-fonts',
-    '@nuxt/image'
+    '@nuxt/image',
+    'nuxt-security'
   ],
+  security: {
+    headers: {
+      strictTransportSecurity: {
+        maxAge: 31536000,
+        includeSubdomains: true,
+        preload: true
+      }
+    }
+  },
   particles: {
     lazy: true, // Lazy-load tsParticles for better performance
     mode: 'slim' // Use slim bundle for reduced size, sufficient for most use cases
