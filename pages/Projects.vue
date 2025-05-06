@@ -213,7 +213,7 @@ const showProjectDetails = async (project: Project, index: number) => {
     });
   } else {
     // Desktop: Animate list translation + fade selected card
-    const listShiftAmount = (projectDetailRef.value?.$el.offsetWidth ?? (windowWidth.value * 0.5)) * 0.5 + 32; // Approx half detail width + gap
+    const listShiftAmount = (projectDetailRef.value?.$el.offsetWidth ?? (windowWidth.value * 0.5)) * 0.63 + 32; // Approx half detail width + gap
 
     if (!isSwitchingProjects.value) {
         // Only animate list if not switching projects
@@ -556,7 +556,7 @@ watch(showInfoTooltip, (isVisible) => {
   justify-content: center;
   gap: 1.5rem;
   padding: 0; /* Removed padding as projects-header has margins */
-  align-content: flex-start;
+  align-content: center;
 }
 
 /* --- Card Highlighting --- */
@@ -606,7 +606,11 @@ watch(showInfoTooltip, (isVisible) => {
     padding-bottom: 5rem;
     z-index: 1000;
 }
-
+@media (min-width: 900px) {
+  h2{
+    margin-top: 30px;
+  }
+}
 
 /* --- Responsive --- */
 @media (max-width: 900px) {

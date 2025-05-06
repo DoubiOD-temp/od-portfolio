@@ -138,10 +138,12 @@ const swiperOptions = computed(() => ({
 <style scoped>
 /* --- Base Container --- */
 .project-detail-container {
-  max-width: 900px; /* Max width for content on larger screens */
+  max-width: 1100px; /* Max width for content on larger screens */
   margin: 0 auto;
   background-color: #fff; /* Clean white background */
   overflow: hidden;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 /* Add more bottom padding for mobile */

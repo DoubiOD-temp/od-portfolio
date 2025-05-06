@@ -36,11 +36,18 @@ main {
   /* margin-left: 30px; */
 }
 
-/* Reduce mobile navbar height to 75% of current height when not expanded */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .site-header {
     padding: 8px 16px; /* Reduced vertical padding to 75% of original (25px → 19px) */
     margin-bottom: 20px;
+  }
+}
+
+/* Reduce mobile navbar height to 75% of current height when not expanded */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 8px 16px !important; /* Reduced vertical padding to 75% of original (25px → 19px) */
+    margin-bottom: 20px !important;
   }
   
   /* Target all possible root elements of pages */

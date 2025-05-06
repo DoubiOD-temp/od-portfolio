@@ -336,12 +336,6 @@ body::-webkit-scrollbar-thumb {
   background-clip: content-box; /* Optional: ensure border doesn't affect thumb color */
 }
 
-/* Keep existing rules for other browsers if they are needed to hide default scrollbars */
-body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
 /* Burger Menu Styles */
 .burger-menu {
   display: none; /* Hidden by default on larger screens */
