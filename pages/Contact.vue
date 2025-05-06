@@ -333,7 +333,7 @@ const onLoad = (container: Container) => {
 
   section, .projects-list, .contact-page-container, div > .timeline-outer:first-child, div > h2.section-heading:first-child {
       /* padding-top: 25px !important; */
-      margin-top: 10px !important;
+      margin-top: 40px !important;
   }
 
 
