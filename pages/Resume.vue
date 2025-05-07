@@ -228,7 +228,7 @@ const workEvents = [
     ]
   },
   {
-    title: 'Dishwasher,  Food courier,  Line cook',
+    title: 'Dishwasher,  Food courier',
     location: 'Denmark/ Slovakia',
     dateRange: '2019 – 2022',
     type: 'Part-time', // Added work type
