@@ -13,7 +13,7 @@
         <li v-for="item in navItems" :key="item.text">
           <NuxtLink :to="item.to"
                     @click="closeMenu"
-                    :prefetch="false">
+                    :prefetch="item.text === 'Projects' || item.text === 'Contact'">
             {{ item.text }}
           </NuxtLink>
         </li>
