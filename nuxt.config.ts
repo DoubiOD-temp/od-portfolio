@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     'nuxt-particles',
     '@nuxtjs/google-fonts',
     '@nuxt/image',
+    '@nuxtjs/critters'
   ],
   particles: {
     lazy: true, // Lazy-load tsParticles for better performance
@@ -35,8 +36,8 @@ export default defineNuxtConfig({
       Inter: [400, 700],
     },
     display: 'swap', // Use swap to prevent text from being invisible
-    prefetch: true,
-    preconnect: true
+    preconnect: true,
+    preload : true
   },
   image: {
     quality: 80,
@@ -55,20 +56,14 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: 'Ondrej Dobiš e-portfolio',
       link: [
         { rel: 'icon', type: 'image/png', href: '/images/Site-icon.png' },
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         { rel: 'preload', href: '/animations/iphone.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'},
         { rel: 'preload', href: '/animations/od-portfolio.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'},
-        { rel: 'preload', href: '~/plugins/vue3lottie.client.ts', as: 'script', fetchpriority: 'high'},
-      ],
-      script: [
-        
       ],
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' },
-        { name: 'title', content: 'Ondrej Dobiš e-portfolio' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
         { name: 'description', content: 'E-portfolio built with Nuxt 3 and GSAP' }
       ]
     }

@@ -246,7 +246,7 @@ const academicEvents = [
     dotColor: '#D66A41', // Thomas More orange
     side: 'right',
     bullets: [
-      'Java and .NET development, web development using PHP Laravel, data science with Python, business process management and ITIL, as well as artificial intelligence and machine learning.'
+      'Java and .NET development, web development using PHP Laravel, data science with Python, business process management and ITIL, as well as machine learning and deep learning.'
     ]
   },
   {
