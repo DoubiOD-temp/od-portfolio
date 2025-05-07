@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 import type { Container, IOptions, RecursivePartial } from '@tsparticles/engine'
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import Resume from '~/public/animations/Button.json';
 import LetterOfReccomendation from '~/public/animations/lor.json';
 

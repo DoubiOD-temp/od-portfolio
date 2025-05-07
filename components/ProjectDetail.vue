@@ -91,11 +91,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, inject } from 'vue';
+import { computed, inject } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-
-import 'swiper/css/bundle';
+import 'swiper/css'; // Core Swiper styles
+import 'swiper/css/navigation'; // Styles for Navigation module
+import 'swiper/css/pagination'; // Styles for Pagination module
+import 'swiper/css/autoplay'; // Styles for Autoplay module
 
 // Define the Project interface exactly as provided by the user
 interface Project {
@@ -260,9 +262,9 @@ const swiperOptions = computed(() => ({
 /* Adjust Swiper Navigation (Arrows) */
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-  color: #4D63BB; /* Blue arrows */
+  color: #5f74c2; /* Blue arrows */
    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); /* Subtle shadow */
-  opacity: 0.9; /* Slightly more opaque */
+  opacity: 0.65; /* Slightly more opaque */
   transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
   top: 50%; /* Keep centered vertically */
   transform: translateY(-50%); /* Correct vertical centering */
@@ -274,7 +276,7 @@ const swiperOptions = computed(() => ({
 
 :deep(.swiper-button-next:hover),
 :deep(.swiper-button-prev:hover) {
-  color: #005bb5;
+  color: #4D63BB;
   opacity: 1;
 }
 

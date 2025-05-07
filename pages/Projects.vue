@@ -74,11 +74,6 @@ import { ref, watch, nextTick, onMounted, onBeforeUnmount, computed } from 'vue'
 import { gsap } from 'gsap';
 import { useEventListener } from '@vueuse/core'; // Using @vueuse/core for click outside
 
-// Assume components are registered/imported
-// import TicTacToeGame from './TicTacToeGame.vue';
-// import Card from './Card.vue';
-// import ProjectDetail from './ProjectDetail.vue';
-
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,

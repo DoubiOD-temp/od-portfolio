@@ -60,7 +60,8 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         { rel: 'preload', href: '/animations/iphone.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'},
-        { rel: 'preload', href: '/animations/od-portfolio.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'}
+        { rel: 'preload', href: '/animations/od-portfolio.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'},
+        { rel: 'preload', href: '~/plugins/vue3lottie.client.ts', as: 'script', fetchpriority: 'high'},
       ],
       script: [
         
