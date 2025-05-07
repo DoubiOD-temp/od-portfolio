@@ -176,7 +176,7 @@ export const projects: Project[] = [
     tags: ["Python"],
     collaborators: "Solo project",
     highlights: ["Developed exclusively in Python using the Tkinter library for graphical user interface and rendering."],
-    images: ["/images/projects/sort.png"],
+    images: ["/images/projects/sort.png", "/images/projects/sort2.jpeg"],
     githubLink: undefined,
     year: 2019
   },
