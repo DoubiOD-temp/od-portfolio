@@ -58,9 +58,9 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/png', href: '/images/Site-icon.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'preload', href: '/animations/iphone.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high'},
-        { rel: 'preload', href: '/animations/od-portfolio.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high'}
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+        { rel: 'preload', href: '/animations/iphone.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'},
+        { rel: 'preload', href: '/animations/od-portfolio.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'}
       ],
       script: [
         

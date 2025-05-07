@@ -49,7 +49,7 @@ export const projects: Project[] = [
     title: "SelfLens: Wellbeing tracker",
     shortDescription: "Monitoring various personal metrics and assessing their influence on overall wellbeing",
     description: "The platform features a user-friendly interface that facilitates the visualization of personal data through interactive graphs and charts, allowing users to derive significant insights and make educated choices regarding their daily habits. SelfLens functions as a resource for comprehending daily behaviors and fostering the pursuit of a healthier, more balanced lifestyle. It tackles the challenge faced by individuals who lack awareness of how their routines impact their overall wellbeing by offering a thorough tracking and analytical framework.",
-    tags: ["PHP", "Laravel", "Alpine.js", "Tailwing CSS", "Lifewire"],
+    tags: ["PHP", "Laravel", "Alpine.js", "Tailwind CSS", "Lifewire"],
     collaborators: "Solo project",
     highlights: [
       "Monitoring and evaluating critical metrics such as sleep patterns, screen time, physical activity, and emotional wellbeing",
@@ -63,7 +63,7 @@ export const projects: Project[] = [
   },
   {
     title: "BidHub: Art market social platform",
-    tags: ["Amazon S3", "C#", ".NET", "Docker", "SQL server", "Entity framework", "React.js", "TypeScript", "Tailwind CSS"],
+    tags: ["Amazon S3", "C#", ".NET", "Docker", "SQL Server", "Entity framework", "React.js", "TypeScript", "Tailwind CSS"],
     shortDescription: "Platform connecting artists and collectors, empowering them to buy, sell, and celebrate art",
     description: "BidHub is an online platform that allows artists to easily showcase and sell their work, regardless of technical skill. The interface is designed to be intuitive and efficient, making it simple for both artists and collectors to connect. By following current trends in online art markets, the platform aims to provide a practical, accessible solution for presenting and discovering artwork in a digital environment.",
     collaborators: 5,

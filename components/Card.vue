@@ -106,6 +106,8 @@ const tagColors: { [key: string]: { bg: string; text: string } } = {
   "CSS": { bg: '#1572B6', text: '#ffffff'},
   "JavaScript": { bg: '#F7DF1E', text: '#000000'}, // Should ideally be 'JavaScript'
   "Swing": { bg: '#E59A33', text: '#ffffff'}, // Same as Java
+  "Selenide": { bg: '#694eb3', text: '#ffffff' }, // Added Selenide color
+  "Photoshop": { bg: '#31A8FF', text: '#ffffff' } // Added Photoshop color
 };
 
 // Function to get style object for a tag
