@@ -190,10 +190,6 @@ img, video {
 }
 
 
-.site-nav {
-  /* z-index: 1000; */
-  font-family: 'Inter', 'Arial', sans-serif;
-}
 .site-nav ul {
   display: flex;
   gap: 40px; /* Increased gap between navigation items */
@@ -213,7 +209,7 @@ img, video {
 }
 
 .site-nav {
-  /* z-index: 1000; */
+  z-index: 1000;
   font-family: 'Inter', 'Arial', sans-serif;
 }
 .site-nav ul {
