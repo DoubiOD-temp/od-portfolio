@@ -326,6 +326,13 @@ const onLoad = (container: Container) => {
 }
 
 /* Responsive adjustments */
+@media (max-width: 1280PX) {
+  section, .projects-list, .contact-page-container, div > .timeline-outer:first-child, div > h2.section-heading:first-child {
+      /* padding-top: 25px !important; */
+      margin-top: 60px !important;
+  }
+}
+
 @media (max-width: 600px) {
   .business-card-wrapper {
     padding: 20px;
