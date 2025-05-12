@@ -1,5 +1,5 @@
 <template>
-  <nav class="site-nav" :class="{ 'menu-open': isMenuOpen }">
+  <nav class="site-nav" :class="{ 'menu-open': isMenuOpen } " style="z-index: 0;">
     <button class="burger-menu"
             @click="toggleMenu"
             aria-label="Toggle navigation menu"

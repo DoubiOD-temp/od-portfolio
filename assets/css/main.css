@@ -191,7 +191,7 @@ img, video {
 
 
 .site-nav {
-  z-index: 1000;
+  /* z-index: 1000; */
   font-family: 'Inter', 'Arial', sans-serif;
 }
 .site-nav ul {
@@ -213,7 +213,7 @@ img, video {
 }
 
 .site-nav {
-  z-index: 1000;
+  /* z-index: 1000; */
   font-family: 'Inter', 'Arial', sans-serif;
 }
 .site-nav ul {
