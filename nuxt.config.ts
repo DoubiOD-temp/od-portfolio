@@ -64,7 +64,7 @@ export default defineNuxtConfig({
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-        { name: 'description', content: 'E-portfolio built with Nuxt 3 and GSAP' }
+        { name: 'description', content: 'Explore an e-portfolio built with Nuxt 3 and GSAP featuring collaborative software development projects, work experience, and skills in Python, Java, C#, JavaScript, and more.' }
       ]
     }
   }
