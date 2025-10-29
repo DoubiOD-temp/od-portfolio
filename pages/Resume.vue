@@ -160,7 +160,7 @@ const workEvents = [
     title: 'IT Tester ext.',
     subtitle: 'InterWay, a. s',
     location: 'Bratislava, Slovakia',
-    dateRange: 'Apr. 2024 – present',
+    dateRange: 'Apr. 2024 – Aug. 2025',
     type: 'Full-time / Part-time', // Added work type
     dotColor: '#0063FB',
     side: 'right',
