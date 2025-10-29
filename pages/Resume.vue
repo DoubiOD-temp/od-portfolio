@@ -145,7 +145,7 @@ const downloadCV = () => {
 const workEvents = [
   {
     title: 'Software developer ext.',
-    subtitle: 'AiGency s.r.o.',
+    subtitle: 'AiGency',
     location: 'Bratislava, Slovakia',
     dateRange: 'May 2025 – present',
     type: 'Part-time', // Added work type
