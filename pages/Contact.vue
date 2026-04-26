@@ -11,37 +11,42 @@
       preload="auto"
     />
 
-    <div class="contact-info">
-      <div class="header-row">
-        <img
-          src="/images/profile.png"
-          alt="Ondrej Dobiš"
-          class="profile-img"
-          loading="eager"
-          fetchpriority="high"
-        />
-        <h1 class="name">Ondrej Dobiš</h1>
-      </div>
-
-      <p class="tagline">
-        Applied Computer Science student &amp; software developer based in Bratislava, Slovakia.
-      </p>
-
-      <div class="contact-row">
-        <div class="contact-lines">
-          <a href="mailto:dobisondrej@gmail.com">dobisondrej@gmail.com</a>
-          <a href="tel:+421910111092">+421 910 111 092</a>
+    <div class="contact-stack">
+      <div class="card">
+        <div class="header-row">
+          <div class="identity">
+            <img
+              src="/images/profile.png"
+              alt="Ondrej Dobiš"
+              class="profile-img"
+              loading="eager"
+              fetchpriority="high"
+            />
+            <h1 class="name">Ondrej Dobiš</h1>
+          </div>
         </div>
-        <div class="socials">
-          <a href="https://www.linkedin.com/in/ondrej-dobis/" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <img src="/images/linkedin.png" alt="LinkedIn" />
-          </a>
-          <a href="https://github.com/DoubiOD-temp" target="_blank" rel="noopener" aria-label="GitHub (work)">
-            <img src="/images/github.png" alt="GitHub" />
-          </a>
-          <a href="https://github.com/DoubiOD" target="_blank" rel="noopener" aria-label="GitHub (personal)">
-            <img src="/images/github.png" alt="GitHub" />
-          </a>
+
+        <p class="tagline">
+          Applied Computer Science student &amp; software developer based in Bratislava, Slovakia.
+        </p>
+
+        <div class="footer-row">
+          <div class="contact-lines">
+            <a href="tel:+421910111092">+421 910 111 092</a>
+            <a href="mailto:dobisondrej@gmail.com">dobisondrej@gmail.com</a>
+          </div>
+
+          <div class="socials-row">
+            <a href="https://www.linkedin.com/in/ondrej-dobis/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <img src="/images/linkedin.png" alt="LinkedIn" />
+            </a>
+            <a href="https://github.com/DoubiOD-temp" target="_blank" rel="noopener" aria-label="GitHub (work)">
+              <img src="/images/github.png" alt="GitHub" />
+            </a>
+            <a href="https://github.com/DoubiOD" target="_blank" rel="noopener" aria-label="GitHub (personal)">
+              <img src="/images/github.png" alt="GitHub" />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -79,6 +84,11 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.contact-page,
+.contact-page * {
+  box-sizing: border-box;
+}
+
 .contact-page {
   position: relative;
   min-height: calc(100vh - 75px);
@@ -100,26 +110,44 @@ onBeforeUnmount(() => {
   pointer-events: none;
 }
 
-.contact-info {
+.contact-stack {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 30rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: stretch;
-  gap: 1rem;
-  max-width: 26rem;
-  padding: 1.5rem;
+  width: 100%;
+  aspect-ratio: 1.75 / 1;
+  padding: 1.75rem 2rem;
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(20px) saturate(1.1);
   -webkit-backdrop-filter: blur(20px) saturate(1.1);
-  border-radius: 20px;
+  border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(255, 255, 255, 0.4) inset;
 }
 
 .header-row {
   display: flex;
   align-items: center;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
   gap: 0.85rem;
+  min-width: 0;
 }
 
 .profile-img {
@@ -132,36 +160,39 @@ onBeforeUnmount(() => {
 }
 
 .name {
-  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-size: 1.45rem;
   font-weight: 600;
   letter-spacing: -0.02em;
   margin: 0;
   line-height: 1.1;
   color: #111;
+  min-width: 0;
 }
 
 .tagline {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 1.5;
   color: #1a1a1a;
-  margin: 0;
+  margin: auto 0;
 }
 
-.contact-row {
+.footer-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  flex-wrap: wrap;
+  margin-top: auto;
 }
 
 .contact-lines {
-  font-size: 0.875rem;
-  line-height: 1.45;
+  font-size: 1rem;
+  line-height: 1.4;
   color: #1a1a1a;
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
   gap: 0.15rem;
 }
 
@@ -178,8 +209,9 @@ onBeforeUnmount(() => {
 
 .actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.6rem;
 }
 
 .btn {
@@ -191,6 +223,8 @@ onBeforeUnmount(() => {
   font-size: 0.95rem;
   font-weight: 500;
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
   cursor: pointer;
 }
@@ -216,34 +250,87 @@ onBeforeUnmount(() => {
   border-color: rgba(0, 0, 0, 0.5);
 }
 
-.socials {
+.socials-row {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.85rem;
 }
 
-.socials a {
+.socials-row a {
   display: inline-flex;
-}
-
-.socials img {
-  width: 32px;
-  height: 32px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
   transition: transform 0.2s ease-in-out;
 }
 
-.socials a:hover img {
+.socials-row a:hover {
+  background: transparent;
   transform: scale(1.1);
 }
 
+.socials-row img {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+}
+
 @media (max-width: 600px) {
-  .contact-info {
-    padding: 1.25rem;
+  .contact-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .contact-stack {
+    gap: 1rem;
+    max-width: 100%;
+  }
+
+  .card {
+    aspect-ratio: auto;
+    min-height: 17rem;
+    padding: 1.5rem 1.4rem;
+    gap: 0;
+    display: flex;
+  }
+
+  .header-row {
+    justify-content: flex-start;
+  }
+
+  .name {
+    font-size: 1.3rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .contact-lines {
+    font-size: 0.95rem;
   }
 
   .profile-img {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .socials-row {
+    gap: 0.6rem;
+  }
+
+  .socials-row img {
+    width: 33px !important;
+    height: 33px !important;
+    min-width: 36px;
+    object-fit: contain;
+  }
+
+  .btn {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
   }
 }
 </style>

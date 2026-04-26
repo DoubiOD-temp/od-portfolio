@@ -1,17 +1,5 @@
 <template>
   <section>
-    <div class="heading">
-      <client-only>
-        <Vue3Lottie
-          ref="headingLottie"
-          animation-link="/animations/od-portfolio.json"
-          :loop="false"
-          :autoplay="true"
-          :delay="700"
-          :options="lottieOptions"
-        />
-      </client-only>
-    </div>
     <div class="lottie-container">
       <client-only>
         <Vue3Lottie
@@ -30,7 +18,6 @@
 <script setup>
 import { ref, onMounted, inject } from 'vue';
 
-const headingLottie = ref(null);
 const iphoneLottie = ref(null);
 const isLowEndDevice = inject('isLowEndDevice', () => false);
 
@@ -47,15 +34,8 @@ const lottieOptions = {
 onMounted(() => {
   // Use requestIdleCallback or setTimeout for non-critical initialization
   const initLottie = () => {
-    // Play the first animation immediately after page load
-    // Check if the ref exists AND if the component instance has a play method
-    if (headingLottie.value && headingLottie.value.play) {
-      headingLottie.value.play();
-    }
-
-    // Delay the second animation
+    // Delay the iPhone animation
     setTimeout(() => {
-      // Check if the ref exists AND if the component instance has a play method
       if (iphoneLottie.value && iphoneLottie.value.play) {
         iphoneLottie.value.play();
       }
@@ -77,17 +57,10 @@ section {
   padding-top: 30px !important; 
 }
 
-.heading {
-  max-width: 628px;
-  width: 100%;       /* Fill available space up to max-width */
-  margin: 0 auto; 
-}
-
 .lottie-container {
   max-width: 400px;  /* Maximum width constraint */
   width: 100%;       /* Fill available space up to max-width */
   margin: 0 auto;    /* Center the container */
-  padding-bottom: 3rem;
 }
 
 /* Force Lottie canvas to respect container dimensions */

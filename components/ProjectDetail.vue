@@ -63,9 +63,14 @@
         </div>
 
         <div v-if="project.githubLink" class="github-link-container">
-          <a :href="project.githubLink" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View on GitHub">
-            <NuxtImg src="/images/github.png" alt="GitHub" class="github-icon"/>
-            <span>View on GitHub</span>
+          <a :href="project.githubLink" target="_blank" rel="noopener noreferrer" class="github-link" :aria-label="isGithubLink ? 'View on GitHub' : 'View website'">
+            <NuxtImg v-if="isGithubLink" src="/images/github.png" alt="GitHub" class="github-icon"/>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="github-icon">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            <span>{{ isGithubLink ? 'View on GitHub' : 'View website' }}</span>
           </a>
         </div>
 
@@ -116,6 +121,8 @@ interface Project {
 // Accept props
 const props = defineProps<{ project: Project; isMobile?: boolean }>();
 defineEmits(['close']);
+
+const isGithubLink = computed(() => /(^|\/\/)([^/]*\.)?github\.com/i.test(props.project.githubLink ?? ''));
 
 // Check if device is low-end
 const isLowEndDevice = inject('isLowEndDevice', () => false);
