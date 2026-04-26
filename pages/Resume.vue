@@ -133,14 +133,67 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import ButtonAnimation from '~/public/animations/Button.json';
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
+
+const { $gsap: gsap, $ScrollTrigger: ScrollTrigger } = useNuxtApp();
 
 const lottieAnimation = ref(null);
+const scrollTriggers = ref([]);
 
 const downloadCV = () => {
   window.open('/CV/Ondrej_Dobis-CV-3_2025.pdf', '_blank');
 };
+
+const isMobile = () => window.innerWidth <= 900;
+
+onMounted(async () => {
+  await nextTick();
+  const scrollStart = isMobile() ? 'top 92%' : 'top 85%';
+  const cards = document.querySelectorAll('.timeline-card');
+
+  cards.forEach((card) => {
+    gsap.set(card, { opacity: 0, y: 50 });
+
+    const tween = gsap.to(card, {
+      opacity: 1,
+      y: 0,
+      duration: 1.3,
+      ease: 'power4.out',
+      scrollTrigger: {
+        trigger: card,
+        start: scrollStart,
+        toggleActions: 'play none none none',
+      },
+    });
+
+    scrollTriggers.value.push(tween.scrollTrigger);
+  });
+
+  const dots = document.querySelectorAll('.timeline-dot-simple');
+
+  dots.forEach((dot) => {
+    gsap.set(dot, { opacity: 0, scale: 0 });
+
+    const tween = gsap.to(dot, {
+      opacity: 1,
+      scale: 1,
+      duration: 1.2,
+      ease: 'elastic.out(1, 0.4)',
+      scrollTrigger: {
+        trigger: dot,
+        start: scrollStart,
+        toggleActions: 'play none none none',
+      },
+    });
+
+    scrollTriggers.value.push(tween.scrollTrigger);
+  });
+});
+
+onUnmounted(() => {
+  scrollTriggers.value.forEach((st) => st?.kill());
+  scrollTriggers.value = [];
+});
 
 const workEvents = [
   {
@@ -295,12 +348,12 @@ const technicalCategories = [
     skills: ['Vue.js', 'Nuxt.js', 'React.js', 'Angular', 'Laravel', 'Selenide', 'Alpine.js', 'Pinia', 'Chart.js', 'Lifewire', 'Entity framework', 'ASP.NET MVC', 'ADO.NET', 'Swing', 'Flask', 'Selenium', 'Batch', 'Tomcat']
   },
   {
-    title: 'Databases',
-    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB', 'MySQL', 'SQL Server']
+    title: 'Databases & Storage',
+    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB', 'MySQL', 'SQL Server', 'Amazon S3', 'Cloudflare R2']
   },
   {
     title: 'Tools & Platforms',
-    skills: ['Git', 'Docker', 'Grafana', 'WordPress', 'Adobe Photoshop', 'Amazon S3', 'DigitalOcean']
+    skills: ['Git', 'Docker', 'Grafana', 'WordPress', 'Adobe Photoshop', 'DigitalOcean']
   },
   {
     title: 'Testing Concepts',
@@ -312,7 +365,7 @@ const technicalCategories = [
   },
   {
     title: 'Soft Skills',
-    skills: ['Hard working', 'Detail oriented', 'Creative', 'Analytical', 'Well organized', 'Trustworthy', 'Self-motivated', 'Self-managed', 'Committed']
+    skills: ['Analytical problem-solving', 'Root-cause analysis', 'Attention to detail', 'Cross-functional collaboration', 'Initiative & ownership', 'Adaptability', 'Continuous learning', 'Reliability']
   },
   {
     title: 'Certifications',
@@ -368,6 +421,11 @@ const calculateExperienceWidth = (experience) => {
 .timeline-subtitle-styled {
   font-style: italic;
   font-weight: bold;
+}
+
+/* Prevent flash before GSAP sets initial state */
+:deep(.timeline-card) {
+  will-change: transform, opacity;
 }
 @media (max-width: 768px) {
   .skills-certs-section .content-area {

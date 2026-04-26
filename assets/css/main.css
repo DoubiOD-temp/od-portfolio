@@ -424,6 +424,77 @@ body::-webkit-scrollbar-thumb {
   font-weight: normal !important;
 }
 
+.site-nav .has-submenu {
+  position: relative;
+}
+.site-nav .submenu-label {
+  color: #222;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  cursor: default;
+  transition: color 0.2s;
+}
+.site-nav .has-submenu:hover .submenu-label {
+  color: #4D63BB;
+}
+.site-nav .submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  padding-top: 10px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  min-width: 48px;
+  flex-direction: column;
+  gap: 0;
+}
+.site-nav .has-submenu:hover .submenu {
+  display: flex;
+}
+.site-nav .submenu li {
+  padding: 0;
+}
+.site-nav .submenu a {
+  display: block;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  color: #222;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.site-nav .submenu a:hover {
+  color: #4D63BB;
+}
+
+@media (max-width: 900px) {
+  .site-nav .submenu {
+    position: static;
+    background: transparent;
+    box-shadow: none;
+    display: none;
+    padding: 0;
+    margin: 8px 0 0;
+    gap: 8px;
+  }
+  .site-nav .has-submenu:hover .submenu,
+  .site-nav.menu-open .has-submenu .submenu {
+    display: flex;
+  }
+  .site-nav .submenu a {
+    color: #222;
+    font-size: 1.2rem;
+    padding: 4px 0;
+  }
+  .site-nav .submenu-label {
+    font-size: 1.5rem;
+  }
+}
+
 .cv-button {
   cursor: pointer;
   margin-top: 0px; /* Added margin to bring it closer */

@@ -27,15 +27,15 @@ onMounted(() => {
   const CANVAS_H = Math.round(ROWS * (LINE_HEIGHT / TARGET_CHAR_W) * 4.4)
   const FIELD_SCALE_X = FIELD_COLS / CANVAS_W
   const FIELD_SCALE_Y = FIELD_ROWS / CANVAS_H
-  const PARTICLE_N = 300
+  const PARTICLE_N = 350
   const SPRITE_R = 14
-  const ATTRACTOR_R = 20
   const LARGE_ATTRACTOR_R = 40
   const ATTRACTOR_FORCE = 0.15
   const FIELD_DECAY = 0.85
   const CHARSET = ' .,:;!+-=*#@%&abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   const WEIGHTS = [300, 500, 800]
   const STYLES = ['normal', 'italic']
+  const NUM_BLOBS = 7
 
   // --- brightness measurement ---
   const brightnessCanvas = document.createElement('canvas')
@@ -56,7 +56,7 @@ onMounted(() => {
     return sum / (255 * size * size)
   }
 
-  // --- width measurement (replaces pretext's prepareWithSegments) ---
+  // --- width measurement ---
   const measureCanvas = document.createElement('canvas')
   const mCtx = measureCanvas.getContext('2d')
 
@@ -125,22 +125,24 @@ onMounted(() => {
     return style === 'italic' ? `${wc} it` : wc
   }
 
-  // --- brightness lookup table ---
-  const brightnessLookup = []
-  for (let b = 0; b < 256; b++) {
-    const brightness = b / 255
-    if (brightness < 0.03) {
-      brightnessLookup.push({ propHtml: ' ' })
-      continue
-    }
+  // --- brightness lookup per color (colorIndex, brightnessByte) -> html ---
+  function buildHtml(brightnessByte, colorIndex) {
+    const brightness = brightnessByte / 255
+    if (brightness < 0.03) return ' '
     const match = findBest(brightness)
     const alphaIndex = Math.max(1, Math.min(10, Math.round(brightness * 10)))
-    brightnessLookup.push({
-      propHtml: `<span class="${wCls(match.weight, match.style)} a${alphaIndex}">${esc(match.char)}</span>`,
-    })
+    return `<span class="${wCls(match.weight, match.style)} c${colorIndex} a${alphaIndex}">${esc(match.char)}</span>`
   }
 
-  // --- particles ---
+  // pre-build lookup: [colorIndex][brightnessByte] -> html
+  const brightnessLookup = []
+  for (let c = 0; c < NUM_BLOBS; c++) {
+    const arr = []
+    for (let b = 0; b < 256; b++) arr.push(buildHtml(b, c))
+    brightnessLookup.push(arr)
+  }
+
+  // --- particles: each assigned to a blob ---
   const particles = []
   for (let i = 0; i < PARTICLE_N; i++) {
     particles.push({
@@ -148,17 +150,19 @@ onMounted(() => {
       y: Math.random() * CANVAS_H,
       vx: (Math.random() - 0.5) * 2.5,
       vy: (Math.random() - 0.5) * 2.5,
+      blob: i % NUM_BLOBS,
     })
   }
 
-  // --- simulation canvas (offscreen, drives the brightness field) ---
+  // --- simulation canvas (offscreen) ---
   const simulationCanvas = document.createElement('canvas')
   simulationCanvas.width = CANVAS_W
   simulationCanvas.height = CANVAS_H
   const sCtx = simulationCanvas.getContext('2d', { willReadFrequently: true })
 
-  // --- brightness field ---
+  // --- single brightness field + color index field ---
   const brightnessField = new Float32Array(FIELD_COLS * FIELD_ROWS)
+  const colorField = new Uint8Array(FIELD_COLS * FIELD_ROWS)
 
   // --- sprite cache ---
   const spriteCache = new Map()
@@ -202,7 +206,7 @@ onMounted(() => {
     return { radiusX: rx, radiusY: ry, sizeX: sx, sizeY: sy, values }
   }
 
-  function splatFieldStamp(cx, cy, stamp) {
+  function splatFieldStamp(cx, cy, stamp, blobIndex) {
     const gcx = Math.round(cx * FIELD_SCALE_X)
     const gcy = Math.round(cy * FIELD_SCALE_Y)
     for (let y = -stamp.radiusY; y <= stamp.radiusY; y++) {
@@ -216,14 +220,17 @@ onMounted(() => {
         const sv = stamp.values[sro + x + stamp.radiusX]
         if (sv === 0) continue
         const fi = fro + gx
-        brightnessField[fi] = Math.min(1, brightnessField[fi] + sv)
+        const newVal = brightnessField[fi] + sv
+        if (newVal > brightnessField[fi] || brightnessField[fi] < 0.01) {
+          colorField[fi] = blobIndex
+        }
+        brightnessField[fi] = Math.min(1, newVal)
       }
     }
   }
 
   const particleStamp = createFieldStamp(SPRITE_R)
-  const largeAttractorStamp = createFieldStamp(LARGE_ATTRACTOR_R)
-  const smallAttractorStamp = createFieldStamp(ATTRACTOR_R)
+  const attractorStamp = createFieldStamp(LARGE_ATTRACTOR_R)
 
   // --- create prop rows ---
   const rowNodes = []
@@ -236,8 +243,7 @@ onMounted(() => {
     rowNodes.push(row)
   }
 
-  // --- render loop ---
-  // 3 attractors, each orbiting in a circle on a different plane
+  // --- 7 attractors, each on a different orbital axis ---
   const ORBIT_SPEED = 0.0004
   const ORBIT_R = 0.35
 
@@ -246,33 +252,30 @@ onMounted(() => {
     const ax = []
     const ay = []
 
-    // blob 1: XY plane (horizontal circle)
-    ax.push(Math.cos(t) * CANVAS_W * ORBIT_R + CANVAS_W / 2)
-    ay.push(Math.sin(t) * CANVAS_H * ORBIT_R + CANVAS_H / 2)
-
-    // blob 2: XZ plane (appears as horizontal oscillation + vertical circle, 120deg offset)
-    ax.push(Math.cos(t + Math.PI * 2 / 3) * CANVAS_W * ORBIT_R + CANVAS_W / 2)
-    ay.push(Math.sin(t * 0.7 + Math.PI * 2 / 3) * CANVAS_H * ORBIT_R + CANVAS_H / 2)
-
-    // blob 3: YZ plane (vertical oscillation + horizontal circle, 240deg offset)
-    ax.push(Math.cos(t * 0.7 + Math.PI * 4 / 3) * CANVAS_W * ORBIT_R + CANVAS_W / 2)
-    ay.push(Math.sin(t + Math.PI * 4 / 3) * CANVAS_H * ORBIT_R + CANVAS_H / 2)
+    // each blob gets a unique combination of x/y speeds and orbit radii
+    const blobOrbits = [
+      { xs: 1.0,  ys: 0.6,  rx: 0.40, ry: 0.35 },
+      { xs: 0.7,  ys: 1.1,  rx: 0.35, ry: 0.40 },
+      { xs: 1.3,  ys: 0.8,  rx: 0.30, ry: 0.38 },
+      { xs: 0.5,  ys: 1.4,  rx: 0.42, ry: 0.28 },
+      { xs: 1.1,  ys: 0.4,  rx: 0.28, ry: 0.42 },
+      { xs: 0.9,  ys: 1.2,  rx: 0.38, ry: 0.32 },
+      { xs: 1.5,  ys: 0.9,  rx: 0.33, ry: 0.36 },
+    ]
+    for (let i = 0; i < NUM_BLOBS; i++) {
+      const phase = (Math.PI * 2 * i) / NUM_BLOBS
+      const o = blobOrbits[i]
+      ax.push(Math.cos(t * o.xs + phase) * CANVAS_W * o.rx + CANVAS_W / 2)
+      ay.push(Math.sin(t * o.ys + phase) * CANVAS_H * o.ry + CANVAS_H / 2)
+    }
 
     for (const p of particles) {
-      let closestDx = 0, closestDy = 0, closestDist = Infinity
-      for (let i = 0; i < 3; i++) {
-        const dx = ax[i] - p.x
-        const dy = ay[i] - p.y
-        const d2 = dx * dx + dy * dy
-        if (d2 < closestDist) {
-          closestDist = d2
-          closestDx = dx
-          closestDy = dy
-        }
-      }
-      const dist = Math.sqrt(closestDist) + 1
-      p.vx += (closestDx / dist) * ATTRACTOR_FORCE
-      p.vy += (closestDy / dist) * ATTRACTOR_FORCE
+      const bi = p.blob
+      const dx = ax[bi] - p.x
+      const dy = ay[bi] - p.y
+      const dist = Math.sqrt(dx * dx + dy * dy) + 1
+      p.vx += (dx / dist) * ATTRACTOR_FORCE
+      p.vy += (dy / dist) * ATTRACTOR_FORCE
       p.vx += (Math.random() - 0.5) * 0.2
       p.vy += (Math.random() - 0.5) * 0.2
       p.vx *= 0.96
@@ -291,15 +294,19 @@ onMounted(() => {
     sCtx.globalCompositeOperation = 'lighter'
     const ps = getSpriteCanvas(SPRITE_R)
     for (const p of particles) sCtx.drawImage(ps, p.x - SPRITE_R, p.y - SPRITE_R)
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < NUM_BLOBS; i++) {
       sCtx.drawImage(getSpriteCanvas(LARGE_ATTRACTOR_R), ax[i] - LARGE_ATTRACTOR_R, ay[i] - LARGE_ATTRACTOR_R)
     }
     sCtx.globalCompositeOperation = 'source-over'
 
-    // update brightness field
+    // decay and splat single field
     for (let i = 0; i < brightnessField.length; i++) brightnessField[i] *= FIELD_DECAY
-    for (const p of particles) splatFieldStamp(p.x, p.y, particleStamp)
-    for (let i = 0; i < 3; i++) splatFieldStamp(ax[i], ay[i], largeAttractorStamp)
+    for (let b = 0; b < NUM_BLOBS; b++) {
+      splatFieldStamp(ax[b], ay[b], attractorStamp, b)
+    }
+    for (const p of particles) {
+      splatFieldStamp(p.x, p.y, particleStamp, p.blob)
+    }
 
     // render ASCII rows
     for (let row = 0; row < ROWS; row++) {
@@ -308,14 +315,20 @@ onMounted(() => {
       for (let col = 0; col < COLS; col++) {
         const fieldColStart = col * FIELD_OVERSAMPLE
         let brightness = 0
+        let dominantColor = 0
         for (let sy = 0; sy < FIELD_OVERSAMPLE; sy++) {
           const offset = fieldRowStart + sy * FIELD_COLS + fieldColStart
           for (let sx = 0; sx < FIELD_OVERSAMPLE; sx++) {
-            brightness += brightnessField[offset + sx]
+            const fi = offset + sx
+            const v = brightnessField[fi]
+            if (v > brightness) {
+              dominantColor = colorField[fi]
+            }
+            brightness += v
           }
         }
         const byte = Math.min(255, ((brightness / (FIELD_OVERSAMPLE * FIELD_OVERSAMPLE)) * 255) | 0)
-        html += brightnessLookup[byte].propHtml
+        html += brightnessLookup[dominantColor][byte]
       }
       rowNodes[row].innerHTML = html
     }
@@ -358,14 +371,81 @@ onUnmounted(() => {
 .art-box :deep(.w8) { font-weight: 800; }
 .art-box :deep(.it) { font-style: italic; }
 
-.art-box :deep(.a1) { color: rgba(110, 140, 180, 0.10); }
-.art-box :deep(.a2) { color: rgba(110, 140, 180, 0.20); }
-.art-box :deep(.a3) { color: rgba(110, 140, 180, 0.30); }
-.art-box :deep(.a4) { color: rgba(110, 140, 180, 0.40); }
-.art-box :deep(.a5) { color: rgba(110, 140, 180, 0.50); }
-.art-box :deep(.a6) { color: rgba(110, 140, 180, 0.60); }
-.art-box :deep(.a7) { color: rgba(110, 140, 180, 0.70); }
-.art-box :deep(.a8) { color: rgba(110, 140, 180, 0.80); }
-.art-box :deep(.a9) { color: rgba(110, 140, 180, 0.90); }
-.art-box :deep(.a10) { color: rgba(110, 140, 180, 1.0); }
+/* 7 dark pastel colors */
+.art-box :deep(.c0.a1) { color: rgba(110, 140, 180, 0.10); }
+.art-box :deep(.c0.a2) { color: rgba(110, 140, 180, 0.20); }
+.art-box :deep(.c0.a3) { color: rgba(110, 140, 180, 0.30); }
+.art-box :deep(.c0.a4) { color: rgba(110, 140, 180, 0.40); }
+.art-box :deep(.c0.a5) { color: rgba(110, 140, 180, 0.50); }
+.art-box :deep(.c0.a6) { color: rgba(110, 140, 180, 0.60); }
+.art-box :deep(.c0.a7) { color: rgba(110, 140, 180, 0.70); }
+.art-box :deep(.c0.a8) { color: rgba(110, 140, 180, 0.80); }
+.art-box :deep(.c0.a9) { color: rgba(110, 140, 180, 0.90); }
+.art-box :deep(.c0.a10) { color: rgba(110, 140, 180, 1.0); }
+
+.art-box :deep(.c1.a1) { color: rgba(160, 120, 140, 0.10); }
+.art-box :deep(.c1.a2) { color: rgba(160, 120, 140, 0.20); }
+.art-box :deep(.c1.a3) { color: rgba(160, 120, 140, 0.30); }
+.art-box :deep(.c1.a4) { color: rgba(160, 120, 140, 0.40); }
+.art-box :deep(.c1.a5) { color: rgba(160, 120, 140, 0.50); }
+.art-box :deep(.c1.a6) { color: rgba(160, 120, 140, 0.60); }
+.art-box :deep(.c1.a7) { color: rgba(160, 120, 140, 0.70); }
+.art-box :deep(.c1.a8) { color: rgba(160, 120, 140, 0.80); }
+.art-box :deep(.c1.a9) { color: rgba(160, 120, 140, 0.90); }
+.art-box :deep(.c1.a10) { color: rgba(160, 120, 140, 1.0); }
+
+.art-box :deep(.c2.a1) { color: rgba(130, 165, 130, 0.10); }
+.art-box :deep(.c2.a2) { color: rgba(130, 165, 130, 0.20); }
+.art-box :deep(.c2.a3) { color: rgba(130, 165, 130, 0.30); }
+.art-box :deep(.c2.a4) { color: rgba(130, 165, 130, 0.40); }
+.art-box :deep(.c2.a5) { color: rgba(130, 165, 130, 0.50); }
+.art-box :deep(.c2.a6) { color: rgba(130, 165, 130, 0.60); }
+.art-box :deep(.c2.a7) { color: rgba(130, 165, 130, 0.70); }
+.art-box :deep(.c2.a8) { color: rgba(130, 165, 130, 0.80); }
+.art-box :deep(.c2.a9) { color: rgba(130, 165, 130, 0.90); }
+.art-box :deep(.c2.a10) { color: rgba(130, 165, 130, 1.0); }
+
+.art-box :deep(.c3.a1) { color: rgba(180, 155, 110, 0.10); }
+.art-box :deep(.c3.a2) { color: rgba(180, 155, 110, 0.20); }
+.art-box :deep(.c3.a3) { color: rgba(180, 155, 110, 0.30); }
+.art-box :deep(.c3.a4) { color: rgba(180, 155, 110, 0.40); }
+.art-box :deep(.c3.a5) { color: rgba(180, 155, 110, 0.50); }
+.art-box :deep(.c3.a6) { color: rgba(180, 155, 110, 0.60); }
+.art-box :deep(.c3.a7) { color: rgba(180, 155, 110, 0.70); }
+.art-box :deep(.c3.a8) { color: rgba(180, 155, 110, 0.80); }
+.art-box :deep(.c3.a9) { color: rgba(180, 155, 110, 0.90); }
+.art-box :deep(.c3.a10) { color: rgba(180, 155, 110, 1.0); }
+
+.art-box :deep(.c4.a1) { color: rgba(145, 125, 175, 0.10); }
+.art-box :deep(.c4.a2) { color: rgba(145, 125, 175, 0.20); }
+.art-box :deep(.c4.a3) { color: rgba(145, 125, 175, 0.30); }
+.art-box :deep(.c4.a4) { color: rgba(145, 125, 175, 0.40); }
+.art-box :deep(.c4.a5) { color: rgba(145, 125, 175, 0.50); }
+.art-box :deep(.c4.a6) { color: rgba(145, 125, 175, 0.60); }
+.art-box :deep(.c4.a7) { color: rgba(145, 125, 175, 0.70); }
+.art-box :deep(.c4.a8) { color: rgba(145, 125, 175, 0.80); }
+.art-box :deep(.c4.a9) { color: rgba(145, 125, 175, 0.90); }
+.art-box :deep(.c4.a10) { color: rgba(145, 125, 175, 1.0); }
+
+.art-box :deep(.c5.a1) { color: rgba(170, 130, 120, 0.10); }
+.art-box :deep(.c5.a2) { color: rgba(170, 130, 120, 0.20); }
+.art-box :deep(.c5.a3) { color: rgba(170, 130, 120, 0.30); }
+.art-box :deep(.c5.a4) { color: rgba(170, 130, 120, 0.40); }
+.art-box :deep(.c5.a5) { color: rgba(170, 130, 120, 0.50); }
+.art-box :deep(.c5.a6) { color: rgba(170, 130, 120, 0.60); }
+.art-box :deep(.c5.a7) { color: rgba(170, 130, 120, 0.70); }
+.art-box :deep(.c5.a8) { color: rgba(170, 130, 120, 0.80); }
+.art-box :deep(.c5.a9) { color: rgba(170, 130, 120, 0.90); }
+.art-box :deep(.c5.a10) { color: rgba(170, 130, 120, 1.0); }
+
+.art-box :deep(.c6.a1) { color: rgba(120, 160, 155, 0.10); }
+.art-box :deep(.c6.a2) { color: rgba(120, 160, 155, 0.20); }
+.art-box :deep(.c6.a3) { color: rgba(120, 160, 155, 0.30); }
+.art-box :deep(.c6.a4) { color: rgba(120, 160, 155, 0.40); }
+.art-box :deep(.c6.a5) { color: rgba(120, 160, 155, 0.50); }
+.art-box :deep(.c6.a6) { color: rgba(120, 160, 155, 0.60); }
+.art-box :deep(.c6.a7) { color: rgba(120, 160, 155, 0.70); }
+.art-box :deep(.c6.a8) { color: rgba(120, 160, 155, 0.80); }
+.art-box :deep(.c6.a9) { color: rgba(120, 160, 155, 0.90); }
+.art-box :deep(.c6.a10) { color: rgba(120, 160, 155, 1.0); }
 </style>

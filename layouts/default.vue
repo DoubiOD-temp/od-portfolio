@@ -19,8 +19,6 @@
 
 main {
   flex: 1;
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 5000px; /* Estimate of content size */
 }
 
 .site-header {
@@ -38,8 +36,13 @@ main {
 
 @media (max-width: 900px) {
   .site-header {
-    padding: 8px 16px; /* Reduced vertical padding to 75% of original (25px → 19px) */
+    padding: 8px 16px;
     margin-bottom: 20px;
+    background-color: transparent;
+    transition: background-color 0.3s ease-in-out;
+  }
+  .site-header:has(.menu-open) {
+    background-color: white;
   }
 }
 

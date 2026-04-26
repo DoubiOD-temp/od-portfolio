@@ -34,6 +34,12 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       Inter: [400, 700],
+      Urbanist: [300, 400, 500, 600, 700, 800, 900],
+      'Space Grotesk': [300, 400, 500, 600, 700],
+      Fraunces: {
+        wght: [400, 600, 800, 900],
+        ital: [400]
+      },
     },
     display: 'swap', // Use swap to prevent text from being invisible
     preconnect: true,

@@ -62,6 +62,22 @@ export const projects: Project[] = [
     year: 2024
   },
   {
+    title: "Golfestate: Golf-resort residences",
+    tags: ["Next.js", "React", "TypeScript", "Supabase", "AWS S3", "Framer Motion", "Tailwind CSS", "Zod", "Playwright"],
+    shortDescription: "Curated catalog of properties adjacent to Slovakia's premier golf resorts",
+    description: "Golfestate is a boutique real-estate platform showcasing residences alongside Slovakia's most prestigious golf courses. The visual language leans into editorial minimalism — generous whitespace, muted greens on cream, restrained typography — to position each listing as a destination rather than a transaction. The site ships with its own admin panel so listings, imagery and advisor details can be curated end-to-end without a third-party CMS.",
+    collaborators: "Solo project",
+    highlights: [
+      "Custom admin panel backed by Supabase auth and Postgres for end-to-end listing management",
+      "Direct-to-S3 image uploads via presigned URLs for performant, scalable property photo handling",
+      "Editorial motion design with Framer Motion and Embla — gallery transitions, hero parallax, page reveals",
+      "End-to-end Playwright test coverage across the public catalog and admin flows"
+    ],
+    year: 2026,
+    githubLink: "https://golfestate.sk",
+    images: ["/images/projects/golfestate1.png", "/images/projects/golfestate2.png", "/images/projects/golfestate3.png", "/images/projects/golfestate4.png"]
+  },
+  {
     title: "BidHub: Art market social platform",
     tags: ["Amazon S3", "C#", ".NET", "Docker", "SQL Server", "Entity framework", "React.js", "TypeScript", "Tailwind CSS"],
     shortDescription: "Platform connecting artists and collectors, empowering them to buy, sell, and celebrate art",
