@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "env": { "PATH": "/opt/homebrew/Cellar/node@22/22.21.1_4/bin:/usr/bin:/bin" },
+      "runtimeExecutable": "/opt/homebrew/Cellar/node@22/22.21.1_4/bin/npx",
+      "runtimeArgs": ["nuxt", "dev"],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

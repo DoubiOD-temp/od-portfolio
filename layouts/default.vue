@@ -19,8 +19,6 @@
 
 main {
   flex: 1;
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 5000px; /* Estimate of content size */
 }
 
 .site-header {
@@ -29,16 +27,21 @@ main {
   left: 0;
   width: 100%;
   z-index: 1000; /* Ensure it stays on top */
-  background-color: white;
+  background-color: transparent;
+  transition: background-color 0.3s ease-in-out;
   padding: 25px 40px; /* Increased vertical padding, slight left padding */
   display: flex; /* Use flexbox for layout */
   align-items: center; /* Vertically center content */
   /* margin-left: 30px; */
 }
 
+.site-header:has(.menu-open) {
+  background-color: white;
+}
+
 @media (max-width: 900px) {
   .site-header {
-    padding: 8px 16px; /* Reduced vertical padding to 75% of original (25px → 19px) */
+    padding: 8px 16px;
     margin-bottom: 20px;
   }
 }
