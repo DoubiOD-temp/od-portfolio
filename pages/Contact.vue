@@ -1,18 +1,17 @@
 <template>
   <div class="contact-page">
-    <video
-      ref="videoRef"
-      class="orb-video"
-      src="/contact-orb.mp4"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
-    />
-
     <div class="contact-stack">
       <div class="card">
+        <video
+          ref="videoRef"
+          class="orb-video"
+          src="/contact-orb.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        />
         <div class="header-row">
           <div class="identity">
             <img
@@ -108,6 +107,10 @@ onBeforeUnmount(() => {
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
+  opacity: 0.24;
+  transform: scale(2.4);
+  transform-origin: center;
+  filter: blur(17px) saturate(1.2);
 }
 
 .contact-stack {
@@ -122,6 +125,7 @@ onBeforeUnmount(() => {
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -129,11 +133,18 @@ onBeforeUnmount(() => {
   width: 100%;
   aspect-ratio: 1.75 / 1;
   padding: 1.75rem 2rem;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(20px) saturate(1.1);
-  -webkit-backdrop-filter: blur(20px) saturate(1.1);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(24px) saturate(1.15);
+  -webkit-backdrop-filter: blur(24px) saturate(1.15);
   border-radius: 16px;
+  overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(255, 255, 255, 0.4) inset;
+  isolation: isolate;
+}
+
+.card > *:not(.orb-video) {
+  position: relative;
+  z-index: 1;
 }
 
 .header-row {
@@ -326,6 +337,10 @@ onBeforeUnmount(() => {
     height: 33px !important;
     min-width: 36px;
     object-fit: contain;
+  }
+
+  .orb-video {
+    transform: scale(3);
   }
 
   .btn {
