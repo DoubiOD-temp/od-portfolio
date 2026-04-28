@@ -54,7 +54,21 @@ onMounted(() => {
 
 <style scoped>
 section {
-  padding-top: 30px !important; 
+  padding-top: 0px !important;
+  margin-top: 0 !important;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 769px) {
+  section {
+    margin-top: 30px !important;
+  }
 }
 
 .lottie-container {
