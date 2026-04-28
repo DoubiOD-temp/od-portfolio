@@ -29,5 +29,8 @@
     "nuxt-particles": "^0.3.0",
     "sharp": "^0.34.5",
     "vite": "^6.3.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["sharp"]
   }
 }
