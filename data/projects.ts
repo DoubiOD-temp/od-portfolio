@@ -75,7 +75,7 @@ export const projects: Project[] = [
     ],
     year: 2026,
     githubLink: "https://golfestate.sk",
-    images: ["/images/projects/golfestate1.png", "/images/projects/golfestate2.png", "/images/projects/golfestate3.png", "/images/projects/golfestate4.png"]
+    images: ["/images/projects/golf1.jpg", "/images/projects/golf2.jpg", "/images/projects/golf3.jpg", "/images/projects/golf4.jpg", "/images/projects/golf5.jpg"]
   },
   {
     title: "BidHub: Art market social platform",

@@ -115,9 +115,13 @@
               <span class="skill-name">{{ skill.name }}</span>
               <div class="skill-progress-info" v-if="skill.experience != null">
                 <div class="skill-progress-bar-container" :title="`${skill.experience} years experience`">
-                  <div class="skill-progress-bar-inner" :style="{ width: calculateExperienceWidth(skill.experience) }"></div>
+                  <div
+                    class="skill-progress-bar-inner"
+                    :data-target-width="calculateExperienceWidth(skill.experience)"
+                    :style="{ width: calculateExperienceWidth(skill.experience) }"
+                  ></div>
                 </div>
-                <span class="skill-years">{{ skill.experience }} years</span>
+                <span class="skill-years" :data-target-years="skill.experience">{{ skill.experience }} years</span>
               </div>
             </li>
           </ul>
@@ -134,8 +138,14 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const { $gsap: gsap, $ScrollTrigger: ScrollTrigger } = useNuxtApp();
+if (import.meta.client) {
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.defaults({ overwrite: 'auto', ease: 'power2.out' });
+  gsap.ticker.lagSmoothing(0);
+}
 
 const lottieAnimation = ref(null);
 const scrollTriggers = ref([]);
@@ -148,46 +158,135 @@ const isMobile = () => window.innerWidth <= 900;
 
 onMounted(async () => {
   await nextTick();
-  const scrollStart = isMobile() ? 'top 92%' : 'top 85%';
-  const cards = document.querySelectorAll('.timeline-card');
 
-  cards.forEach((card) => {
-    gsap.set(card, { opacity: 0, y: 50 });
+  const reduced =
+    typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const tween = gsap.to(card, {
-      opacity: 1,
-      y: 0,
-      duration: 1.3,
-      ease: 'power4.out',
-      scrollTrigger: {
-        trigger: card,
-        start: scrollStart,
-        toggleActions: 'play none none none',
-      },
+  const mobile = isMobile();
+  const scrollStart = mobile ? 'top 92%' : 'top 85%';
+
+  // --- Timeline rows: dot pings, card extrudes from the spine, contents settle ---
+  document.querySelectorAll('.timeline-row').forEach((row) => {
+    const isRight = row.classList.contains('right');
+    const card = row.querySelector('.timeline-card');
+    const dot = row.querySelector('.timeline-dot-simple');
+    if (!card || !dot) return;
+
+    const dotColor = getComputedStyle(dot).backgroundColor;
+    dot.style.setProperty('--ring-color', dotColor);
+
+    if (reduced) {
+      gsap.set([card, dot], { opacity: 0 });
+      const tween = gsap.to([card, dot], {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: row, start: scrollStart, toggleActions: 'play none none none' },
+      });
+      scrollTriggers.value.push(tween.scrollTrigger);
+      return;
+    }
+
+    const originX = mobile ? 'left' : isRight ? 'left' : 'right';
+    const rotY = mobile ? 12 : 22;
+    const xOffset = mobile ? 12 : 18;
+    const contentTargets = card.querySelectorAll('.timeline-title, .timeline-subtitle, .timeline-bullets li');
+
+    gsap.set(card, {
+      opacity: 0,
+      scaleX: 0.7,
+      rotateY: isRight ? -rotY : rotY,
+      x: isRight ? -xOffset : xOffset,
+      filter: 'blur(10px)',
+      transformOrigin: `${originX} center`,
+      transformPerspective: 800,
+    });
+    gsap.set(contentTargets, { opacity: 0, y: 6 });
+    gsap.set(dot, { opacity: 0, scale: 0, '--ring': 0 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: row, start: scrollStart, toggleActions: 'play none none none' },
     });
 
-    scrollTriggers.value.push(tween.scrollTrigger);
+    tl.to(dot, { opacity: 1, scale: 1, duration: 0.55, ease: 'elastic.out(1, 0.45)' }, 0)
+      .fromTo(dot, { '--ring': 0 }, { '--ring': 1, duration: 0.75, ease: 'power2.out' }, 0)
+      .to(
+        card,
+        {
+          opacity: 1,
+          scaleX: 1,
+          rotateY: 0,
+          x: 0,
+          filter: 'blur(0px)',
+          duration: 0.65,
+          ease: 'back.out(1.4)',
+        },
+        0.08,
+      )
+      .to(contentTargets, { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: 'power3.out' }, 0.42);
+
+    scrollTriggers.value.push(tl.scrollTrigger);
   });
 
-  const dots = document.querySelectorAll('.timeline-dot-simple');
+  // --- Skill progress bars: liquid sweep fill + counting years ---
+  document.querySelectorAll('.skill-item-structured').forEach((item) => {
+    const bar = item.querySelector('.skill-progress-bar-inner');
+    const yearsEl = item.querySelector('.skill-years');
+    if (!bar) return;
 
-  dots.forEach((dot) => {
-    gsap.set(dot, { opacity: 0, scale: 0 });
+    const targetWidth = bar.getAttribute('data-target-width') || '0%';
+    const targetYears = yearsEl ? parseFloat(yearsEl.getAttribute('data-target-years')) : null;
 
-    const tween = gsap.to(dot, {
-      opacity: 1,
-      scale: 1,
-      duration: 1.2,
-      ease: 'elastic.out(1, 0.4)',
-      scrollTrigger: {
-        trigger: dot,
-        start: scrollStart,
-        toggleActions: 'play none none none',
-      },
+    if (reduced) {
+      gsap.set(item, { opacity: 0 });
+      const tween = gsap.to(item, {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: item, start: scrollStart, toggleActions: 'play none none none' },
+      });
+      scrollTriggers.value.push(tween.scrollTrigger);
+      return;
+    }
+
+    bar.style.transition = 'none';
+    gsap.set(bar, { width: '0%', '--sweep': 0 });
+    if (yearsEl && targetYears != null) yearsEl.textContent = '0 years';
+
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: item, start: scrollStart, toggleActions: 'play none none none' },
     });
 
-    scrollTriggers.value.push(tween.scrollTrigger);
+    tl.to(bar, { width: targetWidth, duration: 1.0, ease: 'power3.out' }, 0)
+      .fromTo(bar, { '--sweep': 0 }, { '--sweep': 1, duration: 1.1, ease: 'power2.out' }, 0);
+
+    if (yearsEl && targetYears != null) {
+      const proxy = { value: 0 };
+      tl.to(
+        proxy,
+        {
+          value: targetYears,
+          duration: 1.0,
+          ease: 'power3.out',
+          onUpdate: () => {
+            const v = proxy.value;
+            const display = Number.isInteger(targetYears) ? Math.round(v) : v.toFixed(1);
+            yearsEl.textContent = `${display} years`;
+          },
+        },
+        0,
+      );
+    }
+
+    scrollTriggers.value.push(tl.scrollTrigger);
   });
+
+  // Recalculate trigger positions once initial paint settles and on full load
+  ScrollTrigger.refresh();
+  const onLoadRefresh = () => ScrollTrigger.refresh();
+  window.addEventListener('load', onLoadRefresh, { once: true });
 });
 
 onUnmounted(() => {
@@ -328,40 +427,36 @@ const academicEvents = [
 ];
 
 const programmingLanguages = [
-  { name: 'Python', experience: 6 },
+  { name: 'Python', experience: 7 },
+  { name: 'JavaScript', experience: 4.5 },
   { name: 'Java', experience: 4.5 },
-  { name: 'C# / .NET', experience: 3.5 },
-  { name: 'JavaScript', experience: 3.5 },
-  { name: 'TypeScript', experience: 3 },
-  { name: 'PHP', experience: 1 }
+  { name: 'TypeScript', experience: 4 },
+  { name: 'C#', experience: 3.5 },
+  { name: 'PHP', experience: 1 },
+  { name: 'Rust', experience: 0.5 }
 ];
-
-const alpineIndex = programmingLanguages.findIndex(skill => skill.name === 'Alpine.js');
-if (alpineIndex > -1) {
-  programmingLanguages.splice(alpineIndex, 1);
-}
 
 
 const technicalCategories = [
   {
     title: 'Frameworks & Libraries',
-    skills: ['Vue.js', 'Nuxt.js', 'React.js', 'Angular', 'Laravel', 'Selenide', 'Alpine.js', 'Pinia', 'Chart.js', 'Lifewire', 'Entity framework', 'ASP.NET MVC', 'ADO.NET', 'Swing', 'Flask', 'Selenium', 'Batch', 'Tomcat']
+    skills: ['Vue.js', 'Nuxt.js', 'Next.js', 'React.js', 'Angular', 'Laravel', 'LiveWire', '.NET', 'ASP.NET MVC', 'Entity framework', 'ADO.NET', 'Drizzle ORM', 'Vercel AI SDK', 'GSAP', 'Pinia', 'Chart.js', 'Alpine.js', 'Liquid', 'Flask']
   },
   {
     title: 'Databases & Storage',
-    skills: ['MongoDB', 'PostgreSQL', 'InfluxDB', 'MySQL', 'SQL Server', 'Amazon S3', 'Cloudflare R2']
+    skills: ['PostgreSQL', 'Supabase', 'MongoDB', 'MySQL', 'SQL Server', 'InfluxDB', 'Amazon S3', 'Cloudflare R2']
   },
   {
     title: 'Tools & Platforms',
-    skills: ['Git', 'Docker', 'Grafana', 'WordPress', 'Adobe Photoshop', 'DigitalOcean']
+    skills: ['Git', 'Docker', 'Node.js', 'Bun', 'Tomcat', 'Vercel', 'DigitalOcean', 'Grafana', 'WordPress', 'Adobe Photoshop']
   },
   {
-    title: 'Testing Concepts',
-    skills: ['Manual Testing', 'Automated Testing', 'Unit Testing', 'Integration Testing', 'UAT', 'E2E']
+    title: 'Testing & QA',
+    skills: ['Unit Testing', 'Integration Testing', 'E2E', 'UAT', 'Selenium', 'Selenide']
   },
   {
     title: 'Methodologies & Concepts',
-    skills: ['UI/UX Design', 'Agile', 'Business Process Management', 'ITIL', 'Artificial Intelligence', 'Machine Learning']
+    skills: ['Artificial Intelligence', 'Machine Learning', 'Computer Vision', 'UI/UX Design', 'Agile', 'Business Process Management', 'ITIL']
   },
   {
     title: 'Soft Skills',
@@ -379,6 +474,8 @@ const calculateExperienceWidth = (experience) => {
   return `${percentage}%`;
 };
 </script>
+
+<style src="~/assets/css/timeline.css"></style>
 
 <style scoped>
 .cv-button-container {

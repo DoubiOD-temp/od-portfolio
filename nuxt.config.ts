@@ -2,8 +2,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   css: [
-    '~/assets/css/main.css',
-    '~/assets/css/timeline.css'
+    '~/assets/css/main.css'
   ],
   build: {
     transpile: ['gsap']
@@ -16,38 +15,50 @@ export default defineNuxtConfig({
         dir: 'public',
         maxAge: 60 * 60 * 24 * 365 // 1 year
       }
-    ]
+    ],
+    prerender: {
+      failOnError: false,
+      crawlLinks: true
+    },
+    routeRules: {
+      '/': { prerender: true },
+      '/resume': { prerender: true },
+      '/projects': { prerender: true },
+      '/contact': { prerender: true },
+      '/_ipx/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/animations/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/images/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+      '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } }
+    }
   },
   experimental: {
     treeshakeClientOnly: true,
+    payloadExtraction: true
   },
   modules: [
-    'nuxt-particles',
     '@nuxtjs/google-fonts',
     '@nuxt/image',
     '@nuxtjs/critters'
   ],
-  particles: {
-    lazy: true, // Lazy-load tsParticles for better performance
-    mode: 'slim' // Use slim bundle for reduced size, sufficient for most use cases
-  },
   googleFonts: {
     families: {
       Inter: [400, 700],
-      Urbanist: [300, 400, 500, 600, 700, 800, 900],
-      'Space Grotesk': [300, 400, 500, 600, 700],
+      'Space Grotesk': [400, 700],
       Fraunces: {
-        wght: [400, 600, 800, 900],
+        wght: [600, 800],
         ital: [400]
-      },
+      }
     },
-    display: 'swap', // Use swap to prevent text from being invisible
+    display: 'swap',
     preconnect: true,
-    preload : true
+    preload: true,
+    download: true,
+    inject: true
   },
   image: {
-    quality: 80,
-    format: ['webp', 'jpg'],
+    quality: 82,
+    format: ['avif', 'webp'],
+    densities: [1, 2],
     screens: {
       xs: 320,
       sm: 640,
@@ -65,10 +76,11 @@ export default defineNuxtConfig({
       title: 'Ondrej Dobiš e-portfolio',
       link: [
         { rel: 'icon', type: 'image/png', href: '/images/Site-icon.png' },
-        { rel: 'preload', href: '/animations/iphone.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'},
-        { rel: 'preload', href: '/animations/od-portfolio.json', as: 'fetch', type: 'application/json' , fetchpriority: 'high', crossorigin: 'anonymous'},
+        { rel: 'prefetch', href: '/animations/iphone.json', as: 'fetch', type: 'application/json', crossorigin: 'anonymous' },
+        { rel: 'prefetch', href: '/animations/od-portfolio.json', as: 'fetch', type: 'application/json', crossorigin: 'anonymous' }
       ],
       meta: [
+        { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
         { name: 'description', content: 'Explore an e-portfolio built with Nuxt 3 and GSAP featuring collaborative software development projects, work experience, and skills in Python, Java, C#, JavaScript, and more.' }
       ]

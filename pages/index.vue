@@ -16,7 +16,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref, onMounted, inject, defineAsyncComponent } from 'vue';
+
+const Vue3Lottie = defineAsyncComponent(() =>
+  import('vue3-lottie').then((m) => m.Vue3Lottie)
+);
 
 const iphoneLottie = ref(null);
 const isLowEndDevice = inject('isLowEndDevice', () => false);
@@ -67,7 +71,11 @@ section {
 
 @media (min-width: 769px) {
   section {
-    margin-top: 30px !important;
+    margin-top: 0 !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

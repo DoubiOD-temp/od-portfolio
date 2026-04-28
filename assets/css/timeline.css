@@ -80,8 +80,25 @@
   /* (Approx meta font-size * line-height / 2) + column top padding */
   margin-top: calc(1.02rem * 1.2 / 2 + 1rem); /* Adjust line-height (1.2) if needed */
 }
-.timeline-dot-simple::before,
+.timeline-dot-simple::before {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Expanding ring driven by GSAP via the --ring custom property (0 → 1) */
 .timeline-dot-simple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--ring-color, #94a3b8);
+    transform: translate(-50%, -50%) scale(calc(1 + var(--ring, 0) * 1.8));
+    opacity: calc(0.45 - var(--ring, 0) * 0.45);
+    pointer-events: none;
+    z-index: -1;
     box-shadow: none !important;
     border: none !important;
 }
@@ -121,6 +138,9 @@
   border: 1px solid #e2e8f0;
   transition: box-shadow 0.2s;
   box-sizing: border-box;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, filter, opacity;
 }
 .timeline-card:hover {
   box-shadow: 0 8px 32px rgba(30, 41, 59, 0.13);
@@ -386,6 +406,27 @@
     background-color: #3498db; /* Example blue color - choose one you like */
     border-radius: 4px;
     transition: width 0.6s ease-out; /* Smooth transition effect */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Liquid sweep highlight riding the leading edge as the bar fills */
+.skill-progress-bar-inner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.55) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(calc((var(--sweep, 0) * 200% ) - 100%));
+    pointer-events: none;
+    opacity: calc(1 - var(--sweep, 0) * 0.2);
 }
 
 /* Style for the years text */
@@ -395,7 +436,9 @@
     color: #64748b;
     flex-shrink: 0; /* Prevent years text from shrinking */
     white-space: nowrap; /* Prevent years text from wrapping */
-    min-width: 60px; /* Give it a minimum width to prevent layout shifts */
+    min-width: 72px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
 }
 
 
@@ -452,7 +495,7 @@
 
   .skill-years {
       font-size: 0.9rem;
-      min-width: 55px; /* Adjust min-width for smaller font */
+      min-width: 68px;
   }
 
   .soft-skills-list,
@@ -479,6 +522,18 @@
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 4px rgba(30,41,59,0.04);
   letter-spacing: 0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-card,
+  .timeline-dot-simple,
+  .skill-progress-bar-inner,
+  .skill-progress-bar-inner::after,
+  .timeline-dot-simple::after {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 0.3s ease-out !important;
+  }
 }
 
 .skill-category {

@@ -6,7 +6,11 @@
         :src="images[0]"
         :alt="`${title} project image`"
         class="card-image"
+        width="340"
+        height="200"
+        sizes="(max-width: 767px) 340px, 250px"
         loading="lazy"
+        decoding="async"
       />
       <div v-else class="card-image-placeholder">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="placeholder-icon">
@@ -149,7 +153,7 @@ const getTagStyle = (tag: string) => {
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 

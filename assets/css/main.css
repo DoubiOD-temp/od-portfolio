@@ -222,7 +222,7 @@ img, video {
 .site-nav a {
   text-decoration: none;
   color: #222;
-  font-size: 0.9rem;
+  font-size: 1rem;
   letter-spacing: 0.02em;
   transition: color 0.2s;
 }
