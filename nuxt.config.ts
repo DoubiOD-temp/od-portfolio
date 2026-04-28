@@ -42,12 +42,7 @@ export default defineNuxtConfig({
   ],
   googleFonts: {
     families: {
-      Inter: [400, 700],
-      'Space Grotesk': [400, 700],
-      Fraunces: {
-        wght: [600, 800],
-        ital: [400]
-      }
+      Inter: [400, 700]
     },
     display: 'swap',
     preconnect: true,
