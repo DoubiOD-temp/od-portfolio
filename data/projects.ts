@@ -78,6 +78,27 @@ export const projects: Project[] = [
     images: ["/images/projects/golf1.jpg", "/images/projects/golf2.jpg", "/images/projects/golf3.jpg", "/images/projects/golf4.jpg", "/images/projects/golf5.jpg"]
   },
   {
+    title: "Mario Cards: Real-time multiplayer",
+    tags: ["TypeScript", "Pixi.js", "WebGL", "Hono", "Vite", "Bun", "Tailwind CSS", "Server-Sent Events"],
+    shortDescription: "Real-time multiplayer card game playable in the browser.",
+    description: "Mario Cards is a fast, real-time multiplayer take on the Rummy-style card game 'Americký Žolík'. The goal is simple: be the first to empty your hand by laying down valid card groups on the shared table. On your turn you draw a card and then try to form groups — either a sequence (3+ cards of the same suit in a row, e.g. 4-5-6 of hearts) or a set (3 or 4 cards of the same rank in different suits, e.g. three Queens). Jokers are wild and can stand in for any missing card; if you hold the exact card a joker is representing, you can swap it out and reuse the joker yourself. Before you can extend groups already on the table, you must first lay down your own initial meld. Whatever cards you're left holding when someone wins count as penalty points (face cards 10, jokers 50), and the player with the fewest points across rounds takes the game. Built to feel instant and physical — cards slide, snap, and shake — so it plays less like a web app and more like a real deck on a real table.",
+    collaborators: "Solo project",
+    highlights: [
+      "Real-time multiplayer for 2–4 players over Server-Sent Events",
+      "GPU-accelerated card rendering with Pixi.js / WebGL",
+      "Custom hand-drawn cat card design — bespoke face cards and jokers in place of the standard deck",
+      "iOS-style animations — spring easing, smooth tweens, shake-on-invalid feedback",
+      "Authoritative server game state with per-turn rollback so invalid moves never desync players",
+      "Full Rummy ruleset including sequences, sets, jokers, and joker-swap logic",
+      "Shared TypeScript core — same rules and types run on client and server",
+      "Lightweight, fast stack: Bun + Hono backend, Vite-powered frontend",
+      "Responsive, high-DPI canvas that scales cleanly across screen sizes"
+    ],
+    year: 2026,
+    githubLink: "https://mario-cards.vercel.app",
+    images: ["/images/projects/mario-cards.jpg", "/images/projects/mario-cards2.jpg", "/images/projects/mario-cards3.jpg"]
+  },
+  {
     title: "BidHub: Art market social platform",
     tags: ["Amazon S3", "C#", ".NET", "Docker", "SQL Server", "Entity framework", "React.js", "TypeScript", "Tailwind CSS"],
     shortDescription: "Platform connecting artists and collectors, empowering them to buy, sell, and celebrate art",

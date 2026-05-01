@@ -1,33 +1,36 @@
 <template>
-  <section>
-    <div class="lottie-container">
-      <client-only>
-        <Vue3Lottie
-          ref="iphoneLottie"
-          animation-link="/animations/iphone.json"
-          :loop="false"
-          :autoplay="true"
-          :delay="2900"
-          :options="lottieOptions"
-        />
-      </client-only>
+  <section class="hero-scroll">
+    <div class="hero-stage">
+      <div ref="phoneEl" class="phone">
+        <div class="lottie-container">
+          <client-only>
+            <Vue3Lottie
+              ref="iphoneLottie"
+              animation-link="/animations/iphone.json"
+              :loop="false"
+              :auto-play="false"
+              :options="lottieOptions"
+              @on-complete="unlockScroll"
+            />
+          </client-only>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted, inject, defineAsyncComponent } from 'vue';
+import { ref, onMounted, onBeforeUnmount, inject, defineAsyncComponent } from 'vue';
+import { gsap } from 'gsap';
 
 const Vue3Lottie = defineAsyncComponent(() =>
   import('vue3-lottie').then((m) => m.Vue3Lottie)
 );
 
 const iphoneLottie = ref(null);
+const phoneEl = ref(null);
 const isLowEndDevice = inject('isLowEndDevice', () => false);
 
-// lottieOptions is not currently used in the playback logic, but you can keep it.
-// If you intended to pass these options to the component, you would use a prop like :options="lottieOptions"
-// if the Vue3Lottie component supports it. The docs show using rendererSettings directly as props.
 const lottieOptions = {
   rendererSettings: {
     progressiveLoad: true,
@@ -35,59 +38,124 @@ const lottieOptions = {
   }
 };
 
-onMounted(() => {
-  // Use requestIdleCallback or setTimeout for non-critical initialization
-  const initLottie = () => {
-    // Delay the iPhone animation
-    setTimeout(() => {
-      if (iphoneLottie.value && iphoneLottie.value.play) {
-        iphoneLottie.value.play();
-      }
-    }, isLowEndDevice() ? 2500 : 2200); // Longer delay on low-end devices
-  };
+let lockHandlers = null;
+let isLocked = false;
 
-  // Use requestIdleCallback if available, fallback to setTimeout
-  // Ensure window is defined before accessing it (important for SSR safety)
-  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-    window.requestIdleCallback(initLottie);
-  } else if (typeof window !== 'undefined') { // Fallback setTimeout
-    setTimeout(initLottie, 50);
+const blockKey = (e) => {
+  const blocked = [' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'End', 'Home', 'Spacebar'];
+  if (blocked.includes(e.key)) e.preventDefault();
+};
+const blockEvent = (e) => e.preventDefault();
+
+const lockScroll = () => {
+  if (isLocked) return;
+  isLocked = true;
+  window.addEventListener('wheel', blockEvent, { passive: false });
+  window.addEventListener('touchmove', blockEvent, { passive: false });
+  window.addEventListener('keydown', blockKey, { passive: false });
+  lockHandlers = { wheel: blockEvent, touch: blockEvent, key: blockKey };
+};
+
+const unlockScroll = () => {
+  if (!lockHandlers) return;
+  window.removeEventListener('wheel', lockHandlers.wheel);
+  window.removeEventListener('touchmove', lockHandlers.touch);
+  window.removeEventListener('keydown', lockHandlers.key);
+  lockHandlers = null;
+  isLocked = false;
+};
+
+const playLottie = () => {
+  if (iphoneLottie.value && iphoneLottie.value.play) {
+    iphoneLottie.value.play();
   }
+};
+
+onMounted(() => {
+  if (typeof window === 'undefined') return;
+
+  // Pin scroll to top while the intro plays.
+  window.scrollTo(0, 0);
+  lockScroll();
+
+  if (isLowEndDevice()) {
+    // Skip the tilt-in tween on weak devices; just fire the Lottie.
+    setTimeout(playLottie, 300);
+    return;
+  }
+
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const fromScale = isMobile ? 0.85 : 1.05;
+  const toScale = isMobile ? 1 : 1;
+
+  gsap.fromTo(
+    phoneEl.value,
+    { rotateX: 45, scale: fromScale, y: 220, opacity: 0 },
+    {
+      rotateX: 0,
+      scale: toScale,
+      y: 0,
+      opacity: 1,
+      duration: 2.6,
+      delay: 0.3,
+      ease: 'expo.out',
+      onComplete: playLottie,
+    }
+  );
+});
+
+onBeforeUnmount(() => {
+  unlockScroll();
 });
 </script>
 
 <style scoped>
-section {
-  padding-top: 0px !important;
-  margin-top: 0 !important;
+.hero-scroll {
+  position: relative;
+  height: 100vh;
 }
 
-@media (max-width: 768px) {
-  section {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-  }
+.hero-stage {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
 }
 
-@media (min-width: 769px) {
-  section {
-    margin-top: 0 !important;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.phone {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .lottie-container {
-  max-width: 400px;  /* Maximum width constraint */
-  width: 100%;       /* Fill available space up to max-width */
-  margin: 0 auto;    /* Center the container */
+  width: 100%;
 }
 
-/* Force Lottie canvas to respect container dimensions */
 .lottie-container :deep(canvas) {
   width: 100% !important;
   height: auto !important;
+}
+
+@media (max-width: 768px) {
+  /* Layout applies large section offsets on mobile; pull hero up without touching desktop */
+  .hero-scroll {
+    margin-top: 0 !important;
+    padding-top: max(calc(env(safe-area-inset-top, 0px) + 40px), 40px) !important;
+  }
+
+  .hero-stage {
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 0;
+    box-sizing: border-box;
+  }
+
+  .phone {
+    max-width: min(360px, 90vw);
+  }
 }
 </style>
