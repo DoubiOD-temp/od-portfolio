@@ -1,0 +1,660 @@
+/* General Timeline Styles (Keep existing timeline styles) */
+.timeline-outer {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  position: relative;
+  background: none;
+}
+
+/* The vertical timeline line (Desktop) */
+.timeline-outer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: linear-gradient(to bottom, #e2e8f0 0%, #cbd5e1 100%);
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Timeline Row - Desktop Grid Layout */
+.timeline-row {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr; /* Left content, Center dot/line, Right content */
+  align-items: start; /* Align items to the start vertically */
+  min-height: 120px;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Timeline Column Base Styles */
+.timeline-col {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Left Column Alignment (Desktop) */
+.timeline-col.left {
+  align-items: flex-end;
+  grid-column: 1;
+  padding-top: 1rem;
+}
+
+/* Center Column Alignment (Desktop & Mobile Handling) */
+.timeline-col.center {
+  grid-column: 2;
+  align-items: center; /* Center dot horizontally */
+  justify-content: flex-start; /* Align dot towards the top */
+  position: relative;
+  z-index: 1;
+  padding: 0;
+}
+
+/* Right Column Alignment (Desktop) */
+.timeline-col.right {
+  align-items: flex-start;
+  grid-column: 3;
+  padding-top: 1rem;
+}
+
+/* Styling for the Timeline Dot */
+.timeline-dot-simple {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  border: 2px solid #e2e8f0;
+  position: relative;
+  z-index: 1;
+  box-shadow: none !important;
+  background-image: none !important;
+  flex-shrink: 0;
+  /* Align dot near the vertical middle of the first line of meta text */
+  /* (Approx meta font-size * line-height / 2) + column top padding */
+  margin-top: calc(1.02rem * 1.2 / 2 + 1rem); /* Adjust line-height (1.2) if needed */
+}
+.timeline-dot-simple::before {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Expanding ring driven by GSAP via the --ring custom property (0 → 1) */
+.timeline-dot-simple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--ring-color, #94a3b8);
+    transform: translate(-50%, -50%) scale(calc(1 + var(--ring, 0) * 1.8));
+    opacity: calc(0.45 - var(--ring, 0) * 0.45);
+    pointer-events: none;
+    z-index: -1;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Metadata (Date/Location) Styles */
+.timeline-meta {
+  display: flex; /* Use flex to ensure it takes space */
+  flex-direction: column;
+  text-align: right;
+  font-size: 1.02rem;
+  color: #64748b;
+  /* Add line-height for better vertical alignment calculation */
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+  gap: 0.1em;
+  width: 100%;
+}
+.timeline-row.left .timeline-col.right .timeline-meta {
+  text-align: left;
+}
+.timeline-row.right .timeline-col.left .timeline-meta {
+  text-align: right;
+}
+
+
+/* Card Styles */
+.timeline-card {
+  display: flex; /* Use flex to ensure it takes space */
+  flex-direction: column; /* Stack card content */
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(30, 41, 59, 0.10);
+  padding: 1.8rem 2.2rem;
+  max-width: 520px;
+  width: 100%;
+  gap: 0.5rem;
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.2s;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, filter, opacity;
+}
+.timeline-card:hover {
+  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.13);
+}
+.timeline-title {
+  font-family: 'Sora', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.1rem;
+  letter-spacing: -0.01em;
+}
+.timeline-subtitle {
+  font-size: 1.05rem;
+  color: #2563eb;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.timeline-bullets {
+  margin: 0.2rem 0 0 1.2rem;
+  padding: 0;
+  color: #334155;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.timeline-bullets li {
+  margin-bottom: 0.3rem;
+}
+
+
+/* --- Responsive Styles for Mobile (<= 900px) --- */
+@media (max-width: 900px) {
+  .timeline-outer {
+    padding: 0 0.5rem;
+  }
+
+  /* Adjust the main vertical line for mobile */
+  .timeline-outer::before {
+    left: 20px; /* Position line to the left (center of 22px dot + 30px col - padding) */
+    transform: none;
+    width: 2px;
+  }
+
+  /* Change row layout to single content column with space for line/dot */
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 30px 1fr; /* Column for dot, Column for content */
+    gap: 0 1rem;
+    margin-bottom: 2rem;
+    min-height: 0;
+    align-items: start; /* Align items to the top */
+  }
+
+  /* Position the center (dot) column */
+  .timeline-col.center {
+    grid-column: 1; /* Place in the first column */
+    grid-row: 1;    /* Align to the first row (content row) */
+    padding: 0;
+    /* Use padding top to push the dot down to align with text */
+    /* Approx align with meta text's vertical center */
+      padding-top: calc(1rem * 1.2 / 2 + 2px); /* (font-size * line-height / 2) + small offset */
+    justify-content: flex-start; /* Align container top */
+    align-items: center; /* Center dot horizontally */
+    height: fit-content; /* Only take height needed for dot + padding */
+  }
+
+  /* Adjust dot position */
+  .timeline-dot-simple {
+    margin: 0; /* Reset margin */
+    /* Dot is now positioned by its container's padding-top and align-items: center */
+  }
+
+  /* Place both left and right columns into the second grid column */
+  /* Treat them as containers for the meta/card elements */
+  .timeline-col.left,
+  .timeline-col.right {
+    grid-column: 2; /* Place in the second column */
+    grid-row: 1;    /* Align to the same row as the dot column */
+    padding: 0; /* Remove desktop padding */
+    align-items: stretch; /* Stretch content to fill */
+    max-width: 100%;
+    /* Use display: contents so children (meta/card) act like direct children of the grid row for ordering */
+      display: contents;
+  }
+
+  /* --- Content Ordering & Display for Mobile --- */
+
+  /* Style the meta block */
+  .timeline-meta {
+      grid-column: 2; /* Explicitly place in content column */
+      order: 1; /* Comes first */
+      display: flex !important; /* ENSURE it's displayed */
+      flex-direction: column;
+      text-align: left;
+      margin-bottom: 0.6rem; /* Space below meta */
+      font-size: 1rem;
+      width: 100%; /* Take full width of column */
+        padding-top: 2px; /* Small top padding to align text baseline */
+  }
+
+  /* Style the card block */
+  .timeline-card {
+      grid-column: 2; /* Explicitly place in content column */
+      order: 2; /* Comes second */
+      display: flex !important; /* ENSURE it's displayed */
+      flex-direction: column;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0;
+  }
+
+  /* --- Hiding Logic for Mobile --- */
+  /* Hide the specific div (meta or card) that SHOULD NOT be shown */
+  /* based on the row's 'side' class. Use direct child selector > */
+
+  /* In a 'right' row, the LEFT col only has META. Hide its Card placeholder */
+  .timeline-row.right > .timeline-col.left > .timeline-card {
+      display: none !important;
+  }
+  /* In a 'right' row, the RIGHT col only has CARD. Hide its Meta placeholder */
+  .timeline-row.right > .timeline-col.right > .timeline-meta {
+      display: none !important;
+  }
+  /* In a 'left' row, the LEFT col only has CARD. Hide its Meta placeholder */
+  .timeline-row.left > .timeline-col.left > .timeline-meta {
+      display: none !important;
+  }
+  /* In a 'left' row, the RIGHT col only has META. Hide its Card placeholder */
+  .timeline-row.left > .timeline-col.right > .timeline-card {
+      display: none !important;
+  }
+}
+
+/* --- Add these styles to your existing timeline.css file --- */
+
+/* Section Heading Styles */
+.section-heading {
+  font-family: 'Sora', 'Segoe UI', Arial, sans-serif; /* Same font as image */
+  font-size: 2.8rem;    /* Adjust size as needed */
+  font-weight: 700;     /* Bold weight */
+  color: #2d3748;       /* A dark gray color */
+  text-align: center;
+  margin-top: 5rem;     /* Space above heading */
+  margin-bottom: 3rem;  /* Space below heading before timeline */
+  letter-spacing: -0.02em; /* Slightly tighter spacing */
+}
+
+/* Add more space specifically above the second heading */
+.section-heading.academic {
+  margin-top: 6rem;
+}
+
+/* Section Separator Styles */
+.section-separator {
+  border: none;           /* Remove default border */
+  height: 1px;            /* Thin line */
+  background-color: #e2e8f0; /* Light gray color */
+  margin: 5rem auto 0;    /* Center horizontally, space above */
+  width: 60%;             /* Width of the separator */
+  max-width: 350px;       /* Max width */
+}
+
+
+/* --- Ensure Responsive Styles Apply to Both Timelines --- */
+@media (max-width: 900px) {
+    /* Adjust heading size for mobile */
+  .section-heading {
+      font-size: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+  }
+    .section-heading.academic {
+      margin-top: 4rem;
+    }
+    .section-separator {
+      margin-top: 3rem;
+      width: 80%;
+    }
+
+  /* ... (rest of your existing mobile styles for the timeline) ... */
+}
+
+/* Skills & Certifications Section Styles */
+.skills-certs-section .content-area {
+  max-width: 900px; /* Adjust max-width as needed */
+  margin: 0 auto;   /* Center the content area */
+  padding: 0 1rem;  /* Add some padding */
+  text-align: left; /* Left-align text within the container */
+}
+
+/* Container for each skill category block */
+.skill-category {
+    margin-bottom: 2.5rem; /* Space between categories */
+}
+
+/* Style for the category subheadings (Programming Langs, Frameworks, etc.) */
+.skills-certs-section .category-title {
+  font-family: 'Sora', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 2rem; /* Adjusted spacing */
+  margin-bottom: 1.2rem; /* Space below subheading before list */
+  border-bottom: 1px solid #e2e8f0; /* Subtle separator line */
+  padding-bottom: 0.5rem;
+}
+
+/* Styles for Soft Skills and Certifications lists */
+.soft-skills-list,
+.certifications-list {
+  font-family: 'Sora', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.05rem;
+  color: #4a5568;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  padding-left: 0; /* Reset padding if needed */
+}
+
+
+/* Adjust margin for the Skills & Certs section heading */
+.section-heading.skills-certs {
+  margin-top: 6rem;
+}
+
+/* --- Responsive adjustments for Skills & Certs --- */
+@media (max-width: 900px) {
+  .skills-certs-section .content-area {
+      padding: 0 0.5rem;
+  }
+
+  .skills-certs-section .category-title {
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .soft-skills-list,
+  .certifications-list {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .section-heading.skills-certs {
+      margin-top: 4rem;
+  }
+}
+
+.tech-skill-list {
+  font-family: 'Sora', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.05rem;
+  color: #4a5568;
+  line-height: 1.7;
+  margin: 0 0 1.5rem 0;
+  padding: 0;
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 0.7em 1.1em;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(30,41,59,0.04);
+  letter-spacing: 0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-card,
+  .timeline-dot-simple,
+  .timeline-dot-simple::after {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 0.3s ease-out !important;
+  }
+}
+
+.skill-category {
+  margin-bottom: 2.5rem;
+}
+
+.skills-certs-section .category-title {
+  font-family: 'Sora', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 2rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.programming-language-dock {
+  --dock-ink: #263244;
+  --dock-muted: #697588;
+  margin: 0 0 3.6rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.programming-language-header {
+  text-align: left;
+  max-width: none;
+  margin: 0 0 1.35rem;
+}
+
+.skills-certs-section .programming-language-header .category-title {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: var(--dock-ink);
+}
+
+.programming-language-header p {
+  margin: 0;
+  color: var(--dock-muted);
+  font-family: 'Sora', 'Segoe UI', Arial, sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.language-dock {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(0.25rem, 0.9vw, 0.7rem);
+  margin-top: 1.2rem;
+  padding: 0.35rem 0 1.25rem;
+  overflow: visible;
+}
+
+.language-dock-tier {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(0.35rem, 1.05vw, 0.85rem);
+  width: auto;
+  position: relative;
+}
+
+.language-dock-tier-strong {
+  z-index: 2;
+  margin-left: 0;
+  transform: none;
+}
+
+.language-dock-tier-primary {
+  z-index: 2;
+}
+
+.language-dock-card {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  gap: 0.48rem;
+  inline-size: clamp(88px, 9vw, 112px);
+  min-block-size: 128px;
+  padding: 0.25rem 0.2rem 0.35rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--dock-ink);
+  font-family: 'Sora', 'Segoe UI', Arial, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  transform-origin: center bottom;
+  transition:
+    transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 0.36s ease;
+  will-change: transform, opacity;
+}
+
+.language-dock-card.primary {
+  inline-size: clamp(94px, 9.5vw, 118px);
+  min-block-size: 136px;
+}
+
+.language-dock-card.strong {
+  inline-size: clamp(94px, 9.5vw, 118px);
+  min-block-size: 136px;
+  color: var(--dock-ink);
+}
+
+.language-dock-icon {
+  display: block;
+  width: clamp(82px, 8.8vw, 108px);
+  height: clamp(82px, 8.8vw, 108px);
+  object-fit: contain;
+  filter: drop-shadow(0 15px 18px rgba(15, 23, 42, 0.13));
+  animation: languageDockFloat 6.9s ease-in-out infinite;
+  transition: filter 0.36s ease;
+  will-change: transform;
+}
+
+.language-dock-card.strong .language-dock-icon {
+  width: clamp(82px, 8.8vw, 108px);
+  height: clamp(82px, 8.8vw, 108px);
+  filter: drop-shadow(0 15px 18px rgba(15, 23, 42, 0.13));
+}
+
+.language-dock-card:nth-child(2n) .language-dock-icon {
+  animation-delay: -1.4s;
+  animation-duration: 7.8s;
+}
+
+.language-dock-card:nth-child(3n) .language-dock-icon {
+  animation-delay: -2.7s;
+  animation-duration: 7.2s;
+}
+
+.language-dock-card:nth-child(4n) .language-dock-icon {
+  animation-delay: -3.6s;
+  animation-duration: 8.3s;
+}
+
+@keyframes languageDockFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  34% {
+    transform: translate3d(0, -8px, 0) rotate(0.9deg);
+  }
+  68% {
+    transform: translate3d(0, 5px, 0) rotate(-0.6deg);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .language-dock-card:hover {
+    transform: translateY(-10px) scale(1.04);
+    color: #1e293b;
+  }
+
+  .language-dock-card:hover .language-dock-icon {
+    filter: drop-shadow(0 20px 22px rgba(15, 23, 42, 0.18));
+  }
+}
+
+@media (max-width: 900px) {
+  .programming-language-dock {
+    margin-bottom: 3rem;
+  }
+
+  .skills-certs-section .programming-language-header .category-title {
+    font-size: 1.32rem;
+  }
+
+  .programming-language-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .language-dock {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-items: center;
+    align-items: end;
+    gap: 1rem 0.75rem;
+    margin-top: 1.2rem;
+    padding-bottom: 0;
+  }
+
+  .language-dock-tier {
+    display: contents;
+  }
+
+  .language-dock-tier-strong {
+    margin-left: 0;
+    transform: none;
+  }
+
+  .language-dock-card,
+  .language-dock-card.primary,
+  .language-dock-card.strong {
+    inline-size: min(42vw, 136px);
+    min-block-size: 126px;
+    padding: 0.3rem 0.35rem 0.55rem;
+    font-size: 0.9rem;
+  }
+
+  .language-dock-icon,
+  .language-dock-card.strong .language-dock-icon {
+    width: 86px;
+    height: 86px;
+  }
+}
+
+@media (max-width: 420px) {
+  .language-dock-card,
+  .language-dock-card.primary,
+  .language-dock-card.strong {
+    inline-size: min(100%, 128px);
+    min-block-size: 120px;
+    font-size: 0.9rem;
+  }
+
+  .language-dock-icon,
+  .language-dock-card.strong .language-dock-icon {
+    width: 78px;
+    height: 78px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .language-dock-card,
+  .language-dock-icon {
+    animation: none !important;
+    transform: none !important;
+    transition: opacity 0.2s ease-out !important;
+  }
+}

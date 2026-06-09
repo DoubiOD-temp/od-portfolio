@@ -1,0 +1,47 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "build:cloudflare": "NITRO_PRESET=cloudflare-module nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "verify:nav-css": "node scripts/verify-nav-critical-css.mjs",
+    "security:audit": "pnpm audit --prod",
+    "security:scan": "rg -n \"v-html|innerHTML|outerHTML|insertAdjacentHTML|eval\\(|new Function|document\\.cookie|localStorage|sessionStorage\" . -g '!node_modules' -g '!package.json' -g '!pnpm-lock.yaml' || true",
+    "verify": "pnpm run security:scan && pnpm run security:audit && pnpm run build"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "@nuxt/image": "^1.10.0",
+    "@nuxtjs/critters": "^0.9.0",
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@vueuse/core": "^13.1.0",
+    "gsap": "^3.13.0",
+    "nuxt": "^3.21.6",
+    "swiper": "^12.1.2",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/gsap": "^3.0.0",
+    "esbuild": "0.25.3",
+    "nuxt-particles": "^0.3.0",
+    "sharp": "^0.34.5",
+    "vite": "^7.3.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ],
+    "overrides": {
+      "brace-expansion": "^5.0.6",
+      "postcss": "^8.5.10",
+      "simple-git": "^3.36.0",
+      "ws": "^8.20.1"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+.pnpm-store
+
+# Local agent/tooling artifacts
+.claude/
+.superpowers/
+AGENTS.md
+--host/
+--port/
+0.0.0.0/
+_design-explorations/
+docs/superpowers/
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+AGENTS.md
