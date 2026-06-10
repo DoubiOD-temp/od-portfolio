@@ -58,30 +58,22 @@
           </a>
 
           <div class="internship-download-actions" aria-label="Internship downloads">
-            <button type="button" class="internship-button internship-button-primary">
-              <span>Realization doc.</span>
+            <a
+              v-for="doc in internshipDocuments"
+              :key="doc.href"
+              class="internship-button"
+              :class="doc.primary ? 'internship-button-primary' : 'internship-button-secondary'"
+              :href="doc.href"
+              target="_blank"
+              rel="noopener"
+            >
+              <span>{{ doc.label }}</span>
               <svg class="internship-download-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 4v10"></path>
                 <path d="m8 10 4 4 4-4"></path>
                 <path d="M5 19h14"></path>
               </svg>
-            </button>
-            <button type="button" class="internship-button internship-button-secondary">
-              <span>Project Plan</span>
-              <svg class="internship-download-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 4v10"></path>
-                <path d="m8 10 4 4 4-4"></path>
-                <path d="M5 19h14"></path>
-              </svg>
-            </button>
-            <button type="button" class="internship-button internship-button-secondary">
-              <span>Reflection</span>
-              <svg class="internship-download-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 4v10"></path>
-                <path d="m8 10 4 4 4-4"></path>
-                <path d="M5 19h14"></path>
-              </svg>
-            </button>
+            </a>
           </div>
         </aside>
 
@@ -97,30 +89,22 @@
           </header>
 
           <div class="internship-download-actions internship-mobile-downloads" aria-label="Internship downloads">
-            <button type="button" class="internship-button internship-button-primary">
-              <span>Realization doc.</span>
+            <a
+              v-for="doc in internshipDocuments"
+              :key="`mobile-${doc.href}`"
+              class="internship-button"
+              :class="doc.primary ? 'internship-button-primary' : 'internship-button-secondary'"
+              :href="doc.href"
+              target="_blank"
+              rel="noopener"
+            >
+              <span>{{ doc.label }}</span>
               <svg class="internship-download-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 4v10"></path>
                 <path d="m8 10 4 4 4-4"></path>
                 <path d="M5 19h14"></path>
               </svg>
-            </button>
-            <button type="button" class="internship-button internship-button-secondary">
-              <span>Project Plan</span>
-              <svg class="internship-download-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 4v10"></path>
-                <path d="m8 10 4 4 4-4"></path>
-                <path d="M5 19h14"></path>
-              </svg>
-            </button>
-            <button type="button" class="internship-button internship-button-secondary">
-              <span>Reflection</span>
-              <svg class="internship-download-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 4v10"></path>
-                <path d="m8 10 4 4 4-4"></path>
-                <path d="M5 19h14"></path>
-              </svg>
-            </button>
+            </a>
           </div>
 
           <section id="systems-evolution" class="product-evolution scroll-scene">
@@ -253,6 +237,23 @@ const failedImages = ref(new Set<string>());
 const pageRef = ref<HTMLElement | null>(null);
 const presentationPreviewRef = ref<HTMLElement | null>(null);
 const presentationFrameRef = ref<HTMLIFrameElement | null>(null);
+const internshipDocuments = [
+  {
+    label: 'Realization doc.',
+    href: '/internship-docs/Dobis_Realization_Document.pdf',
+    primary: true,
+  },
+  {
+    label: 'Project Plan',
+    href: '/internship-docs/Project_plan.pdf',
+    primary: false,
+  },
+  {
+    label: 'Reflection',
+    href: '/internship-docs/Dobis_reflection.pdf',
+    primary: false,
+  },
+];
 const sectionIds = [
   'systems-abstract',
   'systems-evolution',
