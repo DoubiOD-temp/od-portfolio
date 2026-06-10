@@ -636,7 +636,7 @@ onBeforeUnmount(() => {
 
 const screenshots = [
   {
-    title: 'Digital banking editor',
+    title: 'Interactive slides editor',
     caption: 'Interactive slide editing with canvas preview, slide rail, properties, and assistant panel.',
     src: '/images/internship/lectureguru-editor-digital-banking.png',
     tone: 'dark',
@@ -654,31 +654,31 @@ const screenshots = [
     tone: 'dark',
   },
   {
-    title: 'Caffeine health deck',
-    caption: 'Browser-native slide deck with voice-ready navigation and structured educational content.',
+    title: 'Generated presentation slide',
+    caption: 'Browser-native slide deck with navigation and structured educational content.',
     src: '/images/internship/lectureguru-deck-caffeine-health.png',
     tone: 'dark',
   },
   {
-    title: 'Cloud adoption chart',
+    title: 'Chart slide example',
     caption: 'Published grouped bar chart comparing cloud adoption across different workload types.',
     src: '/images/internship/lectureguru-deck-cloud-adoption-chart.png',
     tone: 'light',
   },
   {
-    title: 'Assistant start',
+    title: 'Application main chat interface',
     caption: 'Dark-mode assistant entry screen for starting a new LectureGuru presentation flow.',
     src: '/images/internship/lectureguru-assistant-start-screen.png',
     tone: 'dark',
   },
   {
-    title: 'Localized editor',
+    title: 'Editor with AI assistant',
     caption: 'Slovak slide editor with localized navigation, slide thumbnails, and assistant panel.',
     src: '/images/internship/lectureguru-editor-bolivia-localized.png',
     tone: 'dark',
   },
   {
-    title: 'Files gallery',
+    title: 'Image gallery',
     caption: 'Organization-wide image assets grouped by generated project and source context.',
     src: '/images/internship/lectureguru-files-image-gallery.png',
     tone: 'light',
@@ -726,19 +726,19 @@ const screenshots = [
     tone: 'light',
   },
   {
-    title: 'Caffeine product editor',
+    title: 'Editor',
     caption: 'Generated product presentation opened in the editor with slide content, media, and properties.',
     src: '/images/internship/lectureguru-editor-caffeine-product.png',
     tone: 'light',
   },
   {
-    title: 'Line chart deck',
+    title: 'Line chart slide',
     caption: 'Published interactive slide with AI startup sales data rendered as a line chart.',
     src: '/images/internship/lectureguru-deck-line-chart-view.png',
     tone: 'light',
   },
   {
-    title: 'Factor chart deck',
+    title: 'Bar chart slide',
     caption: 'Published interactive slide comparing five AI startup success factors in a grouped bar chart.',
     src: '/images/internship/lectureguru-deck-factor-chart-view.png',
     tone: 'light',
