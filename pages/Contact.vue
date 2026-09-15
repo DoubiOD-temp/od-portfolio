@@ -33,7 +33,7 @@
 
         <p
           class="tagline"
-          aria-label="Applied Computer Science student and software developer based in Bratislava, Slovakia."
+          aria-label="Applied Computer Science graduate and software developer based in Bratislava, Slovakia."
         >
           <span v-for="(word, wIdx) in taglineWords" :key="`word-${wIdx}`" class="word">
             <span
@@ -89,7 +89,7 @@ import { gsap } from 'gsap';
 
 const videoRef = ref<HTMLVideoElement | null>(null);
 const actionsRef = ref<HTMLElement | null>(null);
-const taglineText = 'Applied Computer Science student & software developer based in Bratislava, Slovakia.';
+const taglineText = 'Applied Computer Science graduate & software developer based in Bratislava, Slovakia.';
 const taglineChars = taglineText.split('');
 
 const taglineWords: { ch: string; idx: number }[][] = [];

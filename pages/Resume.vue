@@ -569,8 +569,8 @@ onUnmounted(() => {
 
 const workEvents = [
   {
-    title: 'Full-stack engineer / Founding engineer (LectureGuru)',
-    subtitle: 'AI MEDIA & AGENCY SERVICES s.r.o. (Aigency)',
+    title: 'Full-stack developer / Founding engineer',
+    subtitle: 'Aigency',
     location: 'Bratislava, Slovakia',
     dateRange: 'May 2025 – Present',
     type: 'Full-time / Part-time', // Added work type
